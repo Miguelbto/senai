@@ -1,0 +1,57 @@
+Q4 - 
+1- informar o usuario
+2- receber o nome
+3- receber o salário
+4- colocar a condição if se o salário for menor que 3000
+5- informar a conta da porcentagem de aumneto do salário
+6- se for verdadeiro o if, mostrar pro usuario o novo salario com o aumento, e qual a porcentagem de aumento, e o nome dele
+7- se não for verdadeiro o if, colocar um else
+8- colocar  a conta da outra porcentagem de aumento, e mostrar pro usuario o novo salario, com a porcentagem de aumento, e o nome dele
+
+
+Q5
+1- informar o usuario
+2- receber o numero que ele deseja saber a tabuada
+3- colocar for in range, para ir do zero até o dez na tabuada escolida, passando de um em um
+4- mostrar a tabuada e seus resultados
+
+Q7
+1- informar pro usuario oque vamos fazer
+2- receber a temperatura
+3- inserir a função def para colocar a conta a se fazer da temperatura
+4- usar o return para guaradar os  valores, e inserir uma mensagem pro usuario nele
+5- mostrar pro usuario a temperatura convertida
+
+Q9
+1- informar o usuario oque vai fazer
+2- receber o nome do usuario
+3- receber a idade do usuario
+4- colocar um if para verificar se a idade dele é maior ou igual a 18 para ser maior de idade
+5- mostrar ao usuario se ele for maior de idade com um print
+6- caso não seja colocar um elif, para idade menor que 18 e maior que 0, para ser menor de idade
+7- mostrar ao usuario caso ele seja menos de idade
+8- caso não seja colocar um else para impedir que coloquem idades negativas e falar pro usuario tentar denovo
+
+
+Q8
+1- informar o usuario sobre a contagem
+2- receber ate que numero que usuario deseja ir na contagem
+3- criar uma variavel 
+4- colocar o while para parar quando chegar no valor inserido pelo usuario
+5- mostrar esse valor pro usuario
+6- colocar a conta somando os valores
+
+
+Q10
+1- informar o usuario que iremos calcular daqui quantos anos ele tera 100 anos
+2- rececer a idade do usuario
+3- fazer a conta de subtração de 100 menos a idade
+4- mostrar pro usuario daqui quantos anos ele terá 100 anos
+
+Q6
+1- informar pra inserir um numero inteiro, pois depois vamos somar todos eles
+2- receber os números
+3- criar duas variaveis
+4- colocar um while para fazer a contagem ate o numero inserido
+5- colocar um if dentoo do while, para somar o numero da contagem e fazer a conta
+6- mostrar pro usuario 
