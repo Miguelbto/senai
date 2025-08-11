@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Futhj</title>
+
+    <style>
+        /* O seletor 'body' aplica estilos a todo o corpo da página. */
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; /* Define uma lista de fontes modernas e seguras. */
+            display: flex; /* Ativa o modo Flexbox, um sistema poderoso para alinhar elementos. */
+            justify-content: center; /* Centraliza o conteúdo horizontalmente. */
+            align-items: center; /* Centraliza o conteúdo verticalmente. */
+            height: 100vh; /* Faz com que o corpo ocupe 100% da altura da tela do navegador. */
+            background-color: #f4f7f9; /* Define uma cor de fundo cinza claro para a página. */
+            margin: 0; /* Remove qualquer margem padrão que o navegador possa adicionar. */
+            color: #050505; /* Define a cor padrão do texto. */
+        }
+        /* O seletor de classe '.container' aplica estilos a qualquer elemento que tenha class="container". */
+        .container {
+            background-color: white; /* Cor de fundo branca para o nosso "card". */
+            padding: 30px 40px; /* Adiciona um espaçamento interno (30px em cima/baixo, 40px nos lados). */
+            border-radius: 10px; /* Arredonda as bordas do container. */
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1); /* Adiciona uma sombra sutil para dar profundidade. */
+            text-align: center; /* Centraliza todo o texto dentro do container. */
+            width: 90%; /* O container ocupará 90% da largura da tela... */
+            max-width: 450px; /* ...mas não passará de 450 pixels de largura. */
+        }
+        /* O seletor 'h1' estiliza todos os cabeçalhos de nível 1. */
+        h1 {
+            color: #2c3e50; /* Define uma cor azul-escura para o título principal. */
+        }
+        /* O seletor 'input' estiliza a caixa de texto onde o usuário digita. */
+        input {
+            width: calc(100% - 22px); /* Define a largura para 100% do container, menos 22px para compensar o padding. */
+            padding: 10px; /* Espaçamento interno da caixa de texto. */
+            margin-top: 10px; /* Margem no topo. */
+            margin-bottom: 20px; /* Margem embaixo. */
+            border: 1px solid #ccc; /* Borda cinza clara. */
+            border-radius: 5px; /* Bordas arredondadas. */
+        }
+        /* O seletor 'button' estiliza o nosso botão. */
+        button {
+            padding: 10px 20px; /* Espaçamento interno do botão. */
+            cursor: pointer; /* Muda o cursor do mouse para uma "mãozinha" quando passa sobre o botão. */
+            border: none; /* Remove a borda padrão do botão. */
+            background-color: #3498db; /* Cor de fundo azul. */
+            color: white; /* Cor do texto branca. */
+            border-radius: 5px; /* Bordas arredondadas. */
+            font-size: 1em; /* Tamanho da fonte. */
+            transition: background-color 0.3s; /* Cria uma transição suave de 0.3s para a cor de fundo. */
+        }
+        /* ':hover' é uma pseudo-classe que aplica o estilo quando o mouse está sobre o elemento. */
+        button:hover {
+            background-color: #2980b9; /* Escurece o botão quando o mouse passa por cima. */
+        }
+        /* O seletor de ID '#mensagem' estiliza o elemento que tem id="mensagem". */
+        #mensagem {
+            margin-top: 25px; /* Espaço acima do texto da mensagem. */
+            font-size: 1.2em; /* Deixa a fonte um pouco maior. */
+            color: #27ae60; /* Define a cor padrão da mensagem para um verde de sucesso. */
+            font-weight: bold; /* Deixa o texto em negrito. */
+            min-height: 30px; /* Define uma altura mínima para que o layout não "pule" quando a mensagem aparece. */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Site em desenvolvimento</h1>
+        <p>Digite o nome de um jogador de futebol para saber mais sobre ele.</p>
+        
+        <form id="meuFormulario">
+            <input type="text" id="nomeInput" placeholder="Seu nome aqui" required>
+            <button type="submit">Enviar</button>
+        </form>
+
+        <div id="mensagem"></div>
+    </div>
+
+    <script>
+    
+    // ================================================================================================================
+    // === PARTE 1: SIMULAÇÃO DO BACK-END (O CÉREBRO QUE PROCESSA A INFORMAÇÃO)                                      ===
+    // Em um projeto real, este código estaria em um servidor separado. Aqui, ele é apenas uma função no nosso script.
+    // Ele é "burro" sobre a aparência da página; sua única tarefa é receber dados, processá-los e devolver um resultado.
+    // ================================================================================================================
+    function processarSaudacao_Backend(dadosRecebidos) {
+        
+        // Validação dos dados: verificamos se recebemos os dados esperados.
+        if (!dadosRecebidos || !dadosRecebidos.nome || dadosRecebidos.nome.trim() === '') {
+            // Se o nome não for válido (nulo, indefinido ou vazio), retornamos um objeto de erro.
+            // Esta estrutura com 'sucesso' e 'mensagem' é um padrão comum em APIs reais.
+            return { sucesso: false, mensagem: 'Erro: Por favor, digite um nome válido.' };
+        }
+
+        // Lógica de negócio: Se os dados são válidos, nós os processamos.
+        const nomeProcessado = dadosRecebidos.nome;
+        const saudacao = `Olá, vamos te passar as informações do jogador ${nomeProcessado}!`;
+        
+        // Retornamos um objeto de sucesso com a mensagem que criamos.
+        return { sucesso: true, mensagem: saudacao };
+    }
+
+
+    // ================================================================================================================
+    // === PARTE 2: LÓGICA DO FRONT-END (A PARTE QUE INTERAGE COM O USUÁRIO E A TELA)                                ===
+    // Este código controla os elementos visuais da página e se comunica com o "back-end".
+    // ================================================================================================================
+
+    // Primeiro, criamos variáveis para "segurar" os elementos HTML e podermos manipulá-los com o código.
+    const form = document.getElementById('meuFormulario'); // Pega o formulário pelo seu ID.
+    const nomeInput = document.getElementById('nomeInput'); // Pega a caixa de texto pelo seu ID.
+    const mensagemDiv = document.getElementById('mensagem'); // Pega a div de mensagem pelo seu ID.
+
+    // Aqui, adicionamos um "ouvinte de evento" ao formulário. O código dentro dele só será executado quando o evento 'submit' (envio) acontecer.
+    form.addEventListener('submit', function(event) {
+        
+        // A linha abaixo é muito importante: ela impede que o formulário execute sua ação padrão, que seria recarregar a página.
+        event.preventDefault(); 
+
+        // 1. Coletamos os dados da interface do usuário.
+        const nomeDoUsuario = nomeInput.value; // Pegamos o texto que está atualmente dentro da caixa de input.
+        const dadosParaEnviar = { nome: nomeDoUsuario }; // Criamos um objeto, assim como faríamos para enviar um JSON para uma API real.
+
+        // 2. "Enviamos" os dados para o back-end (neste caso, chamamos nossa função de simulação).
+        const respostaDoBackend = processarSaudacao_Backend(dadosParaEnviar);
+
+        // 3. Recebemos a resposta e atualizamos a interface do usuário.
+        mensagemDiv.textContent = respostaDoBackend.mensagem; // Colocamos o texto da mensagem de resposta dentro da nossa <div>.
+        
+        // 4. Mudamos o estilo da mensagem com base no sucesso ou falha da operação.
+        if (respostaDoBackend.sucesso === false) {
+            mensagemDiv.style.color = '#e74c3c'; // Se deu erro, a cor do texto fica vermelha.
+        } else {
+            mensagemDiv.style.color = '#27ae60'; // Se deu certo, a cor do texto fica verde.
+        }
+    });
+
+    </script>
+
+</body>
+
+</html>
