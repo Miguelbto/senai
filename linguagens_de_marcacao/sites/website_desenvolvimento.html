@@ -1,0 +1,201 @@
+<!DOCTYPE html> <!-- Declaração do tipo de documento HTML -->
+
+<html>  
+
+    <head>
+        <!-- Importa o arquivo CSS externo -->
+        <link rel="stylesheet" href="style.css">
+
+        <!-- Título da página exibido na aba do navegador -->
+        <title>Page Tile</title>
+        <!-- Meta descrição para mecanismos de busca -->
+        <meta name="description" content="Este é um site que está em desenvolvimento e serve para aprendizagem">
+    </head>
+    <body>
+        <!-- Cabeçalho do site -->
+        <header>
+            <h1>Vamos testar nossos conhecimentos</h1>
+            <p>Venha conhecer nossa empresa para se tornar o melhor de si mesmo</p>
+        </header>
+    
+        <main>
+            <!-- Seção de introdução sobre a empresa -->
+            <section>
+                <h2>Sobre essa empresa</h2>
+                <p><strong>Somos</strong> uma empresa que visa o <em>bem estar</em> e a saúde de nossos clientes, <br>oferecendo produtos de alta qualidade, <abbr title="Barreira de evolução">altamente otimizados</abbr> e serviços personalizados.</p>
+            </section>
+
+            <!-- Pergunta 1: múltipla escolha (radio) -->
+            <section>
+                <h2>Você consegue se alimentar bem de forma intencional <br> durante toda a semana? </h2>
+                <form>
+                    <input type="radio" value="Sim, consigo me alimentar bem de forma intencional durante toda a semana." id="p1a" name="Pergunta1">
+                    <label for="p1a">Sim, consigo me alimentar bem de forma intencional durante toda a semana.</label> <br>
+                    
+                    <input type="radio" value="Mais ou menos, consigo me alimentar bem de forma intencional durante alguns dias da semana." id="p1a" name="Pergunta1">
+                    <label for="p1a">Mais ou menos, consigo me alimentar bem de forma intencional durante alguns dias da semana.</label> <br>
+                    
+                    <input type="radio" value="Não, Não consigo me alimentar bem de forma intencional durante toda a semana" id="p1a" name="Pergunta1">
+                    <label for="p1a">Não, Não consigo me alimentar bem de forma intencional durante toda a semana.</label>
+                </form>
+            </section>
+
+            <!-- Pergunta 2: resposta em texto -->
+            <section>
+                <h2>Qual é o seu maior desafio para manter uma alimentação saudável?</h2>
+                <form>
+                    <input type="text" id="p2" name="Pergunta2" placeholder="Descreva seu desafio aqui">
+                </form>
+            </section>
+
+            <!-- Pergunta 3: resposta em campo de senha -->
+            <section>
+                <h2>Pergunta 3 escreva o que faz você deseja para te ajudar</h2>
+                <form>
+                    <input type="password" id="p3" name="Pergunta3" placeholder="Digite sua resposta aqui">
+                </form>    
+            </section>
+
+            <!-- Pergunta 4: escolha de data -->
+            <section>
+                <h2>qual dia você pode começar sua dieta?</h2>
+                <form>
+                    <input type="date" id="p4" name="Pergunta4">
+                    <label for="p4">Selecione uma data</label>
+                </form>
+            </section>
+
+            <!-- Pergunta 5: seleção múltipla (checkbox) -->
+            <section>
+                <h2>Quais marmitas você gostaria de incluir em sua dieta?</h2>
+                <form>
+                    <input type="checkbox" id="marmita1" name="Pergunta5" value="Marmita de frango grelhado com legumes">
+                    <label for="marmita1">Marmita de frango grelhado com legumes</label><br>
+
+                    <input type="checkbox" id="marmita2" name="Pergunta5" value="Marmita de salada de quinoa com atum">
+                    <label for="marmita2">Marmita de salada de quinoa com atum</label><br>
+
+                    <input type="checkbox" id="marmita3" name="Pergunta5" value="Marmita de carne moída com arroz integral">
+                    <label for="marmita3">Marmita de carne moída com arroz integral</label><br>
+                </form>
+            </section>
+
+            <!-- Pergunta 6: upload de arquivo -->
+            <section>
+                <h2>Faça aqui o upload da sua marmita</h2>
+                <form>
+                    <input type="file" id="marmitaUpload" name="Pergunta6">
+                    <label for="marmitaUpload">Selecione uma imagem da sua marmita</label>
+            </section>
+
+            <!-- Pergunta 7: seleção em lista suspensa -->
+            <section>
+                <h2>Selecione o atributo da marmita que define sua personalidade</h2>
+                <form>
+                    <select name="pergunta7" id="p7">
+                        <option value="Frango">Frango</option>
+                        <option value="Peixe">Peixe</option>
+                        <option value="Carne">Carne</option>
+                    </select>
+                </form>
+            </section>
+
+            <!-- Pergunta 8: imagem e resposta em texto -->
+            <section>
+                <h2>Qual marmita você achou que tem uma aparência melhor?</h2>
+                <figure>
+                    <img src="Group 4.png" alt="logotipo da nossa empresa">
+                    <figcaption>Figura 1:Logotipo da nossa empresa </figcaption>
+                </figure>
+                <input type="text" id="p8" name="Pergunta8" placeholder="Digite sua resposta aqui">
+            </section>
+
+            <!-- Tabela de pontuação -->
+            <section>
+                <h2>Tabela de Pontuação</h2>
+                <table border="1">
+                    <thead>
+                        <th>Pontuação</th>
+                        <th>Avaliação</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>0-2</td>
+                            <td>Você precisa melhorar sua alimentação</td>
+                        </tr>
+                        <tr>
+                            <td>3-5</td>
+                            <td>Você está no caminho certo, mas ainda pode melhorar</td>
+                        </tr>
+                        <tr>
+                            <td>6-8</td>
+                            <td>Você está muito bem, continue!</td>
+                        </tr>
+                        <tr>
+                            <td>9-10</td>
+                            <td>Você está com uma alimentação Perfeita!</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="2"> Boa sorte na próxima etapa da sua jornada de alimentação saudável!</td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <!-- Seção para enviar respostas -->
+            <section>
+                <h2>Verifique suas respostas</h2>
+                <p>Por favor, revise suas respostas antes de enviar o formulário.</p>
+                <form>
+                    <input type="submit" value="Enviar Respostas">
+                </form>
+            </section>
+
+            <!-- Seção de verificação de respostas com detalhes -->
+            <section>
+                <h2>Verifique suas respostas</h2>
+                <details>
+                    <summary>Clique aqui para obter as respostas</summary>
+                    <ol>
+                        <li>a</li>
+                        <li>b</li>
+                        <li>c</li>
+                        <li>d</li>
+                        <li>e</li>
+                        <li>f</li>
+                        <li>g</li>
+                        <li>h</li>
+                    </ol>
+                </details>
+            </section>
+
+            <!-- Formulário de feedback do site -->
+            <section>
+                <h2>Nós dê um feedback do do site</h2>
+                <form>
+                    <fieldset>
+                        <legend>Informações de contato</legend>
+                        <label for="name">Nome:</label>
+                        <input type="text" name="name" id="name"> <br>
+
+                        <label for="email">E-mail:</label>
+                        <input type="email" name="email" id="email"> <br>
+
+                        <label for="coment">Comentários:</label> <br>
+                        <textarea 
+                            name="coment" id="coment" rows="4"  cols="50" placeholder="Digite seus comentários aqui">
+                        </textarea>
+                    </fieldset>
+                </form>
+            </section>
+        </main>
+
+        <!-- Rodapé do site -->
+        <footer>
+            <p class="paragrafo-footer">&copyQuiz de comida. Todos os direitos reservados</p>
+            <p class="paragrafo-footer">Para conhecer outros quiz <a href="https://google.com" target="_black">clique aqui</a></p>
+        </footer>
+    </body>
+</html>
