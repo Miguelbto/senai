@@ -148,3 +148,50 @@
 // }
 
 //----------------------------------------------------------------------------------------------
+
+// let nome = ["Ana", "Brenda","Láis", "Sinesio", "Zilda" ] //declaração da variável e o que contém dentro dela
+
+// for (let i = 0; i < 5; i++) {  // 
+//     console.log(nome[i]);
+// }
+ 
+// o i++ serve para representar o incremento de um número na contagem exatamnete assim: i = i + 1
+
+//---------------------------------------------------------------------------------------------
+
+// let numeros = [1, 2, 3]; 
+// numeros.forEach(num => console.log(num));
+
+//---------------------------------------------------------------------------------------------
+
+// let contador = 0;
+// while (contador < 15) {
+//     console.log(contador);
+//     contador++
+// }
+
+//---------------------------------------------------------------------------------------------
+
+// let num = 5;
+// do { 
+//     console.log(num);   
+//     num++; 
+// }
+//     while(num < 3);
+
+//----------------------------------------------------------------------------------------------
+
+// let lista = ["Banana", "Maça", "Laranja"];
+// console.log(lista[0]); //"banana"
+
+// lista.push("uva"); //adiciona ao final
+// lista.pop(); // Remove o último
+// lista.unshift ("Manga"); // Adiciona no início
+// lista.shift(); // Remove do início
+
+// console.log(lista.includes("Maça")); // true
+// console.log(lista.indexOf("Laranja")); // 2
+// console.log (lista.lenghth); // Tamanho da arraay
+
+//---------------------------------------------------------------------------------------------
+
