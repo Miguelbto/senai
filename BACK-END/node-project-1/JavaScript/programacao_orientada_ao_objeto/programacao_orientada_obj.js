@@ -118,21 +118,6 @@ conta1.depositar
 //---------------------------------------------------------------------------------
 
 
-class Produto {
-    constructor (name, preco, quantidadeEstoque) {
-        this.name = name 
-        this.preco = preco
-        this.quantidadeEstoque = quantidadeEstoque
-    }
-
-    calcule (value) {
-
-
-    }
-}
-
-const myProduto1 = new Produto("Tênis", 214, 3)
-
 
 
 
