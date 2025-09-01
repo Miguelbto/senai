@@ -124,9 +124,9 @@ await new Promise(resolve => setTimeout(resolve, 2000));
 console.log("Passaram 2 segundos!");
 }
 esperarMensagem();
+
+
 // 2. Aguarda 1 segundo e retorna o dobro
-
-
 async function dobrarNumero(num) {
 await new Promise(resolve => setTimeout(resolve, 1000));
 return num * 2;
