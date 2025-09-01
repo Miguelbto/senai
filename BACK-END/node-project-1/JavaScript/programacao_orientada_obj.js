@@ -59,6 +59,7 @@ class Pessoa {
 
 //-----------------------------------------------------------------------------------------
 
+/*
 class Pessoa {
 
 	constructor (nome, idade) {
@@ -78,6 +79,59 @@ const pessoa1 = new Pessoa("João", 25);
 
 // Chamando o método do objeto 
 pessoa1.saudacao();
+
+*/
+
+/*
+class Conta {
+    constructor (titular, saldo) {
+        this.titular = titular
+        this.saldo = saldo
+
+    }
+
+    
+    depositar (valor) {
+            this.saldo += valor
+            console.log(`Deposito realizado. Saldo atual: R$${this.saldo}`)
+        
+        }
+    
+    }
+
+    sacar(valor) {
+        if(valor <= this.saldo) {
+        this.saldo -= valor
+        console.log(`Saque realizado.Saldo atual: ${this.saldo}`)
+        }
+        else {
+            console.log(`Saldo insuficiente`)
+        }
+    }
+
+}
+
+let conta1 = new Conta("Celso", 0 )
+
+conta1.depositar
+*/
+//---------------------------------------------------------------------------------
+
+
+class Produto {
+    constructor (name, preco, quantidadeEstoque) {
+        this.name = name 
+        this.preco = preco
+        this.quantidadeEstoque = quantidadeEstoque
+    }
+
+    calcule (value) {
+
+
+    }
+}
+
+const myProduto1 = new Produto("Tênis", 214, 3)
 
 
 
