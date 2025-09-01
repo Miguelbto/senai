@@ -91,9 +91,55 @@ num = 4
 //------------------------------------------------------------------------------------
 
     
+function mensage(nome, callback) {
+callback(nome);
+}
+mensage("Sinesio", (n) => {rever
+console.log(Seja bem-vindo, ${n}!);
+});
 
 
 
+function aplicarCallback(array, callback) {
+return array.map(callback);
+}
+const dobrar = num => num * 2;
+console.log(aplicarCallback([1,2,3,4], dobrar)); // [2,4,6,8]
+// Contagem regressiva de 10 até 1
+
+
+
+function contagem(n) {
+if (n === 0) return;
+console.log(n);
+contagem(n - 1);
+}
+contagem(10);
+// 1. Aguarda 2 segundos e exibe mensagem
+
+
+
+async function esperarMensagem() {
+await new Promise(resolve => setTimeout(resolve, 2000));
+console.log("Passaram 2 segundos!");
+}
+esperarMensagem();
+// 2. Aguarda 1 segundo e retorna o dobro
+
+
+async function dobrarNumero(num) {
+await new Promise(resolve => setTimeout(resolve, 1000));
+return num * 2;
+}
+dobrarNumero(5).then(res => console.log(res)); 
+
+
+
+// 3. Simula consulta de usuário em 3 segundos
+async function consultarUsuario() {
+await new Promise(resolve => setTimeout(resolve, 3000));
+console.log("Usuário encontrado!");
+}
 
 
 
