@@ -117,29 +117,80 @@ conta1.depositar
 */
 //---------------------------------------------------------------------------------
 
+/*
 
+// ENCAPSULAMENTO 
 
+class ContaBancaria {
+	#Saldo 
+	numeroConta
+	constructor (saldo, numeroConta) {
+		this.#Saldo = saldo  // A propriedade saldo não é possivel acessar o atributo
+		this.numeroConta = numeroConta 
+	}
 
+	get getSaldo() {return this.#Saldo}
 
+	set setSaldo (value) { //está fazendo uma condição par verificar se o saldo é válido
 
+		if(value != null && value > 0) {
+			this.#Saldo = value 
+		} else {
+			console.log(`Saldo inválido`)
+		}
 
+	}
 
+}
 
+let conta = new ContaBancaria(1000,`r2d2`)
 
+console.log (conta.numeroConta)
+console.log(conta.getSaldo)
 
+console.log (conta.getSaldo)
+conta.getSaldo = 1500   // o get não consegue alterar nenhum valor, apenas usado para exibir
+console.log(`saldo alterado pelo get: ${conta.getSaldo}`)
 
+conta.setSaldo = -1500000
+console.log (`Saldo alterado pelo set: ${conta.getSaldo}`)
 
+*/
 
+//--------------------------------------------------------------------
 
+/*
 
+class Animal {
+	constructor (nome) {
+		this.nome = nome
+	}
+	FazerSom () {
+		console.log(`Emite  um som genérico`)
+	}
+}
+/*
+class Cachorro extends Animal {}
 
+class Cachorro extends Animal {
+	FazerSom () {
+		console.log(`Auau`)
+	}
+}
 
+let cachorro1 = new Cachorro();
+cachorro1.FazerSom()
+*/
+/*
+class Cachorro extends Animal {
+	constructor (nome) {
+		super(nome)
+	}
+}
 
+let cachorro = new Cachorro(`Rex`)
+console.log (`Nome do cachorro: ${cachorro.nome}`)
 
-
-
-
-
-
+*/
 
 
