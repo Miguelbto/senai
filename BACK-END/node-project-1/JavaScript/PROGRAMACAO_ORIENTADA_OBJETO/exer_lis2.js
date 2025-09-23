@@ -92,23 +92,45 @@ console.log (moto1.ano)
 //------------------------------------------------------------------------------
 
 class Funcionario {
-    constructor (calcularSalario) {
-        this.calcularSalario = calcularSalario
+    constructor (nome, salario) {
+        this.nome = nome 
+        this.salario = salario
+    }
+
+    calcularSalario () {
+        return this.salario
     }
 }
 
 class Gerente extends Funcionario {
-    
-    constructor ( salario, bonus) {
-    this.salario = salario
-    this.bonus = bonus
-    
-    }
-    calcularSalario () {
-        this.salario + this.bonus
-    }
+    constructor (nome, salario, bonus = 0.30) {
+        super (nome, salario)
+        this.bonus = bonus
 
     }
+
+    calcularSalario () {
+        return (this.salario * this.bonus) + this.salario
+    }
+    
+}
+
+class desenvolvedor extends Funcionario {
+    constructor (nome, salario, bonus = 0.20) {
+        super (nome, salario)
+        this.bonus = bonus
+    }
+
+    calcularSalario () {
+        return (this.salario * this.bonus) + this.salario
+    }
+}
+
+let gerente1 = new Gerente ('Miguel', 2000)
+console.log (`O salário desse gerente é de:${gerente1.calcularSalario()}`)
+
+let dev1 = new desenvolvedor ('Ana', 3000, 0.20)
+console.log(`O salário desse desenvolvedor é de:${dev1.calcularSalario()}`)
 
 
 
