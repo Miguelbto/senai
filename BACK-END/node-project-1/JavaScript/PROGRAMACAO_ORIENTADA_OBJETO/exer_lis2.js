@@ -91,6 +91,8 @@ console.log (moto1.ano)
 
 //------------------------------------------------------------------------------
 
+
+/*
 class Funcionario {
     constructor (nome, salario) {
         this.nome = nome 
@@ -132,7 +134,378 @@ console.log (`O salário desse gerente é de:${gerente1.calcularSalario()}`)
 let dev1 = new desenvolvedor ('Ana', 3000, 0.20)
 console.log(`O salário desse desenvolvedor é de:${dev1.calcularSalario()}`)
 
+*/
 
+//4
+
+
+/*
+class Funcionario {
+    constructor (nome, salario) {
+        this.nome = nome
+        this.salario = salario
+    }
+
+    calcularSalario () {
+        return this.salario
+    }
+}
+
+class Gerente extends Funcionario {
+    constructor (nome, salario, bonus = 0.30) {
+        super (nome, salario) 
+        this.bonus = bonus 
+    }
+
+    calcularSalario () {
+        return (this.salario * this.bonus) + this.salario
+    }
+}
+
+class Desenvolvedor extends Funcionario {
+    constructor (nome, salario, bonus = 0.20) {
+        super (nome, salario)
+        this.bonus = bonus
+    }
+
+    calcularSalario () {
+        return (this.salario * this.bonus) + this.salario
+    }
+}
+
+let gerente1 = new Gerente ('Ana', 1000)
+let desenvolvedor1 = new Desenvolvedor ('Ana', 1000)
+
+console.log(`O salário desse gerente é de:${gerente1.calcularSalario()}`)
+console.log(desenvolvedor1.calcularSalario())
+
+
+*/
+
+
+
+
+
+
+
+
+// ENCAPSULAMENTO
+
+/*
+
+class Produto {
+    #nome
+    #preco
+    constructor (nome, preco) {
+        this.#nome = nome
+        this.setPreco(preco)
+    }
+
+    getNome () {
+        return this.#nome
+    }
+
+    getPreco () {
+        return this.#preco
+    }
+
+    setNome (newname) {
+        this.#nome = newname
+    }
+
+    setPreco (newpreco) {
+        if (newpreco >= 0) {
+            this.#preco = newpreco
+        } else {console.log('Preco invalido')}
+    }
+}
+
+let produto1 = new Produto ('Tenis', 200)
+console.log (produto1.getNome())
+console.log(produto1.getPreco())
+
+produto1.setNome('tenis Abidas')
+produto1.setPreco(250)
+
+console.log (produto1.getNome())
+console.log(produto1.getPreco())
+
+*/
+
+//2
+
+
+
+//3
+
+/*
+class Conta {
+    #saldo
+    constructor (saldo) {
+        this.#saldo = saldo
+    }
+
+    getSaldo () {
+        return this.#saldo
+    }
+
+    setDepositar (newDeposito) {
+        if (newDeposito > 0) {
+            return this.#saldo + newDeposito
+        } else {
+            console.log('O número depositado é negativo, não foi possivel consluir está ação')
+        }
+    }
+
+    setSacar (newSaque) {
+        if (newSaque > 0 && newSaque <= this.#saldo) {
+            return this.#saldo - newSaque
+        } else {
+            console.log('O valor do saque não pode ser efetuado por conta de saldo inválido')
+        }
+
+    }
+}
+
+let conta1 = new Conta (1000)
+console.log (conta1.getSaldo())
+
+console.log (conta1.setDepositar(-400))
+console.log (conta1.setSacar (1600))
+
+*/
+
+
+
+// POLINMORFISMO
+
+
+/*
+class Forma {
+    
+    calcularArea () {
+        return console.log('O método deve ser inserido para calcular')
+    }
+}
+
+class Quadrado extends Forma {
+    constructor (lado) {
+        super ()
+        this.lado = lado
+    }
+
+    calcularArea () {
+        return this.lado * this.lado
+    }
+
+}
+
+class Retangulo extends Forma {
+    constructor (base, altura) {
+        super () 
+        this.base = base 
+        this.altura = altura 
+    }
+
+    calcularArea () {
+        return this.base * this.altura  
+    }
+
+}
+
+class Circulo extends Forma {
+    constructor (raio) {
+        super ()
+        this.raio = raio 
+    }
+
+    calcularArea () {
+        return Math.PI * (this.raio * this.raio)
+
+    }
+}
+
+let quadrado1 = new Quadrado (5)
+let retangulo1 = new Retangulo (5,8)
+let circulo1 = new Circulo (5)
+
+console.log(quadrado1.calcularArea())
+console.log(retangulo1.calcularArea())
+console.log(circulo1.calcularArea())
+
+
+*/
+
+/*
+
+class Funcionario {
+
+    trabalhar () {
+        console.log ('Este funcionario está fazendo...')
+    }
+}
+
+class Professor extends Funcionario {
+
+    trabalhar () {
+        console.log ('Este professor está ministrando aulas e corrigindo provas')
+    }
+
+}
+
+class Engenheiro extends Funcionario {
+
+    trabalhar () {
+        console.log('Este engenheiro está desenvolvendo projetos e supervisionando obras ')
+    }
+}
+
+
+class Designer extends Funcionario {
+
+    trabalhar () {
+        console.log('Este designer está criando layouts e materias gráficos')
+    }
+}
+
+let funcionario1 = new Funcionario
+let professor1 = new Professor
+let engenheiro1 = new Engenheiro 
+let designer1 = new Designer 
+
+funcionario1.trabalhar()
+professor1.trabalhar()
+engenheiro1.trabalhar()
+designer1.trabalhar()
+
+*/
+
+/*
+class Pagamento {
+
+    realizarPagamento () {
+        console.log('Qual método de pagamento você deseja?')
+    }
+}
+
+class CartaoCredito extends Pagamento {
+
+    realizarPagamento () {
+        console.log('Em quantas vezes o(a) senhor(a) deseja parcelar?')
+    }
+}
+
+class Boleto extends Pagamento {
+
+    realizarPagamento () {
+
+        console.log('O boeto foi gerafo para que o pagamento seja feito!')
+    }
+}
+
+class Pix extends Pagamento {
+
+    realizarPagamento () {
+        console.log('O pagamento foi realizado via pix!')
+    }
+}
+
+let pagamento1 = new Pagamento 
+let cartaocredito1 = new CartaoCredito 
+let boleto1 = new Boleto 
+let pix1 = new Pix
+
+pagamento1.realizarPagamento()
+cartaocredito1.realizarPagamento()
+boleto1.realizarPagamento()
+pix1.realizarPagamento()
+
+
+*/
+
+/*
+
+class Transporte {
+
+    mover () {
+        console.log('qual o meio de locomoção será utilizado?')
+    }
+}
+
+class Carro extends Transporte {
+
+    mover () {
+        console.log('O carro anda pela etrada')
+    }
+}
+
+class Bicicleta extends Transporte {
+    mover () {
+        console.log('A bicicleta anda por ciclovias e parques')
+    }
+}
+
+class Aviao extends Transporte {
+
+    mover () {
+        console.log('O avião voa pelos céus')
+
+    }
+}
+
+
+const listaTransportes = [
+        new Carro(),
+        new Bicicleta(),
+        new Aviao()
+    ]
+
+listaTransportes.forEach(transporte => {
+    transporte.mover()
+})
+
+
+*/
+
+/*
+
+
+class Mensagem {
+    enviar () {
+        console.log('Qual meio de comunicação você deseja utilizar?')
+    }
+}
+
+class Email extends Mensagem {
+    enviar () {
+        console.log('O email acabou de ser enviado')
+    }
+}
+
+
+class SMS extends Mensagem {
+    enviar () {
+        console.log ('O SMS foi enviado')
+    }
+}
+
+
+class WhatsApp extends Mensagem {
+        enviar () {
+        console.log('A mensagem foi enviada pelo WhatsApp')
+    }
+}
+
+const listaMensagens = [
+    new Email (),
+    new SMS (),
+    new WhatsApp ()
+
+]
+
+listaMensagens.forEach (mensagem => {mensagem.enviar()})
+
+*/
 
 
 
