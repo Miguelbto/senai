@@ -187,6 +187,10 @@ console.log(desenvolvedor1.calcularSalario())
 
 */
 
+
+//5
+
+/*
 class ContaBancaria {
     constructor (titular, saldo) {
         this.titular = titular 
@@ -228,7 +232,7 @@ let contapoupanca1 = new ContaPoupanca ('Ana', 1000)
 console.log(contacorrente1.sacar(200))
 console.log(contapoupanca1.atualizarSaldo())
 
-
+*/
 
 // ENCAPSULAMENTO
 
