@@ -1,7 +1,7 @@
 
+//1
+
 /*
-
-
 
 class InstrumentoMusical {
 	 tocar() {
@@ -30,7 +30,7 @@ piano1.tocar()
 */
 //----------------------------------------------------------------
 
-
+//2
 
 /*
 
@@ -56,6 +56,10 @@ console.log (gerente1.bonus)
 */
 
 //--------------------------------------------------------------------------
+
+
+//3
+
 
 /*
 
@@ -91,6 +95,7 @@ console.log (moto1.ano)
 
 //------------------------------------------------------------------------------
 
+//4
 
 /*
 class Funcionario {
@@ -182,10 +187,46 @@ console.log(desenvolvedor1.calcularSalario())
 
 */
 
+class ContaBancaria {
+    constructor (titular, saldo) {
+        this.titular = titular 
+        this.saldo = saldo 
+    }
 
+    depositar (value) {
+        return this.saldo + value
+    }
 
+    sacar () {
+        return this.saldo 
+    }
+}
 
+class ContaCorrente extends ContaBancaria {
+    constructor (titular, saldo) {
+        super (titular, saldo)
+    }
 
+     sacar (value) {
+        return this.saldo - (value + 2)
+     } 
+}
+
+class ContaPoupanca extends ContaBancaria {
+    constructor (titular, saldo ) {
+        super (titular, saldo)
+    }
+
+    atualizarSaldo () {
+        return this.saldo * 1.05
+    }
+}
+
+let contacorrente1 = new ContaCorrente ('Miguel', 1000)
+let contapoupanca1 = new ContaPoupanca ('Ana', 1000)
+
+console.log(contacorrente1.sacar(200))
+console.log(contapoupanca1.atualizarSaldo())
 
 
 
@@ -232,11 +273,37 @@ console.log(produto1.getPreco())
 
 */
 
-//2
+//7
+
+/*
+
+class Carro {
+    #velocidade 
+    constructor (velocidade) {
+        this.#velocidade = velocidade
+    }
+
+    getAcelerar () {
+        return this.#velocidade + 10
+    }
+
+    getFrear () {
+        if (this.#velocidade >= 10) {
+         return this.#velocidade - 10}
+         else {
+            console.log('O carro não pode desacelerar ainda mais')
+         }
+    }
+}
+
+let carro1 = new Carro (5)
+console.log(`A velocidade do carro após acelerar é de: ${carro1.getAcelerar()}`)
+console.log(carro1.getFrear())
 
 
+*/
 
-//3
+//8
 
 /*
 class Conta {
@@ -274,6 +341,69 @@ console.log (conta1.setDepositar(-400))
 console.log (conta1.setSacar (1600))
 
 */
+
+
+//9
+
+
+/*
+class Usuario {
+    #senha
+    constructor (nome, senha) {
+        this.nome = nome 
+        this.#senha = senha
+    }
+
+    validarSenha (senhaDigitada) {
+        if (senhaDigitada === this.#senha) {
+            console.log('senha correta')
+        } else { 
+            console.log('A senha está inserida incorretamente')
+        }
+    }
+}
+
+let user1 = new Usuario ('Ana', 123)
+console.log(user1.nome)
+user1.validarSenha(123)
+
+
+*/
+
+
+
+//10
+
+
+/*
+
+
+class Retangulo {
+    #largura 
+    #altura 
+    constructor (largura, altura) {
+        this.#largura = largura 
+        this.#altura = altura
+
+    }
+
+    getArea () {
+        return this.#largura * this.#altura
+    }
+
+    getPerimetro () {
+        return (this.#altura * 2) + (this.#largura * 2)
+    }
+ }
+
+
+ let retangulo1 = new Retangulo (8,10)
+ console.log(retangulo1.getArea())
+ console.log(retangulo1.getPerimetro())
+
+ */
+
+
 
 
 
