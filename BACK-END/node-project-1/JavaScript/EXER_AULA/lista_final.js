@@ -29,6 +29,31 @@ console.log(contadorVogais("abcdeoi"))
 */
 
 
+// FUNÇÃO - EXECÍCIO 3 
+
+function filtrarlist(lista, callback) {
+    lista.forEach(i => {      //for (let i  = 0; i < lista.lenght; i++)
+        if (callback(i)) {    //  if (callback (lista[i])) {console.log(lista[i])}
+            console.log(i)
+        }
+    })
+} 
+
+function primo(numero) {
+    if (numero < 2 ) {
+        return false 
+    } 
+    for (let i = 2; i < numero; i++){
+        if (numero % i == 0 ) {
+            return false 
+        }
+    }
+    return true 
+}
+
+filtrarlist([1,23,4,5,56,3,5,7,4], primo)
+
+
 // CLASSES - EXERCÍCIO 1
 
 /*
@@ -78,6 +103,7 @@ conta1.totalConta()
 */
 
 // CLASSES - EXERCÍCIO 3
+/*
 
 class Aluno {
     constructor (nome, nota1, nota2, nota3) {
@@ -103,3 +129,70 @@ class Aluno {
 let aluno1 = new Aluno ("miguel", 8, 5, 10)
 console.log(aluno1.media())
 aluno1.aprovado()
+*/
+
+// HERANÇA - EXERCÍCIO 1
+/*
+class Funcionario {
+    constructor (nome, salarioBase) {
+        this.nome = nome 
+        this.salarioBase = salarioBase
+    }
+
+} 
+
+class FuncionarioCLT extends Funcionario {
+    constructor(nome, salarioBase, imposto = -0.10, comissao = 0.05 ) {
+        super(nome, salarioBase)
+        this.imposto = imposto 
+        this.comissao = comissao
+    }
+
+    calcularSalarioLiquido() {
+        return console.log(`O salário é de:${((this.salarioBase * this.imposto) + this.salarioBase) + (this.salarioBase * this.comissao) }`)
+    }
+}
+
+let funcionarioclt1 = new FuncionarioCLT("joão", 1000)
+funcionarioclt1.calcularSalarioLiquido()
+
+*/
+
+// POLIMORFISMO - EXERCÍCIO 1
+//INACABADO
+/*
+    class Imposto {
+        
+        calcular(valor) {
+            return valor 
+        }
+    }
+class ICMS extends Imposto {
+    
+    calcular (valor) {
+        return (valor * -0.18) + valor
+    }
+}
+
+class ISS extends Imposto {
+    calcular(valor) {
+        return (valor * -0.05) + valor
+    }
+}
+
+class IRPF extends Imposto {
+    calcular(valor) {
+        if (valor <= 2000) {
+            return console.log(`Você está insento de imposto`)
+        } if (valor >= 2001 && valor <= 5000) {
+            return console.log(`${valor * -0.15}`)
+        } if (valor > 5000) {
+            return console.log(`${valor * -0.275}`)
+        }
+        }
+}
+
+let iss1 = new ISS 
+console.log(`${iss1.calcular(1000)}`) 
+
+*/

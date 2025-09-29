@@ -95,7 +95,6 @@ console.log (moto1.ano)
 
 //------------------------------------------------------------------------------
 
-<<<<<<< HEAD
 // NÃO CONSEGUI FAZER, NÃO ESTOU ENTENDENDO NADA, REVISAR PARA FAZER DENOVO
 
 /*
@@ -108,7 +107,6 @@ class Funcionario {
 
     calcularSalario() {
         return this.salario + (this.salario * this.bonus)
-=======
 //4
 
 /*
@@ -120,12 +118,10 @@ class Funcionario {
 
     calcularSalario () {
         return this.salario
->>>>>>> e896f8a658ee9b5611f25cea0cba071b79b85913
     }
 }
 
 class Gerente extends Funcionario {
-<<<<<<< HEAD
     
     constructor (salario, ) {
     this.salario = salario
@@ -157,7 +153,6 @@ let desenvolvedor1 = new Desenvolvedor(1000)
 
 console.log (`O salário deste gerente é de ${calcularSalario(1000)}`)
 console.log(`O salário deste gerente é de ${calcularSalario(1000)}`)
-=======
     constructor (nome, salario, bonus = 0.30) {
         super (nome, salario)
         this.bonus = bonus
@@ -231,12 +226,10 @@ let desenvolvedor1 = new Desenvolvedor ('Ana', 1000)
 
 console.log(`O salário desse gerente é de:${gerente1.calcularSalario()}`)
 console.log(desenvolvedor1.calcularSalario())
->>>>>>> e896f8a658ee9b5611f25cea0cba071b79b85913
 
 
 */
 
-<<<<<<< HEAD
 //--------------------------------------------------------------------------------
 
 
@@ -256,7 +249,6 @@ class ContaBancaria {
 
     sacar (valor) {
         return this.saldo - valor
-=======
 
 //5
 
@@ -273,13 +265,11 @@ class ContaBancaria {
 
     sacar () {
         return this.saldo 
->>>>>>> e896f8a658ee9b5611f25cea0cba071b79b85913
     }
 }
 
 class ContaCorrente extends ContaBancaria {
     constructor (titular, saldo) {
-<<<<<<< HEAD
     super(titular, saldo)
 
     }
@@ -333,7 +323,7 @@ console.log(produto1.getNome)
 console.log(produto1.getPreco)
 
 */
-
+/*
 
 class Car { 
     #velocidade
@@ -371,7 +361,6 @@ carro1.Acelerar(10)
 
 
 
-=======
         super (titular, saldo)
     }
 
@@ -804,7 +793,6 @@ const listaMensagens = [
 listaMensagens.forEach (mensagem => {mensagem.enviar()})
 
 */
->>>>>>> e896f8a658ee9b5611f25cea0cba071b79b85913
 
 
 
