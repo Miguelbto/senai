@@ -229,19 +229,20 @@ class Car {
 
     }
 
-    set setAcelerar (value) { 
-        return this.#velocidade + value 
+    set Acelerar (value) { 
+        return this.velocidade = value 
         
         
     }
 
-    set setFrear (value) {
-        return this.#velocidade - value 
+    set Frear (value) {
+        return this.velocidade = value 
+        
     }
 }
 
 let carro1 = new Car ('niaka', 50 )
-carro1.setAcelerar(10)
+carro1.Acelerar(10)
 
 
 
