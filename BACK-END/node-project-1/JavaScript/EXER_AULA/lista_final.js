@@ -1,30 +1,28 @@
 
-/* FUNÇÕES - EXERCÍCIO 1
+ 
+//FUNÇÕES - EXERCÍCIO 1
 
+/*
 
+function contarVogais (str) {
+    const vogais = "aeiou"
+    let contador = 0 
 
-function contadorVogais (text) {
+    const strMinuscula = str.toLowerCase()
 
-    let contador = 0
-    if  (text == "a" ) {
-        contador ++ }
-    if  (text == "e" ) {
-        contador ++ }
-    if  (text == "i" ) {
-        contador ++ }
-    if  (text == "o" ) {
-        contador ++ }
-    if  (text == "u" ) {
-        contador ++ 
+    for (let i = 0; i < strMinuscula.length; i++) {
+        const caractere = strMinuscula[i]
+        if (vogais.includes(caractere)) {
+            contador ++
         }
-    } 
-    else {
-        console.log('O texto inserido não contém nenhuma vogal')
     }
 
-    return console.log(`O númerpo de vogais é de: ${contador}`)
+    return contador
 }
-console.log(contadorVogais("abcdeoi"))
+
+const minhaString = "abcio"
+const numeroDeVogais = contarVogais(minhaString)
+console.log(`${minhaString} e ${numeroDeVogais}`)
 
 */
 
@@ -79,6 +77,7 @@ conta1.totalConta()
 
 // CLASSES - EXERCÍCIO 3
 
+/*
 class Aluno {
     constructor (nome, nota1, nota2, nota3) {
         this.nome = nome 
@@ -103,3 +102,95 @@ class Aluno {
 let aluno1 = new Aluno ("miguel", 8, 5, 10)
 console.log(aluno1.media())
 aluno1.aprovado()
+
+*/
+
+
+// CLASSES - EXERCÍCIO 4
+/*
+class Cinema {
+    constructor (nome, capacidade, ingressosVendidos) {
+        this.nome = nome 
+        this.capacidade = capacidade 
+        this.ingressosVendidos = ingressosVendidos 
+    }
+
+    venderIngressos (x) {
+        if (x <= this.capacidade - this.ingressosVendidos) {
+            return console.log("Venda realizada com sucesso")
+        } else {
+            return console.log("A venda não foi feita por lugares insuficientes ")
+        }
+    }
+}
+
+let cinema1 = new Cinema ('Cinemark', 100, 50)
+cinema1.venderIngressos(30)
+
+*/
+
+// CLASSES SIMPLES - EXERCÍCIO 5
+// A FAZER
+/*
+class Biblioteca {
+    constructor ([livros]) {
+        this.livros = livros
+    }
+
+    adicionarLivro (livro) {
+        this.livros.push(livro)
+        return console.log("Livro adicionado")
+    }
+
+    removerLivro (livro) {
+        this.livros.indexof(livro)
+    }
+
+    listarLivros () {
+        return console.log(this.livros)
+    }
+}
+
+let biblioteca1 = new Biblioteca (['livro1', 'livro2', 'livro3'])
+biblioteca1.adicionarLivro('livro4')
+biblioteca1.removerLivro('livro2')
+biblioteca1.listarLivros()
+
+*/
+
+// ENCAPSULAMENTO - EXERCÍCIO 1
+/*
+class Cofrinho {
+    #valor
+    
+    constructor ( valor) {
+        this.#valor = valor         
+    }
+
+    setSacar (x) {
+        if (x <= this.#valor) {
+            return console.log(this.#valor - x)
+        } else {
+            console.log( "Saldo insuficiente")
+        }
+    }
+
+    setDepositar (x) {
+        if (x > 0) {
+            console.log(`Deposito concluído ${this.#valor + x}`)
+        } else {
+            console.log("Valor depositado incorreto")
+        }
+    }
+
+    getSaldo () {
+        return console.log(this.#valor)
+    }
+}
+
+let cofrinho1  = new Cofrinho (1000)
+cofrinho1.setSacar(500)
+cofrinho1.setDepositar(1000)
+cofrinho1.getSaldo()  
+
+*/
