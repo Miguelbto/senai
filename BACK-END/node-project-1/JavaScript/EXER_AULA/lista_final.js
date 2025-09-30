@@ -128,7 +128,6 @@ class Aluno {
 let aluno1 = new Aluno ("miguel", 8, 5, 10)
 console.log(aluno1.media())
 aluno1.aprovado()
-<<<<<<< HEAD
 
 */
 
@@ -219,7 +218,6 @@ let cofrinho1  = new Cofrinho (1000)
 cofrinho1.setSacar(500)
 cofrinho1.setDepositar(1000)
 cofrinho1.getSaldo()  
-=======
 */
 
 // HERANÇA - EXERCÍCIO 1
@@ -285,6 +283,5 @@ class IRPF extends Imposto {
 
 let iss1 = new ISS 
 console.log(`${iss1.calcular(1000)}`) 
->>>>>>> 2313214e3a35635858d1749cf0432664699d7ddb
 
 */
