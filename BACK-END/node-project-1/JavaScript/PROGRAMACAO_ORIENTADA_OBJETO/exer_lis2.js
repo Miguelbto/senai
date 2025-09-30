@@ -95,6 +95,18 @@ console.log (moto1.ano)
 
 //------------------------------------------------------------------------------
 
+// NÃO CONSEGUI FAZER, NÃO ESTOU ENTENDENDO NADA, REVISAR PARA FAZER DENOVO
+
+/*
+
+class Funcionario {
+    constructor (salario, bonus) {
+        this.salario = salario
+        this.bonus = bonus
+    }
+
+    calcularSalario() {
+        return this.salario + (this.salario * this.bonus)
 //4
 
 /*
@@ -110,6 +122,37 @@ class Funcionario {
 }
 
 class Gerente extends Funcionario {
+    
+    constructor (salario, ) {
+    this.salario = salario
+    
+    }
+
+    super(salario) {salario, 0.30}
+
+    calcularSalario () {
+    return this.salario + (this.salario * 0.30 )
+    }
+        
+}
+
+class Desenvolvedor extends Funcionario {
+
+    constructor (salario) {
+    this.salario = salario
+    
+    }
+
+    calcularSalario () {
+    return this.salario + (this.salario * 0.20 )
+    }
+}
+
+let gerente1 = new Gerente(1000)
+let desenvolvedor1 = new Desenvolvedor(1000)
+
+console.log (`O salário deste gerente é de ${calcularSalario(1000)}`)
+console.log(`O salário deste gerente é de ${calcularSalario(1000)}`)
     constructor (nome, salario, bonus = 0.30) {
         super (nome, salario)
         this.bonus = bonus
@@ -187,6 +230,25 @@ console.log(desenvolvedor1.calcularSalario())
 
 */
 
+//--------------------------------------------------------------------------------
+
+
+/*
+
+
+class ContaBancaria {
+    constructor (titular, saldo) {
+        this.titular = titular
+        this.saldo = saldo
+    }
+
+    depositar (valor) {
+        return this.saldo + valor
+
+        }
+
+    sacar (valor) {
+        return this.saldo - valor
 
 //5
 
@@ -208,6 +270,97 @@ class ContaBancaria {
 
 class ContaCorrente extends ContaBancaria {
     constructor (titular, saldo) {
+    super(titular, saldo)
+
+    }
+
+    sacar (valor) {
+        return (this.saldo - valor) - 2
+    }
+}
+
+class ContaPoupanca extends ContaBancaria {
+    constructor (titular, saldo) {
+        super (titular, saldo)
+    }
+
+    atualizarSaldo () {
+        return this.saldo * 0.05 + this.saldo
+    }
+
+}
+
+let conta1 = new ContaPoupanca ('Miguel', 100000)
+let conta2 = new ContaCorrente ('Miguel', 1000)
+
+
+console.log(`O valor da sua conta poupança nesse mês foi de: ${conta1.atualizarSaldo()}`)
+console.log(`O valor da sua conta ao final ficou com ${conta2.sacar(50)} `)
+
+
+*/
+/*
+class Produto {
+    #nome
+    #preco
+    constructor (nome, preco) {
+        this.#nome = nome 
+        this.#preco = preco
+    }
+
+    get getNome() {
+    return this.#nome
+    }
+
+    get getPreco() {
+        return this.#preco
+    }
+}
+
+let produto1 = new Produto ('Abidas', 200)
+
+console.log(produto1.getNome)
+console.log(produto1.getPreco)
+
+*/
+/*
+
+class Car { 
+    #velocidade
+    constructor (nome, velocidade){
+        this.#velocidade = velocidade
+        this.nome = nome 
+
+    }
+
+    set Acelerar (value) { 
+        return this.velocidade = value 
+        
+        
+    }
+
+    set Frear (value) {
+        return this.velocidade = value 
+        
+    }
+}
+
+let carro1 = new Car ('niaka', 50 )
+carro1.Acelerar(10)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
         super (titular, saldo)
     }
 
