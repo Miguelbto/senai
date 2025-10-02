@@ -29,7 +29,7 @@ verificarEstoque(caixa,10, callback)
 
 
 
-// EXERCÍCIO 2
+c// EXERCÍCIO 2
 /*
 class Produto {
     constructor (nome, preco, quantidade) {
