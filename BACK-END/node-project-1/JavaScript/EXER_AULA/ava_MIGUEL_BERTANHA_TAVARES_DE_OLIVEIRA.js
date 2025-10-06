@@ -1,6 +1,27 @@
+/*
+const estoque = {
+            caixa: 50,
+            palete: 10,
+            empilhadeira: 2
+          };
 
+function verificarEstoque(produto, quantidade, callback) {
+    return callback(produto, quantidade)
+}
+function conferir(produto, qtd) {
+    if (estoque[produto] >= qtd) {
+        return "pedido aprovado";
+    } else {
+        return "estoque insuficiente"
+        
+    }
+}
 
-
+console.log(verificarEstoque('caixa', 20, conferir))
+console.log(verificarEstoque('Palete', 15, conferir))
+console.log(verificarEstoque('empilhadeira', 5, conferir))
+*/
+/*
 
 function verificarEstoque(produto, quantidade, callback) {
     if (callback(produto,quantidade)) {
@@ -26,10 +47,10 @@ const estoque = {
 
 verificarEstoque(caixa,10, callback)
 
+*/
 
 
-
-c// EXERCÍCIO 2
+// EXERCÍCIO 2
 /*
 class Produto {
     constructor (nome, preco, quantidade) {
@@ -50,6 +71,7 @@ class Produto {
 let produto1 = new Produto ('adidas', 200, 30)
 console.log(produto1.valorTotal())
 console.log(produto1.reporEstoque(10))
+produto1.nome //entrega o nome do produto(pega o atributo individual indicado)
 
 */
 
@@ -176,12 +198,12 @@ class Almoxerifado {
         this.#nome = nome
     }
 
-    setadicionarProduto (quantidade) {
+    set adicionarProduto (quantidade) {
         return console.log(`Foi adicionado ${quantidade}, assim o estoque tem ${quantidade + this.#quantidade}`)
 
     }
 
-    setretirarProduto (quantidade) {
+    set retirarProduto (quantidade) {
         if (quantidade <= this.#quantidade) {
             console.log(`foi retirado ${quantidade} quantidades do produto , e sobraram ${this.#quantidade - quantidade }`)
         } else { 
@@ -189,17 +211,17 @@ class Almoxerifado {
         }
     }
 
-    get getconsultarEstoque() {
-        return this.#nome, this.#quantidade
+    get consultarEstoque() {
+        return console.log(this.#nome, this.#quantidade)
     }
 }
 
 produto1 = new Almoxerifado('caixa', 20)
-produto1.setretirarProduto(10)
-produto1.setadicionarProduto(30)
-console.log(produto1.getconsultarEstoque)
-
+produto1.retirarProduto = 10
+produto1.adicionarProduto = 30
+produto1.consultarEstoque
 */
+
 /*
 const listaTransportes = [
         new Carro(),
