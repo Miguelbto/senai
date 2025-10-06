@@ -186,7 +186,18 @@ let gerenteDeLogistica1 = new GerenteDeLogistica("João", 4000)
 operadorDeEmpilhadeira1.calcularSalario()
 gerenteDeLogistica1.calcularSalario()
 
+const funcionarios = [
+    new OperadorDeEmpilhadeira("pedro", 3000),
+    new GerenteDeLogistica("ana", 1000), 
+    new Funcionario("joão", 1000)
+]
+    funcionarios.forEach(f => {
+        console.log(`${f.nome} - Salário:R$ ${f.calcularSalario()}`)
+    })
+    
 */
+
+
 
 // EXERCICÍO 6
 /*
