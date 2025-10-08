@@ -35,9 +35,30 @@ data_matricula DATE PRIMARY KEY NOT NULL,
 status_matricula VARCHAR(100) NOT NULL,
 email VARCHAR(100) NOT NULL,
 codigo_curso VARCHAR (100) NOT NULL
+
 );
 
-/*
+create user 'secretaria'@'localhost' identified by 'escola@prof';
+create user 'professor'@'localhost' identified by 'escola@prof2';
+grant select on db_escola.tbl_alunos to 'professor'@'localhost';
+alter table tbl_livros modify column titulo varchar(150);
+revoke select, update on db_escola.tbl_alunos from 'professor'@'localhost';
+revoke all privileges on db_escola.tbl_alunos from 'secretaria'@'localhost';
+drop database db_biblioteca_a;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 CREATE TABLE AUTORES (
     id_autor INT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(255) NOT NULL,

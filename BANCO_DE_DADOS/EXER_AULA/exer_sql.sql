@@ -38,7 +38,7 @@ create database db_rh_empresa;
 use db_rh_empresa;
 
 create table tbl_funcionario (
-id_funcionario int primary key auto_increment,
+id_funcionario int primary key auto_increment, 
 nome_completo varchar (150),
 data_admissao decimal (10,2)
 );
