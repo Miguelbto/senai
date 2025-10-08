@@ -37,34 +37,65 @@ email VARCHAR(100) NOT NULL,
 codigo_curso VARCHAR (100) NOT NULL
 );
 
-
 /*
--- CREATE USER 'secretaria'@'localhost' IDENTIFIED BY 'Escola@Sec1';
-
-CREATE USER 'professor'@'localhost' IDENTIFIED BY 'Escola@Prof2'; 
-
-GRANT ALL PRIVILEGES db_escola.tbl_alunos to 'analista'@'localhost';
-
-GRANT SELECT db_escola.tbl_alunos to 'professor'@'localhost';
-
-REVOKE SELECT ON db_escola.tbl_alunos FROM 'professor'@'localhost';
-
-GRANT UPDATE db_escola.tbl_aluno TO 'professor'@'localhost';
-
-REVOKE ALL PRIVILEGES db_escola.tbl_aluno FROM 'secretaria'@'localhost';
+CREATE TABLE AUTORES (
+    id_autor INT PRIMARY KEY AUTO_INCREMENT,
+    nome VARCHAR(255) NOT NULL,
+    nacionalidade VARCHAR(100)
+);
 
 
-use db_biblioteca_turmab;
+CREATE TABLE LIVROS (
+    isbn VARCHAR(13) PRIMARY KEY,
+    titulo VARCHAR(255) NOT NULL,
+    ano_publicacao YEAR,
+    editora VARCHAR(150)
+);
 
 
+CREATE TABLE LIVRO_AUTOR (
+    fk_livro_isbn VARCHAR(13) NOT NULL,
+    fk_autor_id INT NOT NULL,
+    PRIMARY KEY (fk_livro_isbn, fk_autor_id),
+    FOREIGN KEY (fk_livro_isbn) REFERENCES LIVROS(isbn),
+    FOREIGN KEY (fk_autor_id) REFERENCES AUTORES(id_autor)
+);
 
-INSERT INTO tbl_livros (id_livros, titulo, autor, ano_publicacao, preco)
-VALUES
-(1, 'Dom Casmurro', 'Machado de Assis', 1899, 39.90),
-(2, 'O Alquimista', 'Paulo Coelho', 1988, 29.50),
-(3, 'A Hora da Estrela', 'Clarice Lispector', 1977, 34.00);
 
-drop table tbl_livros;
+CREATE TABLE EXEMPLARES (
+    codigo_patrimonio VARCHAR(50) PRIMARY KEY,
+    status ENUM('Disponível', 'Emprestado', 'Em Manutenção') NOT NULL,
+    fk_livro_isbn VARCHAR(13) NOT NULL,
+    FOREIGN KEY (fk_livro_isbn) REFERENCES LIVROS(isbn)
+);
 
-select * from tbl_livros;
+
+CREATE TABLE MEMBROS (
+    matricula INT PRIMARY KEY AUTO_INCREMENT,
+    nome_completo VARCHAR(255) NOT NULL,
+    endereco VARCHAR(255),
+    telefone VARCHAR(20)
+);
+
+
+CREATE TABLE EMPRESTIMOS (
+    id_emprestimo INT PRIMARY KEY AUTO_INCREMENT,
+    data_emprestimo DATE NOT NULL,
+    data_prevista_devolucao DATE NOT NULL,
+    data_devolucao_real DATE,
+    fk_membro_matricula INT NOT NULL,
+    fk_exemplar_codigo VARCHAR(50) NOT NULL,
+    FOREIGN KEY (fk_membro_matricula) REFERENCES MEMBROS(matricula),
+    FOREIGN KEY (fk_exemplar_codigo) REFERENCES EXEMPLARES(codigo_patrimonio)
+);
+
+
+CREATE USER 'estagiario'@'localhost' IDENTIFIED BY 'mudar123';
+
+
+GRANT ALTER ON nome_do_banco.LIVROS TO 'estagiario'@'localhost';
+2.	Adicionar a coluna genero na tabela LIVROS:
+SQL
+
+ADD COLUMN genero VARCHAR(50);
 */
