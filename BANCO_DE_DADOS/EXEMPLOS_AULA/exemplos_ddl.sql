@@ -28,16 +28,11 @@ create index idx_titulo
 # ALTER TABLE NOME_TABELA ADD COLUNM NOME_COLUNA VARCHAR FIRST, o first indica a posição que será inserida 
 
 
-
-
-
-
-
-
-
-
 on tbl_livros (titulo);
 
+
+
+create user 'estagiario'@'localhost' identified by 'Escola@Est1';
 
 
 
