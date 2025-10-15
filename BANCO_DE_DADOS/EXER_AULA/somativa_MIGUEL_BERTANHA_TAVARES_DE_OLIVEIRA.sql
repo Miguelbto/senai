@@ -97,6 +97,9 @@ CREATE TABLE tbl_autor_livro(
         REFERENCES tbl_autor(id_autor)
 );
 
+INSERT INTO tbl_autor_livro(isbn, id_autor)
+    VALUES ('18W2T9B372','1829372');
+
 CREATE TABLE tbl_exemplar(
     id_exemplar INTEGER PRIMARY KEY,
     status_exemplar VARCHAR(16) NOT NULL,
@@ -121,6 +124,11 @@ CREATE TABLE tbl_emprestimo(
     CONSTRAINT fk_id_membro_tbl_emprestimo FOREIGN KEY (id_membro)
         REFERENCES tbl_membro(id_membro)
 );
+
+INSERT INTO tbl_emprestimo(id_emprestimo, data_emprestimo, data_devolucao, data_devolucao_efetiva, id_exemplar, id_membro)
+    VALUES ('00000001','18/03/2020', '30/03/2020', '28/03/2020', '1982038', '82927237' );
+
+
 
 CREATE TABLE tbl_membro(
     id_membro INTEGER PRIMARY KEY,
