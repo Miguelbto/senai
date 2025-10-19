@@ -202,3 +202,7 @@ almoxerifado1.retirarProduto = 10
 almoxerifado1.consultarEstoque
 
 */
+
+
+
+
