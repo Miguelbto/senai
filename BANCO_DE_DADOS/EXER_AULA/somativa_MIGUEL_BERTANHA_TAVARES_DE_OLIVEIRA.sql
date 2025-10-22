@@ -1,4 +1,4 @@
-
+/*
 CREATE DATABASE db_biblioteca_comunitaria_b;
 
 USE db_biblioteca_comunitaria_b;
@@ -60,22 +60,22 @@ CREATE TABLE emprestimos (
 );
 
 -- segundo jeito de fazer
-
+*/
 
 CREATE DATABASE db_saber_e_cia_b;
 
 USE db_saber_e_cia_b;
 
 CREATE TABLE tbl_livro(
-    isbn VARCHAR(16) PRIMARY KEY,
+    isbn VARCHAR(30) PRIMARY KEY,
     titulo_livro VARCHAR(200) NOT NULL,
     ano_publicacao YEAR NOT NULL,
     editora VARCHAR(200) NOT NULL
 );
 
 INSERT INTO tbl_livro(isbn, titulo_livro, ano_publicacao, editora)
-    VALUES ('123456789','Java - Como programar.', '2000', 'SENAI'),
-           ('987654321','Java - Como programar 2', '2010', 'SENAI');
+    VALUES ('979-86-7126-061-0', 'Dom Casmurro', 1899, 'Editora Clássica'),
+           ('978-85-325-3078-3', 'Harry Potter e a Pedra Filosofal', 1997, 'Rocco');
 
 CREATE TABLE tbl_autor(
     id_autor INTEGER PRIMARY KEY AUTO_INCREMENT,
@@ -98,7 +98,8 @@ CREATE TABLE tbl_autor_livro(
 );
 
 INSERT INTO tbl_autor_livro(isbn, id_autor)
-    VALUES ('18W2T9B372','1829372');
+    VALUES ('18W2T9B372','1829372')
+			
 
 CREATE TABLE tbl_exemplar(
     id_exemplar INTEGER PRIMARY KEY,
@@ -137,8 +138,33 @@ CREATE TABLE tbl_membro(
     telefone VARCHAR(16) NOT NULL
 );
 
+insert into tbl_membro(id_membro, nome_membro, endereco, telefone)
+	VALUES ('101', 'Ana Silva', 'Rua A, 123', '11-98765-4321'),
+			('102', 'Bruno Costa', 'Av. B, 456', '11-91234-5678'),
+            ('103', 'Carla Dias', 'Praça C, 789', '11-95555-4444');
+			
+
 CREATE USER 'estagiario'@'localhost' IDENTIFIED BY 'Mudar123';
 
 GRANT ALTER ON db_saber_e_cia_b.tbl_livro TO 'estagiario'@'localhost';
 
 ALTER TABLE tbl_livro ADD COLUMN genero VARCHAR(50);
+
+
+UPDATE tbl_autor
+SET nome_autor = 'J.K Rowling (Joanne Rowling)',
+nacionalidade = 'Britânica (Reino Unido)'
+WHERE  id_autor = 2;
+
+DELETE FROM tbl_autor
+WHERE id_autor = 2;
+
+SELECT * FROM tbl_livro;
+
+SELECT * FROM tbl_membro;
+
+DELETE FROM tbl_livro 
+WHERE isbn = '987654321';
+
+
+
