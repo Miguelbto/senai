@@ -90,15 +90,16 @@ CREATE TABLE tbl_autor_livro(
     isbn VARCHAR(16) NOT NULL,
     id_autor INTEGER NOT NULL,
    
-    CONSTRAINT fk_isbn_tbl_autor_livro FOREIGN KEY (isbn)
-        REFERENCES tbl_livro(isbn),
+    CONSTRAINT fk_isbn_tbl_autor_livro
+    FOREIGN KEY (isbn)
+	REFERENCES tbl_livro(isbn),
    
     CONSTRAINT fk_id_autor_tbl_autor_livro FOREIGN KEY (id_autor)
         REFERENCES tbl_autor(id_autor)
 );
 
 INSERT INTO tbl_autor_livro(isbn, id_autor)
-    VALUES ('18W2T9B372','1829372')
+    VALUES ('18W2T9B372','1829372');
 			
 
 CREATE TABLE tbl_exemplar(
@@ -110,6 +111,7 @@ CREATE TABLE tbl_exemplar(
         REFERENCES tbl_livro(isbn)
    
 );
+
 
 CREATE TABLE tbl_emprestimo(
     id_emprestimo INTEGER PRIMARY KEY,
@@ -127,7 +129,7 @@ CREATE TABLE tbl_emprestimo(
 );
 
 INSERT INTO tbl_emprestimo(id_emprestimo, data_emprestimo, data_devolucao, data_devolucao_efetiva, id_exemplar, id_membro)
-    VALUES ('00000001','18/03/2020', '30/03/2020', '28/03/2020', '1982038', '82927237' );
+    VALUES ('00000001','18/03/2020', '30/03/2020', '28/03/2020', '1982038', '101');
 
 
 
@@ -164,7 +166,63 @@ SELECT * FROM tbl_livro;
 SELECT * FROM tbl_membro;
 
 DELETE FROM tbl_livro 
-WHERE isbn = '987654321';
+WHERE isbn = '1236865789';
+
+UPDATE tbl_livro 
+SET isbn = '82938392'
+WHERE isbn = '978-85-7126-061-';
+
+SELECT * FROM tbl_livro 
+WHERE isbn = '82938392';
+
+SELECT * FROM tbl_autor 
+WHERE id_autor = '1';
 
 
+SELECT * FROM tbl_autor
+WHERE id_autor = '1'
+AND nome_autor = 'Daniel Manoel';
+
+SELECT * FROM tbl_autor 
+WHERE nacionalidade = 'Brasileiro'
+OR nome_autor = 'Daniel Manoel';
+
+SELECT * FROM tbl_autor 
+WHERE NOT nacionalidade = 'Brasileiro'
+OR NOT nome_autor = 'Marlon'
+AND NOT id_autor = '1';
+
+SELECT * FROM tbl_livro 
+WHERE ano_publicacao BETWEEN 1990 AND 2000;
+
+SELECT * FROM tbl_livro 
+WHERE editora IN ('SENAI', 'Rocco');
+
+SELECT * FROM tbl_membro 
+WHERE nome_membro LIKE 'Ana%';
+
+SELECT * FROM tbl_livro 
+WHERE titulo_livro LIKE '%Potter%';
+
+
+SELECT * FROM tbl_emprestimo 
+WHERE data_devolucao_efetiva IS NULL;
+
+SELECT * FROM tbl_livro;
+
+INSERT INTO tbl_exemplar VALUES ('1', 'pronto','978-85-325-3078-');
+
+INSERT INTO tbl_emprestimo VALUES ('1', '2025-10-20', '1', '102');
+
+SELECT * FROM tbl_emprestimo ;
+SELECT * FROM tbl_membro;
+SELECT * FROM tbl_exemplar ;
+SELECT * FROM tbl_autor;
+
+INSERT INTO tbl_emprestimo (id_emprestimo, data_emprestimo, data_devolucao, id_exemplar, id_membro)
+VALUES (3,CURDATE(), CURDATE() + INTERVAL 7 DAY, 1 , 101);
+
+SELECT CONCAT (UPPER(nome_autor), '(', nacionalidade, ')')
+AS etiqueta
+FROM tbl_autor;
 
