@@ -1,0 +1,50 @@
+/*
+{
+"matricula": 10234,
+"nome_completo": "José da Silva",
+"email": "jose.silva@aluno.senai.br",
+"idade": 19,
+"bolsista": true,
+"media_final":8.5,
+"curso": null
+}
+*/
+
+/*
+{
+"codigo_turma": "1",
+"periodo": "Manhã",
+"professor":{
+    "nome": "ana",
+    "area": "Desenvolvimento Back-End"
+ },
+"alunos": [{
+    "nome": "ana",
+    "matricula": "ea08282"
+}]
+}
+*/
+
+/*
+{
+"id_pedido": 10,
+"data_pedido": "2024-10-27T10:30:00",
+"status":"Processando",
+"cliente": {
+    "nome":"ana",
+    "email":"ana@gmail.com"
+},
+"endereco_entrega":{
+    "rua": "Nove de julho",
+    "numero": "250",
+    "cidade": "Salto",
+    "Cep": "1390402"
+},
+"itens":[{
+    "id_produto": "produto1",
+    "nome_produto": "lanche",
+    "quantidade":10,
+    "preco_unitario" : 10.00
+}] 
+}
+*/
