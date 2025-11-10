@@ -226,3 +226,136 @@ SELECT CONCAT (UPPER(nome_autor), '(', nacionalidade, ')')
 AS etiqueta
 FROM tbl_autor;
 
+SELECT ROUND (19.99*1.05,2);
+
+SELECT FLOOR(19.99*1.05);
+
+SELECT CEIL(19.99*1.05);
+
+SELECT COUNT(*) AS total_membros
+FROM tbl_membro;
+
+SELECT COUNT(data_devolucao_efetiva) AS total_devolvido
+FROM tbl_emprestimo;
+
+SELECT MIN(ano_publicacao) AS livro_mais_antigo FROM tbl_livro;
+
+SELECT MAX(ano_publicacao) FROM tbl_livro;
+
+INSERT INTO tbl_autor (nome_autor, nacionalidade)
+VALUES ('Clarice Lispector', 'Brasileira'),
+		('George Orwell', 'Britânico'),
+		('Isaac Asimov', 'Russo-Americano');
+        
+INSERT INTO tbl_livro (isbn, titulo_livro, ano_publicacao, editora)
+VALUES ('978-85-325-2306', 'A Revolução dos Bichos', 1945, 'Companhia das Letras'),
+('978-0-00-711711', '1984', 1949, 'Penguin Books'),
+('978-85-325-1997', 'Eu, Robô', 1950, 'Aleph');
+        
+SELECT * FROM tbl_membro
+WHERE nome_membro LIKE '%Silva';
+
+SELECT * FROM tbl_livro
+WHERE ano_publicacao BETWEEN 1930 AND 1945;
+
+SELECT * FROM tbl_livro 
+WHERE editora IN ('Rocco');
+
+SELECT * FROM tbl_livro 
+WHERE editora NOT IN ('Rocco');
+
+SELECT CONCAT(UPPER(nome_membro), '(', telefone, ')')
+AS CONTATO
+FROM tbl_membro;
+
+SELECT COUNT(*) AS autores_brasileiros
+FROM tbl_autor WHERE nacionalidade LIKE'brasileiro';
+
+SELECT MIN(ano_publicacao) AS livro_mais_antigo
+FROM tbl_livro WHERE ano_publicacao;
+
+INSERT INTO tbl_emprestimo(id_emprestimo, data_emprestimo, data_devolucao, data_devolucao_efetiva, id_exemplar, id_membro)
+    VALUES ('501',CURDATE(), CURDATE() + INTERVAL 14 DAY, NULL, '1', '101');
+    
+SELECT editora, COUNT(isbn) AS qntdade_livros
+FROM tbl_livro GROUP BY editora;
+
+INSERT INTO tbl_livro (isbn, titulo_livro, ano_publicacao, editora)
+VALUES ('999-987654-987', 'Esse é o meu livro', 2020, 'Rocco'),
+('999-987654-988', 'Esse é o meu livro 2', 2022, 'Rocco'),
+('999-987654-989', 'Esse é o meu livro 3', 2024, 'Rocco');
+
+SELECT titulo_livro,
+		MAX(ano_publicacao) AS ano_publicacao,
+        editora
+FROM tbl_livro
+GROUP BY editora;
+
+SELECT editora, COUNT(isbn) AS qntdade_livros FROM tbl_livro
+GROUP BY editora HAVING COUNT(isbn) >=2;
+
+SELECT nome_autor AS nome, 'Autor' AS tipo FROM tbl_autor
+UNION
+SELECT nome_membro AS nome, 'Membro' AS tipo FROM tbl_membro;
+
+SELECT L.titulo_livro, A.nome_autor
+FROM tbl_livro L 
+CROSS JOIN tbl_autor A;
+
+SELECT L.titulo_livro, AL.id_autor
+FROM tbl_livro L 
+INNER JOIN tbl_autor_livro AL
+	ON L.isbn = AL.isbn;
+
+
+
+INSERT INTO tbl_autor_livro(isbn, id_autor)
+VALUES ('123456789', 1),
+		('82938392', 2),
+        ('95687654321', 3),
+        ('978-0-00-711711',4),
+        ('978-0-00-711711-', 1),
+        ('978-85-325-1997', 2),
+        ('978-85-325-2306', 3),
+        ('978-85-325-3078-', 4),
+        ('999-987654-987', 1),
+        ('999-987654-988', 2),
+        ('999-987654-989', 3);
+        
+
+SELECT titulo_livro
+FROM tbl_livro
+WHERE isbn IN (
+	SELECT isbn FROM tbl_autor_livro WHERE id_autor IN (
+    SELECT id_autor FROM tbl_autor
+    WHERE nacionalidade = 'Brasileira'
+    )
+);
+
+
+SELECT nome_autor
+FROM tbl_autor A
+WHERE EXISTS (
+	SELECT 1 FROM tbl_autor_livro AL
+    WHERE AL.id_autor = A.id_autor
+);
+    
+SELECT titulo_livro, ano_publcacao
+FROM tbl_livro
+WHERE ano_publicacao < ANY (
+	SELECT ano_publicacao FROM tbl_livro
+    WHERE editora = 'Aleph'
+);
+
+
+
+
+
+
+
+
+
+
+
+
+
