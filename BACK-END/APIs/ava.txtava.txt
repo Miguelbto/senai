@@ -1,0 +1,2 @@
+avaliação em duas etapas, forms com parte teorica e dps prática, com os quatros endpoints, dominar o protocolo http com 4 metodos, status http 200, 201, 
+requisiçao e resposta entre cliente e servidor, endpoint (/livros, /autor), pafhparameters, framework, bibliotecas, moongose, mongo db
