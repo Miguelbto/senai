@@ -1,3 +1,6 @@
+
+//npm init -y, npm install express, criar server.js, node --watch server.js, npm install mongoose
+
 import express from "express"
 
 const app = express()
@@ -80,8 +83,8 @@ const autor = [
 
 
 function buscarAutor (id_autor){
-    return autor.findIndex(autor => {
-        return autor.id_autor === Number(id_autor)
+    return autor.findIndex(a => {
+        return a.id_autor === Number(id_autor)
     })
 }
 
