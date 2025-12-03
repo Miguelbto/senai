@@ -163,14 +163,14 @@ BEGIN
     IF OLD.estoque != NEW.estoque THEN 
         
         INSERT INTO Log_Estoque (id_produto_afetado, acao, data_hora)
-        VALUES (OLD.id_produto, 'Estoque Atualizado', NOW());
+        VALUES (OLD.id_produto, CONCAT('Estoque Atualizado', NOW()));
     END IF;
 END$$
 DELIMITER ;
 
 
 UPDATE Produtos SET estoque = 40 WHERE id_produto = 101;
-SELECT * FROM Log_Estoque; -- Verifica se o log foi criado
+SELECT * FROM Log_Estoque; 
 
 
 
@@ -185,6 +185,10 @@ FROM Produtos
 WHERE estoque = 0; 
 
 SELECT * FROM V_Produtos_Sem_Estoque;
+
+
+
+
 
 
 
