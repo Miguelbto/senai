@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
     res.status(200).send("CRUD Musicas")
 })
 
+
 app.get("/musicas", (req, res) => {
     res.status(200).json(musicas)
 })
