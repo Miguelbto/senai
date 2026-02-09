@@ -5,6 +5,6 @@ import App from './App.jsx'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    <h1>Dev, Cadastro de usuários</h1>
   </StrictMode>,
 )
