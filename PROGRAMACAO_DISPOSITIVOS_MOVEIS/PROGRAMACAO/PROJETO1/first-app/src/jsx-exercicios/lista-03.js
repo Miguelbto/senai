@@ -13,6 +13,9 @@ export default function Lista03() {
   
   const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
+  const numerosPares = numeros.filter(numero => numero % 2 === 0);
+
+
   return (
     <ScrollView style={styles.container}>
       <Text style={styles.titulo}>Lista 01 - Miguel</Text>
@@ -56,11 +59,24 @@ export default function Lista03() {
         .filter((numeros) => produtos / 2)
         .map((produtos) =>(
             <Text key={produtos.id}>
-                {produtos.nome} - {produtos.preco}
+                {produtos.nome} - R${produtos.preco.toFixed(2)}
             </Text>
         ))}
       </View>
       </View>
+
+
+      <View style={styles.card}>
+      <Text style={styles.label}>Exercício 3 - Números Pares</Text>
+
+      {numerosPares.map((numero) => (
+        <Text key={numero} style={styles.texto}>
+          {numero}
+        </Text>
+      ))}
+
+      </View>
+
       
 
     </ScrollView>

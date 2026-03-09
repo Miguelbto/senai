@@ -3,23 +3,21 @@ import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 export default function Lista02() {
 
+  function calcularNota(nota) {
+    if(nota >= 7) {
+      return <Text style={{color: "green"}}>Aprovado</Text>
+    }if (nota >= 5 && nota < 7){<Text style={[styles.texto, styles.Recuperacao]}>Recuperação</Text>}
+    else {
+      <Text style={[styles.texto, styles.Reprovado]}>Reprovado</Text>
+    }
+
   const loja_aberta = true;
   const tem_promocao = true;
   const nota = 7.5;
 
-  function VerificarNota(nota){
-    if(nota >=5 || nota <7){
-        return "Recuperação"
-    } if(nota > 7){
-        return "Aprovado"
-    } else {
-        return "Reprovado"
-    }
-  }
-
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.titulo}>Lista 01 - Miguel</Text>
+      <Text style={styles.titulo}>Lista 02 - Miguel</Text>
 
         <View style={styles.container}>
 
@@ -38,23 +36,52 @@ export default function Lista02() {
       <View style={styles.card}>
         <Text style={styles.label}>Exercício 2 - Operador &&</Text>
 
-        <Text>{VerificarNota(nota)}</Text>
+        <Text>{calcularStatus(nota)}</Text>
+
 
       </View>
 
-
-    {/*
       <View style={styles.card}>
-        <Text style={styles.label}>Exercício 2 - Operador &&</Text>
-        {nota >= 7 && <Text style={styles.Aprovado}>Aprovado</Text>}
-
-        <Text>{VerificarNota(nota)}</Text>
-
-        {nota < 7 || nota >= 5 && <Text style={styles.Recuperacao}>Recuperação</Text>}
-    
-        {nota < 5 && <Text style={styles.Reprovado}>Reprovado</Text>}
+        <Text style={styles.label}>Exercício 1 - Operador Ternàrio</Text>
+        
+        <Text style={styles.texto}>
+          Status: {loja_aberta ? "Aberto" : "Fechado"}
+        </Text>
       </View>
-    */}
+
+        <View style={styles.card}>
+        <Text style={styles.label}>Exercício 2 - Operador &&</Text>
+
+        {tem_promocao && (
+          <Text style={styles.textoPromocao}>
+            Promoção ativa! Aproveite os descontos.
+          </Text>
+        )}
+
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Exercício 3 - Múltiplas Condições</Text>
+
+        <Text style={styles.label}>{calcularNota(nota)}</Text>
+
+        
+        {/*{nota >= 7 ? (
+          <Text style={[styles.texto, styles.aprovado]}>
+            Aprovado
+          </Text>
+        ) : nota >= 5 ? (
+          <Text style={[styles.texto, styles.recuperacao]}>
+            Recuperação
+          </Text>
+        ) : (
+          <Text style={[styles.texto, styles.reprovado]}>
+            Reprovado
+          </Text>
+        )*/}
+
+      </View>
+
       
 
     </ScrollView>
@@ -99,4 +126,4 @@ const styles = StyleSheet.create({
   Reprovado: {
     fontSize: 14, color: "#FF0000", lineHeight: 22
   }
-});
+});}
