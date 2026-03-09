@@ -1,87 +1,55 @@
-import { ReturnDocument } from "mongodb";
+import React from "react";
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
 export default function Lista03() {
-
-  const frutas = ["Maça", "Banana", "Laranja", "Uva"];
+  const frutas = ["Maçã", "Banana", "Laranja", "Uva"];
 
   const produtos = [
-    {id: 1, nome: "Camiseta", preco: 49.90},
-    {id: 2, nome: "Calça", preco: 89.90},
-    {id: 3, nome: "Tênis", preco: 199.90},
+    { id: 1, nome: "Camiseta", preco: 49.9 },
+    { id: 2, nome: "Calça", preco: 89.9 },
+    { id: 3, nome: "Tênis", preco: 199.9 },
   ];
-  
+
   const numeros = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-  const numerosPares = numeros.filter(numero => numero % 2 === 0);
-
+  // Filtro de números pares (usando o resto da divisão por 2)
+  const numerosPares = numeros.filter((numero) => numero % 2 === 0);
 
   return (
     <ScrollView style={styles.container}>
-      <Text style={styles.titulo}>Lista 01 - Miguel</Text>
+      <Text style={styles.titulo}>Lista 03 - Miguel</Text>
 
-       <View style={styles.container}>
-
+      {/* Exercício 1 - Lista Simples */}
       <View style={styles.card}>
-        <Text style={styles.label}>Exercício 1 - Listas de Frutas</Text>
-        {frutas.map((frutas, index) =>(
-            <Text key={index}>
-                {index + 1} - {frutas}
-            </Text>
+        <Text style={styles.label}>Exercício 1 - Lista de Frutas</Text>
+        {frutas.map((fruta, index) => (
+          <Text key={index} style={styles.texto}>
+            {index + 1} - {fruta}
+          </Text>
         ))}
       </View>
-      </View>
 
-      <View style={styles.container}>
-
+      {/* Exercício 2 - Lista de Objetos */}
       <View style={styles.card}>
-        <Text style={styles.label}>Exercício 2 - Listas de Produtos</Text>
-        {frutas.map((produtos) =>(
-            <Text key={produtos.id}>
-                {produtos.nome} - {produtos.preco}
-            </Text>
+        <Text style={styles.label}>Exercício 2 - Lista de Produtos</Text>
+        {produtos.map((item) => (
+          <Text key={item.id} style={styles.texto}>
+            {item.nome} - R$ {item.preco.toFixed(2)}
+          </Text>
         ))}
       </View>
-      </View>
-      
+
+      {/* Exercício 3 - Filtragem Dinâmica */}
       <View style={styles.card}>
-        <Text style={styles.label}>Exercício 2 - Operador &&</Text>
-
-        <Text>{VerificarNota(nota)}</Text>
-
-      </View>
-
-      <View style={styles.container}>
-
-      <View style={styles.card}>
-        <Text style={styles.label}>Exercício 2 - Exercício 3 - Filtrar Números</Text>
-        {numeros
-        .filter((numeros) => produtos / 2)
-        .map((produtos) =>(
-            <Text key={produtos.id}>
-                {produtos.nome} - R${produtos.preco.toFixed(2)}
-            </Text>
+        <Text style={styles.label}>Exercício 3 - Apenas Números Pares</Text>
+        {numerosPares.map((num) => (
+          <Text key={num} style={styles.texto}>
+            Número: {num}
+          </Text>
         ))}
       </View>
-      </View>
-
-
-      <View style={styles.card}>
-      <Text style={styles.label}>Exercício 3 - Números Pares</Text>
-
-      {numerosPares.map((numero) => (
-        <Text key={numero} style={styles.texto}>
-          {numero}
-        </Text>
-      ))}
-
-      </View>
-
-      
-
     </ScrollView>
   );
-  
 }
 
 const styles = StyleSheet.create({
@@ -111,14 +79,5 @@ const styles = StyleSheet.create({
     borderBottomColor: "#E0E0E0",
     paddingBottom: 8,
   },
-  texto: { fontSize: 14, color: "#424242", lineHeight: 22 },
-  Aprovado: {
-    fontSize: 14, color: "#008000", lineHeight: 22
-  },
-  Recuperacao: {
-    fontSize: 14, color: "#FFFF00", lineHeight: 22
-  },
-  Reprovado: {
-    fontSize: 14, color: "#FF0000", lineHeight: 22
-  }
+  texto: { fontSize: 16, color: "#424242", marginBottom: 4 },
 });

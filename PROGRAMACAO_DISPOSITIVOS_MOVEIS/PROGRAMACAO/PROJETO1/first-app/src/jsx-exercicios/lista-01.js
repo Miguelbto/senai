@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, StyleSheet } from "react-native";
 
-export default function Lista01() {
+export default function Lista01Exer() {
 
   const linguagem = "JavaScript";
   const ano = 2025;

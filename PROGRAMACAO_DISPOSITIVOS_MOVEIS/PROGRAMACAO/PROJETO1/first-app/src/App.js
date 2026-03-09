@@ -7,11 +7,13 @@ import Exemplo03 from './jsx_examples/exemplo-03-condicionais';
 import Lista01 from './jsx-exercicios/lista-01';
 import Lista02 from './jsx-exercicios/lista-02';
 import Lista03 from './jsx-exercicios/lista-03';
+import Lista02Exer from './jsx-exercicios/lista-02';
+import ViewExample from './basic-components/view-exemples01';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <Lista03/>
+      <ViewExample/>
     </View>
   );
 }
