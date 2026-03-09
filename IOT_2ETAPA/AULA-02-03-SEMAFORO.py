@@ -11,3 +11,4 @@ while True:
         for i in range(3):
             leds[i].value(s[i])
         sleep(s[3])
+        
