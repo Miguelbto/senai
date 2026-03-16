@@ -9,11 +9,22 @@ import Lista02 from './jsx-exercicios/lista-02';
 import Lista03 from './jsx-exercicios/lista-03';
 import Lista02Exer from './jsx-exercicios/lista-02';
 import ViewExample from './basic-components/view-exemples01';
+import ViewExample2 from './basic-components/view-example02';
+import ExercicioView01 from './basic-components/view-exer';
+import ExercicioView02 from './basic-components/view-exer2';
+import ExercicioView03 from './basic-components/view-exer3';
+import ExercicioView04 from './basic-components/view-exer04';
+import ExercicioView05 from './basic-components/view-exer5';
+import ExercicioView06 from './basic-components/view-exer6';
+import ExercicioView07 from './basic-components/view-exer07';
+import ExercicioView08 from './basic-components/view-exer08';
+import ExercicioView09 from './basic-components/view-exer09';
+import ExercicioView10 from './basic-components/view-exer10';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ViewExample/>
+      <ExercicioView10/>
     </View>
   );
 }
