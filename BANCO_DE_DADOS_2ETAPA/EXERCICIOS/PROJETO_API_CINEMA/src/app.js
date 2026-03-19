@@ -81,6 +81,25 @@ app.get('/salas', async (req, res) =>{
 
 })
 
+app.get('/sessao', async (req, res) =>{
+     try{
+        const sessao = await queryAsync('SELECT * FROM sessao')
+        res.json({
+            sucesso: true,
+            dados: sessao,
+            total: sessao.length
+        })
+    } catch (erro) {
+        console.error('Erro ao listar sessao:', erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao listar sessao',
+            erro: erro.mensage
+        })
+    }
+
+})
+
 
 
 
@@ -148,6 +167,43 @@ app.get('/salas/:id', async (req, res) => {
         res.status(500).json({
             sucesso: false,
             mensagem: 'Ocorreu um erro interno ao buscar a sala',
+            /*erro: erro.menssage*/
+        })
+    }
+})
+
+
+/* GET:ID - SESSAO */
+
+app.get('/sessao/:id', async (req, res) => {
+    try{
+        const {id} = req.params
+
+        if(!id || isNaN(id)){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'ID de sessao inválido'
+            })
+        }
+
+        const sessao = await queryAsync('SELECT * FROM sessao WHERE id = ?', [id])
+
+        if(sessao.length === 0){
+            return res.status(404).json({
+                sucesso: false,
+                mensagem: 'Sessão não encontrada'
+            })
+        }
+
+        res.json({
+            sucesso: true,
+            dados: sessao
+        })
+    } catch (erro) {
+        console.error(`Erro ao encontrar o sessão id: ${req.params.id}`, erro)
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Ocorreu um erro interno ao buscar o sessão',
             /*erro: erro.menssage*/
         })
     }
@@ -222,6 +278,7 @@ app.post('/filmes', async(req, res) => {
     }
 })
 
+
 /* POST - SALAS */
 app.post('/salas', async(req, res) => {
     try {
@@ -277,6 +334,77 @@ app.post('/salas', async(req, res) => {
         
     }
 })
+
+
+
+/* POST - SESSÃO */
+app.post('/sessao', async(req, res) => {
+    try {
+        const {filme_id, sala_id, data_hora, preco} = req.body
+
+        if(!filme_id || !sala_id || !data_hora || !preco) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'filme, sala, horario e preço devem existir e ser prenchidos!'
+            })
+        }
+
+        if(typeof filme_id !== 'number' || typeof sala_id !== 'number' || typeof preco !== 'number'){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'filme_id, sala_id, preco devem ser numeros'
+            })
+        }
+
+        if(typeof titulo !== 'string' || typeof genero !== 'string'){
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'Titulo, gênero e duração devem ser textos validos'
+            })
+        }
+
+        if( data_hora){
+            const dataValida = !isNaN(Date.parse(data_hora))
+
+            if(!dataValida) {
+                return res.status(400).json({
+                sucesso: false,
+                mensagem: 'Duração deve ser um número positivo.'
+                })
+            }
+
+           
+        }
+        
+        const novoFilme = {
+            titulo: titulo.trim(),
+            genero: genero.trim(),
+            duracao: duracao, classificacao: classificacao || null, data_lancamento: data_lancamento || null
+        }
+
+        const resultado = await queryAsync('INSERT INTO filme SET ?', [novoFilme])
+
+        res.status(201).json({
+            sucesso: true,
+            mensagem: 'Filme cadastrado com sucesso!',
+            id: resultado.insertId,
+        })
+
+    } catch (erro) {
+        console.error(`Erro ao salvar filme:`, erro)
+
+        res.status(500).json({
+            sucesso: false,
+            mensagem: 'Erro ao salvar filme', 
+            erro: erro.message
+        })
+
+        
+        
+    }
+})
+
+
 
 
 
