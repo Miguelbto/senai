@@ -253,7 +253,8 @@ app.post('/filmes', async(req, res) => {
         const novoFilme = {
             titulo: titulo.trim(),
             genero: genero.trim(),
-            duracao: duracao, classificacao: classificacao || null, data_lancamento: data_lancamento || null
+            duracao: duracao, 
+            classificacao: classificacao || null, data_lancamento: data_lancamento || null
         }
 
         const resultado = await queryAsync('INSERT INTO filme SET ?', [novoFilme])
@@ -356,13 +357,6 @@ app.post('/sessao', async(req, res) => {
             })
         }
 
-        if(typeof titulo !== 'string' || typeof genero !== 'string'){
-            return res.status(400).json({
-                sucesso: false,
-                mensagem: 'Titulo, gênero e duração devem ser textos validos'
-            })
-        }
-
         if( data_hora){
             const dataValida = !isNaN(Date.parse(data_hora))
 
@@ -382,16 +376,26 @@ app.post('/sessao', async(req, res) => {
             duracao: duracao, classificacao: classificacao || null, data_lancamento: data_lancamento || null
         }
 
-        const resultado = await queryAsync('INSERT INTO filme SET ?', [novoFilme])
+        const filme = await queryAsync('INSERT INTO filme SET ?', [filme_id])
+        if (filme.length === 0) {
+            return res.status(400).json({
+                sucesso: false,
+                mensagem: 'Filme não encontrado '
+            })
+        }
+        
+        const novaSessao = { filme_id, sala_id, data_hora, preco }
+
+        const resultado = await queryAsync('INSERT INTO sessao SET ?', [novaSessao])
 
         res.status(201).json({
             sucesso: true,
-            mensagem: 'Filme cadastrado com sucesso!',
+            mensagem: 'Sessão cadastrada com sucesso!',
             id: resultado.insertId,
         })
 
     } catch (erro) {
-        console.error(`Erro ao salvar filme:`, erro)
+        console.error(`Erro ao salvar sessao:`, erro)
 
         res.status(500).json({
             sucesso: false,
@@ -453,7 +457,6 @@ app.put('/filmes/:id', async (req, res) => {
             })
         }
 
-        await queryAsync('UPDATE filme SET ? WHERE id = ?', [filmeAtualizado, id])
 
         res.json({
             sucesso: true,
