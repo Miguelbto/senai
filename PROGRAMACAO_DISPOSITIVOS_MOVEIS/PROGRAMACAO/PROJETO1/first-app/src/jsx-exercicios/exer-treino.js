@@ -5,6 +5,8 @@ export default function Lista01() {
   const linguagem = "JavaScript";
   const ano = 2025;
 
+  function formatarPreco
+
 
   return (
     <ScrollView style={styles.container}>
@@ -20,6 +22,12 @@ export default function Lista01() {
         <Text style={styles.label}>Exercício 1 - View com Text</Text>
         <Text style={styles.label}>{linguagem}</Text>
         <Text style={styles.label}>{ano}</Text>
+      </View>
+
+      <View style={styles.card}>
+        <Text style={styles.label}>Exercício 1 - View com Text</Text>
+        <Text style={styles.label}>Olá</Text>
+        <Text style={styles.label}>Mundo</Text>
       </View>
 
     </ScrollView>
