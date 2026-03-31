@@ -20,11 +20,13 @@ import ExercicioView07 from './basic-components/view-exer07';
 import ExercicioView08 from './basic-components/view-exer08';
 import ExercicioView09 from './basic-components/view-exer09';
 import ExercicioView10 from './basic-components/view-exer10';
+import ExercicioViewAva from './exer-ava/avaliacao';
+import ExercicioViewAva2 from './exer-ava/exer-ava2';
 
 export default function App() {
   return (
     <View style={styles.container}>
-      <ExercicioView10/>
+      <ExercicioViewAva2/>
     </View>
   );
 }
