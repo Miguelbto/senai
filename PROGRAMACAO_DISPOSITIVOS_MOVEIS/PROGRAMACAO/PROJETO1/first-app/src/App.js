@@ -1,5 +1,4 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 import Exemplo01 from './jsx_examples/exemplo-01-estrutura';
 import Exemplo02 from './jsx_examples/exemplo-02-expressoes';
 import Exemplo04 from './jsx_examples/exemplo-04-listas';
@@ -22,31 +21,70 @@ import ExercicioView09 from './basic-components/view-exer09';
 import ExercicioView10 from './basic-components/view-exer10';
 import ExercicioViewAva from './exer-ava/avaliacao';
 import ExercicioViewAva2 from './exer-ava/exer-ava2';
-import CartaoPerfil from './basic-components/cartaoperfil';
+
 
 
 
 
 import { StyleSheet, View, Text } from 'react-native';
 import CartaoPerfil from './basic-components/cartaoperfil';
+import CardProduto from './basic-components/CardProduto';
+import CardUsuario from './basic-components/CardUsuario';
+import Saudacao from './basic-components/Saudacao';
+import PerfilAluno from './basic-components/PerfilAluno';
 
 
 
 
 export default function App() {
   return (
-    <View>
+    /*
+    <View style={styles.container}>
       <CartaoPerfil nome="Ana" idade={22}/>
       <CartaoPerfil nome="Bruno" idade={19}/>
       <CartaoPerfil nome="Carla" idade={25}/>
+    </View>*/
+
+    /*
+    <View style={styles.container}>
+      <CardProduto nome='Suco de laranja' preco={12.00}/>
+      <CardProduto nome='Suco de uva' preco={15.00}/>
+      <CardProduto nome='H2O' preco={10.00}/>
+    </View>*/
+    /*
+    <View style={styles.container}>
+      <CardUsuario nome='Ana' email='ana@gmail.com'/>
+      <CardUsuario nome='Miguel' email='miguel@gmail.com'/>
+      <CardUsuario nome='Sinesio' email='sinesio@gmail.com'/>
     </View>
+    */
+    /*
+    <View style={styles.container}>
+      <PerfilAluno nome='Ana' turma='DS-2025' matricula='123' />
+    </View>
+    */
+
+    <View style={styles.container}>
+      <Botao titulo="Entrar" />
+      <Botao titulo="Sair" />
+      <Botao titulo="Cadastrar" />
+    </View>
+
+
   )
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff'
+    backgroundColor: '#ffffff',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  button: {
+    alignItems: 'center',
+    backgroundColor: '#DDDDDD',
+    padding: 10,
   },
 });
 
