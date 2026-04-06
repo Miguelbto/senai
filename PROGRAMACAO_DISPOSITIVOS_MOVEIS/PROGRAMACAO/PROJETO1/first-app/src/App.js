@@ -22,12 +22,52 @@ import ExercicioView09 from './basic-components/view-exer09';
 import ExercicioView10 from './basic-components/view-exer10';
 import ExercicioViewAva from './exer-ava/avaliacao';
 import ExercicioViewAva2 from './exer-ava/exer-ava2';
+import CartaoPerfil from './basic-components/cartaoperfil';
+
+
+
+
+import { StyleSheet, View, Text } from 'react-native';
+import CartaoPerfil from './basic-components/cartaoperfil';
+
+
+
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <ExercicioViewAva2/>
+    <View>
+      <CartaoPerfil nome="Ana" idade={22}/>
+      <CartaoPerfil nome="Bruno" idade={19}/>
+      <CartaoPerfil nome="Carla" idade={25}/>
     </View>
+  )
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#ffffff'
+  },
+});
+
+
+
+/*
+export default function App() {
+  return (
+    
+    <View style={styles.container}>
+      <CartaoPerfil/>
+    </View>
+    
+
+    <View>
+                    <CartaoPerfilp nome='Ana' idade={22} />
+                    <CartaoPerfilp nome='Daniel' idade={22} />
+                    <CartaoPerfilp nome='Celso' idade={27} />
+                    <CartaoPerfilp nome='Marlon' idade={25} />
+                    
+      </View>
   );
 }
 
@@ -39,3 +79,4 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+*/
