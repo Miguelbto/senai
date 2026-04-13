@@ -1,0 +1,94 @@
+from machine import Pin, PWM
+from time import sleep
+
+# Configuração do Hardware
+buzzer = PWM(Pin(15))
+led = Pin("LED", Pin.OUT) 
+
+# Dicionário de Frequências (Traduzido da Tablatura)
+# Afinação padrão da guitarra (E A D G B E)
+notas = {
+    'Bb3': 233, # Corda G, casa 3
+    'B3':  247, # Corda G, casa 4
+    'C4':  261, # Corda G, casa 5
+    'D4':  294, # Corda B, casa 3
+    'Eb4': 311, # Corda B, casa 4 (alvo do bend)
+    'F4':  349, # Corda B, casa 6
+    'A4':  440, # Corda E, casa 5
+    'Bb4': 466, # Corda E, casa 6
+    'C5':  523, # Corda E, casa 8
+    'P': 0      # Pausa
+}
+
+# Controle de velocidade
+velocidade = 1.0
+
+# Traduzindo a Tablatura para o formato: (Nota, Tempo, Pausa)
+# Tempos bem curtos imitam a palhetada e as técnicas de mão esquerda.
+melodia_guitarra = [
+    # --- PARTE 1 ---
+    # G|--3--5--
+    ('Bb3', 0.20, 0.05), ('C4', 0.20, 0.05),
+    
+    # B|--------3--3b4-- (Bend rápido do D4 para o Eb4)
+    ('D4', 0.20, 0.05), ('D4', 0.10, 0.01), ('Eb4', 0.30, 0.10),
+    
+    # G|----------------3h4-- (Hammer-on do Bb3 para o B3)
+    ('Bb3', 0.10, 0.01), ('B3', 0.30, 0.40),
+    
+    # Pausa entre as partes
+    ('P', 0.50, 0.0),
+
+    # --- PARTE 2 ---
+    # G|--3--5--
+    ('Bb3', 0.20, 0.05), ('C4', 0.20, 0.05),
+    
+    # B|--------3--
+    ('D4', 0.20, 0.05),
+    
+    # E|-----------6/8--6--5-- (Slide do Bb4 pro C5)
+    ('Bb4', 0.10, 0.01), ('C5', 0.30, 0.05), ('Bb4', 0.20, 0.05), ('A4', 0.20, 0.05),
+    
+    # B|----------------------6--
+    ('F4', 0.20, 0.05),
+    
+    # G|-------------------------5h7p5-- (Hammer e Pull-off super rápidos C4->D4->C4)
+    ('C4', 0.08, 0.01), ('D4', 0.08, 0.01), ('C4', 0.40, 0.50)
+]
+
+def tocar_nota(nome_nota, tempo_tocar, tempo_pausa):
+    """Toca uma nota no buzzer simulando a palhetada e acende o LED."""
+    freq = notas.get(nome_nota, 0)
+    
+    if freq > 0:
+        buzzer.freq(freq)
+        buzzer.duty_u16(32768) 
+        led.value(1)           
+    else:
+        buzzer.duty_u16(0)     
+        led.value(0)           
+        
+    sleep(tempo_tocar / velocidade)
+    
+    # Corta o som para separar as palhetadas
+    buzzer.duty_u16(0)
+    led.value(0)
+    sleep(tempo_pausa / velocidade)
+
+# --- Execução Principal ---
+try:
+    print("Tocando o riff de guitarra...")
+    
+    for nota, t_tocar, t_pausa in melodia_guitarra:
+        tocar_nota(nota, t_tocar, t_pausa)
+        
+    print("Riff finalizado com sucesso!")
+
+except KeyboardInterrupt:
+    print("\nExecução interrompida!")
+
+finally:
+    buzzer.duty_u16(0)
+    buzzer.deinit()
+    led.value(0)
+    print("Buzzer desligado.")
