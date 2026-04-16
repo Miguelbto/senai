@@ -2,8 +2,7 @@
 
 app.get('/usuario', async (req, res) => {
     try {
-        const x = await queryAsync("SELECT * FROM usuario WHERE id = ?", [req.params.id])
-        const produto = await queryAsync('SELECT * FROM usuario ')
+        const usuario = await queryAsync('SELECT * FROM usuario ')
         res.json({
             sucesso: true,
             dados: usuario,
@@ -15,7 +14,7 @@ app.get('/usuario', async (req, res) => {
         res.status(500).json({
             sucesso: false,
             mensagem: 'Erro ao listar usuario',
-            erro: erro.mensage
+            erro: erro.message
         })
     }
 })
@@ -49,11 +48,14 @@ app.get('/usuario/:id', async (req, res) => {
         console.error(`Erro ao encontrar o usuario id:${req.params.id}`, erro)
         res.status(500).json({
             sucesso: true,
-            erro: erro.mensage
+            erro: erro.message
         })
         
     }
 })
+
+
+
 
    
 
@@ -94,7 +96,7 @@ app.post('/pedidos', async (req, res) => {
         res.status(201).json({
             sucesso: true,
             mensagem: 'Pedido cadastrado com sucesso!',
-            id: resultado.insertid
+            id: resultado.insertId
         })
         
     } catch (erro) {
@@ -113,19 +115,6 @@ app.post('/pedidos', async (req, res) => {
 //Exercício 3 - Salas
 
 app.put('/salas/:id', async (req, res) => {
-    const id = req.params
-    const dados = req.body
-
-    const s = await queryAsync("SELECT * FROM sala WHERE id = ?", [id])
-
-    if (s.length === 0) {
-        return res.send("nao tem")
-    }
-
-    await queryAsync("UPDATE sala SET ? WHERE id = ?", [dados, id])
-
-    res.send("foi")
-
     try {
         const {id} = req.params
         const {salas} = req.body
@@ -176,7 +165,7 @@ app.delete('/salas/:id', async (req, res) => {
     try {
         const {id} = req.params
 
-        if(!id !== isNaN || (id)){
+        if(!id || isNaN(id)){
             return res.status(400).json({
                 sucesso: false,
                 mensagem: 'ID sala inválido'
@@ -210,3 +199,5 @@ app.delete('/salas/:id', async (req, res) => {
         
     }
 })
+
+
