@@ -318,9 +318,9 @@ app.delete('/salas/:id', async (req, res) => {
 })
 
 
-/*
 
-CÓDIGO INSTRUTOR
+
+// CÓDIGO INSTRUTOR
 
 //Exercício 1
 function mensagem(res, tipo) {
@@ -485,4 +485,3 @@ app.delete('/salas/:id', async (req, res) => {
 
 
 
-*/
