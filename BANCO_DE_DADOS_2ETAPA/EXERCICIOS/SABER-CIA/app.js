@@ -1,9 +1,17 @@
 const express = require('express')
-const pool = require('./config/database')
-
 const app = express()
+const routes = require('./src/routes')
 
 app.use(express.json())
+
+app.use('/', routes)
+
+module.exports = app
+
+
+/*
+
+CÓDIGO TODO EM UM ARQUIVO SÓ    
 
 const queryAsync = (sql, values = []) => {
     return new Promise((resolve, reject) => {
@@ -247,3 +255,4 @@ app.delete('/produto/:id', async (req, res) => {
 
 
 module.exports = app
+*/
