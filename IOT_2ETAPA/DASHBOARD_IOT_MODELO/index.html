@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard IoT — Hello MQTT</title>
+    <link rel="stylesheet" href="style.css">
+
+    <!--
+        MQTT.js — biblioteca que permite usar MQTT no navegador.
+        O browser não consegue TCP puro, então ela usa WebSocket.
+        Carregada via CDN — requer internet para funcionar.
+        Para uso offline: baixe o arquivo e referencie localmente.
+    -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
+</head>
+<body>
+
+    <header>
+        <p class="badge">SENAI Ítalo Bologna</p>
+        <h1>Dashboard IoT</h1>
+        <p class="subtitulo">Exemplo base — Hello MQTT</p>
+    </header>
+
+    <main>
+
+        <!-- Indicador de status da conexão com o broker -->
+        <div class="status-bar">
+            <span class="status-dot" id="status-dot"></span>
+            <span id="status-texto">Desconectado</span>
+        </div>
+
+        <!-- Área principal: exibe a última mensagem recebida -->
+        <div class="card">
+            <p class="card-label">Última mensagem recebida</p>
+            <p class="card-valor" id="ultima-mensagem">Aguardando...</p>
+            <p class="card-horario" id="horario"></p>
+        </div>
+
+        <!-- Log: histórico de todas as mensagens recebidas -->
+        <div class="log-box">
+            <p class="log-titulo">Histórico de mensagens</p>
+            <pre id="log">Aguardando conexão...\n</pre>
+        </div>
+
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,132 @@
+/* style.css — Estilo do Dashboard
+ * ─────────────────────────────────────────────────────────────────
+ * Estilo simples e legível.
+ * Para personalizar o visual do seu projeto, edite as variáveis
+ * na seção :root abaixo — cores, fontes e tamanhos.
+ */
+
+/* ── Variáveis globais ───────────────────────────────────────────*/
+:root {
+    --bg:        #0d1117;   /* cor de fundo da página */
+    --surface:   #161b22;   /* cor dos cartões */
+    --border:    #30363d;   /* cor das bordas */
+    --accent:    #00d4ff;   /* cor de destaque (azul) */
+    --verde:     #00ff88;   /* cor do status conectado */
+    --vermelho:  #ff4444;   /* cor do status desconectado */
+    --texto:     #e6edf3;   /* cor do texto principal */
+    --muted:     #8b949e;   /* cor do texto secundário */
+    --mono:      'Courier New', monospace; /* fonte para código/dados */
+}
+
+/* ── Reset básico ────────────────────────────────────────────────*/
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--texto);
+    font-family: 'Segoe UI', sans-serif;
+    min-height: 100vh;
+}
+
+/* ── Header ──────────────────────────────────────────────────────*/
+header {
+    text-align: center;
+    padding: 2.5rem 1.5rem 2rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.badge {
+    display: inline-block;
+    border: 1px solid var(--accent);
+    color: var(--accent);
+    font-size: 0.7rem;
+    padding: 0.2rem 0.9rem;
+    border-radius: 999px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-bottom: 0.8rem;
+}
+
+header h1      { font-size: 1.8rem; font-weight: 300; margin-bottom: 0.3rem; }
+header .subtitulo { color: var(--muted); font-size: 0.85rem; }
+
+/* ── Área central ────────────────────────────────────────────────*/
+main {
+    max-width: 600px;
+    margin: 2rem auto;
+    padding: 0 1.5rem 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* ── Barra de status ─────────────────────────────────────────────*/
+.status-bar {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.8rem 1.2rem;
+    font-size: 0.85rem;
+}
+
+/* Bolinha de status — vermelho = desconectado, verde = conectado */
+.status-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--vermelho);
+    flex-shrink: 0;
+    transition: background 0.3s;
+}
+
+.status-dot.conectado { background: var(--verde); }
+
+/* ── Cartão da última mensagem ───────────────────────────────────*/
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 2rem;
+    text-align: center;
+}
+
+.card-label   { font-size: 0.75rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+.card-valor   { font-size: 1.3rem; color: var(--texto); font-family: var(--mono); margin-bottom: 0.5rem; }
+.card-horario { font-size: 0.75rem; color: var(--muted); font-family: var(--mono); }
+
+/* ── Log de mensagens ────────────────────────────────────────────*/
+.log-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem;
+}
+
+.log-titulo {
+    font-size: 0.8rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 1rem;
+}
+
+#log {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    line-height: 1.7;
+    max-height: 250px;
+    overflow-y: auto;
+    white-space: pre-wrap;
+    color: var(--muted);
+}

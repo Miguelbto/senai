@@ -1,0 +1,329 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #070a13; /* Azul escuro de fundo */
+    color: #ffffff; /* Texto branco */
+    padding: 20px;
+}
+
+/* HEADER */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #0f1423; /* Fundo dos cards/header */
+    padding: 15px 25px;
+    border-radius: 12px;
+    border: 1px solid #1e2640; /* Borda suave */
+    margin-bottom: 25px;
+}
+
+.logo-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.icon-fire-main {
+    width: 32px;
+    height: 32px;
+}
+
+.name {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.subname {
+    color: #8fa0dd; /* Texto secundário azul-acinzentado */
+    font-size: 0.85rem;
+}
+
+.validacao-sistema {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-color: rgba(16, 185, 129, 0.1); /* Verde translúcido */
+    border: 1px solid #10b981; /* Borda Verde */
+    padding: 8px 20px;
+    border-radius: 30px;
+    color: #10b981;
+}
+
+.icon-status {
+    width: 18px;
+    height: 18px;
+}
+
+.status-titulo {
+    font-weight: bold;
+    display: block;
+    font-size: 0.85rem;
+}
+
+.status-subtitulo {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+.informacoes-utilitario {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+}
+
+.timestamp {
+    color: #8fa0dd;
+    font-size: 0.9rem;
+}
+
+.conexao-status {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+}
+
+.icon-wifi {
+    width: 20px;
+    height: 20px;
+}
+
+.conexao-status.conectado {
+    color: #10b981;
+}
+
+/* SECTIONS & TITLES */
+.section-title {
+    font-size: 0.85rem;
+    color: #8fa0dd;
+    margin: 20px 0 10px 5px;
+    letter-spacing: 1px;
+}
+
+/* PAINEL PRINCIPAL CARDS */
+.painel-principal {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.card {
+    background-color: #0f1423;
+    border: 1px solid #1e2640;
+    border-radius: 10px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.card-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.icon {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+}
+
+.label {
+    font-size: 0.75rem;
+    color: #8fa0dd;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.valor {
+    font-size: 1.6rem;
+    font-weight: bold;
+}
+.valor.desativado { 
+    color: #10b981; 
+}
+
+.unidade {
+    font-size: 1rem;
+    margin-left: 2px;
+    color: #8fa0dd;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    font-size: 0.75rem;
+    z-index: 2;
+}
+
+.badge {
+    background-color: rgba(16, 185, 129, 0.15);
+    color: #10b981;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+.limite {
+    color: #8fa0dd;
+}
+
+.sparkline-container {
+    margin-top: 10px;
+    height: 30px;
+    width: 100%;
+}
+.sparkline {
+    width: 100%;
+    height: 100%;
+}
+
+/* AREA DE ALERTA BANNER */
+.area-alerta-banner {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 25px;
+}
+.area-alerta-banner.normal {
+    background-color: rgba(239, 68, 68, 0.05);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    color: #fca5a5;
+}
+.icon-alerta-banner {
+    width: 28px;
+    height: 28px;
+}
+.area-alerta-banner h3 {
+    font-size: 0.85rem;
+    color: #ef4444; /* Vermelho Alerta */
+    margin-bottom: 2px;
+}
+.area-alerta-banner p {
+    font-size: 0.85rem;
+    opacity: 0.9;
+}
+
+/* CONTROL BOXES */
+.area-controle {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+    margin-bottom: 25px;
+}
+
+.control-box, .aviso-box {
+    background-color: #0f1423;
+    border: 1px solid #1e2640;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.control-icon {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+.control-info h3 {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+.control-info p {
+    font-size: 0.75rem;
+    color: #8fa0dd;
+}
+
+/* BUTTONS */
+.btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 6px;
+    color: white;
+    font-weight: 500;
+    cursor: pointer;
+    transition: filter 0.2s;
+    text-align: center;
+    font-size: 0.9rem;
+}
+.btn:hover {
+    filter: brightness(1.2);
+}
+
+.btn-ativar { 
+    background-color: #3a1e22; 
+    border: 1px solid #5a282e; 
+    color: #fca5a5; 
+}
+.btn-desativar { 
+    background-color: #161f38; 
+    border: 1px solid #23355a; 
+    color: #93c5fd; 
+}
+.btn-acionar { 
+    background-color: #1d3557; 
+    border: 1px solid #2563eb; /* Borda Azul */
+}
+.btn-resetar { 
+    background-color: #2e1f47; 
+    border: 1px solid #6d28d9; /* Borda Roxa */
+}
+.btn-bombeiro { 
+    background-color: #3a1e22; 
+    border: 1px solid #5a282e; 
+    color: #fca5a5; 
+    width: auto; 
+    min-width: 120px; 
+    align-self: flex-start;
+}
+.btn-residentes { 
+    background-color: #2d3a1e; 
+    border: 1px solid #4d5e26; /* Borda Oliva */
+    color: #d9f99d; 
+    width: auto; 
+    min-width: 120px; 
+    align-self: flex-start;
+}
+
+/* AREA DE AVISOS LAYOUT */
+.area-avisos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    gap: 20px;
+}
+.aviso-box {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+.aviso-box .control-info {
+    flex-grow: 1;
+    margin: 0 15px;
+}
+
+/* RESPONSIVIDADE PARA CELULARES */
+@media (max-width: 768px) {
+    header { flex-direction: column; gap: 15px; text-align: center; }
+    .informacoes-utilitario { flex-direction: column; gap: 10px; }
+    .area-avisos { grid-template-columns: 1fr; }
+    .aviso-box { flex-direction: column; align-items: flex-start; gap: 15px;}
+    .btn-bombeiro, .btn-residentes { width: 100%; }
+}

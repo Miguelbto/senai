@@ -1,24 +1,21 @@
-
-
-
-
-
-
-import { StyleSheet, View, Text, FlatList } from 'react-native';
-
-
-import FlatListExemplos from './flatList/flatList';
-
+import { NavigationContainer } from "@react-navigation/native";
+import { StyleSheet, View, Text, FlatList } from "react-native";
+import StackNavigator from "./navigation/exemplos/stack_navigation";
 
 
 
 export default function App() {
   return (
+    <NavigationContainer>
+      <StackNavigator />
+    </NavigationContainer>
 
+    /*
     <View style={styles.container}>
       <FlatListExemplos/>
     </View>
-    
+    */
+
     /*
     <View style={styles.container}>
       <CartaoPerfil nome="Ana" idade={22}/>
@@ -51,26 +48,22 @@ export default function App() {
       <Botao titulo="Cadastrar" />
     </View>
     */
-
-
-  )
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#ffffff",
+    alignItems: "center",
+    justifyContent: "center",
   },
   button: {
-    alignItems: 'center',
-    backgroundColor: '#DDDDDD',
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
     padding: 10,
   },
 });
-
-
 
 /*
 export default function App() {
