@@ -1,5 +1,6 @@
 const express = require('express')
 const router = express.Router()
+const pedidoRoutes = require('./pedidosRouters')
 
 const produtoRoutes = require('./ProdutoRoutes')
 
@@ -11,7 +12,7 @@ router.get('/', (req, res) => {
 })
 
 router.use('/produtos', produtoRoutes)
-router.use('/pedidos', pedidoRoutes)
+//router.use('/pedidos', pedidoRoutes)
 
 
 module.exports = router
