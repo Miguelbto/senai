@@ -1,65 +1,10 @@
-//const pool = require("../config/database.js")
-//const ProdutoRepository = require('../repositories/ProdutoRepositorie.js') 
+const pool = require("../config/database.js")
+const ProdutoRepository = require('../repositories/ProdutoRepositorie.js') 
 
- const pool = require("../config/database.js") // Comentado para o teste
-
-// Banco de dados simulado na memória do Node
-const produtosSimulados = [
-    {
-        id: 1,
-        nome: "Produto Teste Antigo",
-        descricao: "Descrição antiga",
-        preco: 10.00,
-        categoria: "Testes",
-        disponivel: true,
-        imagem_url: "" // Começa sem imagem para testarmos o primeiro upload
-    }
-];
-
-class ProdutoRepository {
-
-    async listarProdutos () {
-        return produtosSimulados;
-    }
-
-    async buscarProdutoPorId (id) {
-        // Encontra o produto no nosso array simulado
-        return produtosSimulados.find(p => p.id === Number(id));
-    } 
-    
-    async cadastrarProduto (dadosDoProduto) {
-        const novoId = produtosSimulados.length + 1;
-        const produtoCompleto = { id: novoId, ...dadosDoProduto };
-        produtosSimulados.push(produtoCompleto);
-        
-        console.log("=== BANCO SIMULADO (CADASTRO) ===", produtosSimulados);
-        return novoId;
-    }
-
-    async atualizarProduto (id, dadosDoProduto){
-        const index = produtosSimulados.findIndex(p => p.id === Number(id));
-        if (index === -1) return 0;
-
-        // Atualiza os dados simulados
-        produtosSimulados[index] = { ...produtosSimulados[index], ...dadosDoProduto };
-        
-        console.log("=== BANCO SIMULADO (ATUALIZAÇÃO) ===", produtosSimulados);
-        return 1; // 1 linha afetada
-    }
-
-    async apagarProduto (id) {
-        const index = produtosSimulados.findIndex(p => p.id === Number(id));
-        if (index !== -1) {
-            produtosSimulados.splice(index, 1);
-        }
-        console.log("=== BANCO SIMULADO (DELEÇÃO) ===", produtosSimulados);
-        return true;
-    }
-}
 
 module.exports = new ProdutoRepository()
 
-/*
+
 class ProdutoRepository {
 
     async listarProdutos () {
@@ -103,7 +48,7 @@ class ProdutoRepository {
         return true
     }
 }
-    */
+    
 
 module.exports = new ProdutoRepository()
 

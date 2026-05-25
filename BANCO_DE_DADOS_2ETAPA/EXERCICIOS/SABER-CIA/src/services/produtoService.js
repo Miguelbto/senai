@@ -1,12 +1,10 @@
 // CORREÇÃO: Verifique se o nome do arquivo é 'ProdutoRepository.js' ou 'ProdutoRepositorie.js' para evitar erro de caminho
 const ProdutoRepository = require('../repositories/ProdutoRepositorie') 
-const fs = require('fs').promises // INSERIDO: Importação correta do módulo de arquivos do Node
-const path = require('path')       // INSERIDO: Importação correta do módulo path
-
+const fs = require('fs').promises
+const path = require('path')      
 class ProdutoService {
 
     async listarProdutos () {
-        // CORREÇÃO: Adicionado () para de fato executar a função
         const produto = await ProdutoRepository.listarProdutos()
 
         return {
@@ -98,7 +96,6 @@ class ProdutoService {
         if (descricao !== undefined) produtoAtualizado.descricao = descricao.trim()
         
         if (preco !== undefined){
-            // CORREÇÃO: Tratando a string numérica do form-data e corrigindo a condicional if
             const precoNumerico = Number(preco)
             if(isNaN(precoNumerico) || precoNumerico <= 0 ){
                 throw{
@@ -118,11 +115,11 @@ class ProdutoService {
 
         if (file) {
             if (produtoId.imagem_url) {
-                const caminhoAntigo = path.join(process.cwd(), produtoId.imagem_url)
-                // CORREÇÃO: Trocado 'FileSystem.unlink' por 'fs.unlink'
-                await fs.unlink(caminhoAntigo).catch(() => {})
+                const caminhoAntigo = path.join(process.cwd(), produtoId.imagem_url) //cwd: Descobre qual e´o caminho raiz do projeto
+                await fs.unlink(caminhoAntigo).catch(() => {}) // fs.unlink - Serve para desvincular o arquivo do disco, o catch fala pro node tentar apagar e caso não dê certo ele continua rodando normalmente a API
             }
-            produtoAtualizado.imagem_url = file.path
+            // Em vez de usar file.path, você pode fazer assim:
+            produtoAtualizado.imagem_url = `uploads/${file.filename}`;
         }
 
         if (Object.keys(produtoAtualizado).length === 0 && !file){
