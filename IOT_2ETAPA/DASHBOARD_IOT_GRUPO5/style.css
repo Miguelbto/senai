@@ -179,15 +179,7 @@ header {
     color: #8fa0dd;
 }
 
-.sparkline-container {
-    margin-top: 10px;
-    height: 30px;
-    width: 100%;
-}
-.sparkline {
-    width: 100%;
-    height: 100%;
-}
+
 
 /* AREA DE ALERTA BANNER */
 .area-alerta-banner {

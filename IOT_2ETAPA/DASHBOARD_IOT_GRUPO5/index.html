@@ -44,16 +44,14 @@
                     <p  alt="Temperatura" class="icon">🌡️</p>
                     <div>
                         <span class="label">TEMPERATURA</span>
-                        <div class="valor"><span id="txt-temperatura">28.6</span><span class="unidade">°C</span></div>
+                        <div class="valor"><span id="txt-temperatura">--</span><span class="unidade">°C</span></div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <span class="badge normal">Normal</span>
+                    <span class="badge">Normal</span>
                     <span class="limite">Limite: 60 °C</span>
                 </div>
-                <div class="sparkline-container">
-                    <svg viewBox="0 0 100 30" class="sparkline"><polyline fill="none" stroke="#ef4444" stroke-width="1.5" points="0,25 20,23 40,26 60,24 80,25 100,22"/></svg>
-                </div>
+                
             </article>
 
             <article class="card" id="card-umidade">
@@ -61,16 +59,14 @@
                     <p alt="Umidade" class="icon">🫧</p>
                     <div>
                         <span class="label">UMIDADE</span>
-                        <div class="valor"><span id="txt-umidade">45</span><span class="unidade">%</span></div>
+                        <div class="valor"><span id="txt-umidade">--</span><span class="unidade">%</span></div>
                     </div>
                 </div>
                 <div class="card-footer">
-                    <span class="badge normal">Normal</span>
+                    <span class="badge">Normal</span>
                     <span class="limite">Limite: 40% - 60%</span>
                 </div>
-                <div class="sparkline-container">
-                    <svg viewBox="0 0 100 30" class="sparkline"><polyline fill="none" stroke="#3b82f6" stroke-width="1.5" points="0,15 20,18 40,14 60,16 80,15 100,16"/></svg>
-                </div>
+
             </article>
 
             <article class="card" id="card-fumaca">
@@ -82,12 +78,25 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <span class="badge normal">Normal</span>
-                    <span class="limite">LDR: <span id="txt-ldr">250</span></span>
+                    <span class="badge">Normal</span>
+                    <span class="limite">Limite: <span id="txt-ldr">250</span></span>
                 </div>
-                <div class="sparkline-container">
-                    <svg viewBox="0 0 100 30" class="sparkline"><polyline fill="none" stroke="#f59e0b" stroke-width="1.5" points="0,28 20,27 40,28 60,26 80,27 100,28"/></svg>
+                
+            </article>
+
+             <article class="card" id="card-gas">
+                <div class="card-header">
+                    <p src="🔥" alt="gas" class="icon"> </p>
+                    <div>
+                        <span class="label">GÁS</span>
+                        <div class="valor"><span id="txt-gas-status">Não Detectado</span></div>
+                    </div>
                 </div>
+                <div class="card-footer">
+                    <span class="badge">Normal</span>
+                    <span class="limite">Limite: <span id="txt-mq-2">55494</span></span>
+                </div>
+                
             </article>
 
             <article class="card" id="card-alarme">
@@ -99,7 +108,7 @@
                     </div>
                 </div>
                 <div class="card-footer">
-                    <span class="badge normal">Normal</span>
+                    <span class="badge">Normal</span>
                     <span class="limite">Desde: --:--:--</span>
                 </div>
             </article>
