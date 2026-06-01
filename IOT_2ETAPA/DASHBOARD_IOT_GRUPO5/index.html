@@ -1,191 +1,209 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Dashboard IoT — Sistema de Incêndio</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mqtt/4.3.7/mqtt.min.js"></script>
-</head>
-<body>
-
+  </head>
+  <body>
     <header>
-        <div class="logo-name">
-            <img src="images/logo.png" alt="Logo Incêndio" class="icon-fire-main">
-            <div>
-                <p class="name">Sistema de Incêndio IoT</p>
-                <p class="subname">Residencial</p>
-            </div>
+      <div class="logo-name">
+        <img src="images/logo.png" alt="Logo Incêndio" class="icon-fire-main" />
+        <div>
+          <p class="name">Sistema de Incêndio IoT</p>
+          <p class="subname">Residencial</p>
         </div>
+      </div>
 
-        <div class="validacao-sistema normal" id="validacao-sistema">
-            <img src="images/certificado.png" alt="Normal" class="icon-status">
-            <div>
-                <span class="status-titulo">SISTEMA NORMAL</span>
-                <span class="status-subtitulo">Todos os sensores em condições seguras</span>
-            </div>
+      <div class="validacao-sistema normal" id="validacao-sistema">
+        <img src="images/certificado.png" alt="Normal" class="icon-status" />
+        <div>
+          <span class="status-titulo">SISTEMA NORMAL</span>
+          <span class="status-subtitulo"
+            >Todos os sensores em condições seguras</span
+          >
         </div>
+      </div>
 
-        <div class="informacoes-utilitario">
-            <div class="timestamp" id="timestamp">24/05/2024 14:35:27</div>
-            <div class="conexao-status conectado" id="conexao-status">
-                <img src="images/wifi.png" alt="Wi-Fi" class="icon-wifi">
-                <span>Conectado<br><small>Raspberry Pi</small></span>
-            </div>
+      <div class="informacoes-utilitario">
+        <div class="timestamp" id="timestamp">24/05/2024 14:35:27</div>
+        <div class="conexao-status conectado" id="conexao-status">
+          <img src="images/wifi.png" alt="Wi-Fi" class="icon-wifi" />
+          <span>Conectado<br /><small>Raspberry Pi</small></span>
         </div>
+      </div>
     </header>
 
     <main>
-        <h2 class="section-title">PAINEL PRINCIPAL</h2>
-        <section class="painel-principal">
-            
-            <article class="card" id="card-temperatura">
-                <div class="card-header">
-                    <p  alt="Temperatura" class="icon">🌡️</p>
-                    <div>
-                        <span class="label">TEMPERATURA</span>
-                        <div class="valor"><span id="txt-temperatura">--</span><span class="unidade">°C</span></div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="badge">Normal</span>
-                    <span class="limite">Limite: 60 °C</span>
-                </div>
-                
-            </article>
-
-            <article class="card" id="card-umidade">
-                <div class="card-header">
-                    <p alt="Umidade" class="icon">🫧</p>
-                    <div>
-                        <span class="label">UMIDADE</span>
-                        <div class="valor"><span id="txt-umidade">--</span><span class="unidade">%</span></div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="badge">Normal</span>
-                    <span class="limite">Limite: 40% - 60%</span>
-                </div>
-
-            </article>
-
-            <article class="card" id="card-fumaca">
-                <div class="card-header">
-                    <p src="🔥" alt="Fumaça" class="icon"> </p>
-                    <div>
-                        <span class="label">FUMAÇA / FOGO</span>
-                        <div class="valor"><span id="txt-fumaca-status">Não Detectado</span></div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="badge">Normal</span>
-                    <span class="limite">Limite: <span id="txt-ldr">250</span></span>
-                </div>
-                
-            </article>
-
-             <article class="card" id="card-gas">
-                <div class="card-header">
-                    <p src="🔥" alt="gas" class="icon"> </p>
-                    <div>
-                        <span class="label">GÁS</span>
-                        <div class="valor"><span id="txt-gas-status">Não Detectado</span></div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="badge">Normal</span>
-                    <span class="limite">Limite: <span id="txt-mq-2">55494</span></span>
-                </div>
-                
-            </article>
-
-            <article class="card" id="card-alarme">
-                <div class="card-header">
-                    <p alt="Alarme" class="icon">🆘</p>
-                    <div>
-                        <span class="label">ALARME</span>
-                        <div class="valor desativado" id="txt-alarme-status">Desativado</div>
-                    </div>
-                </div>
-                <div class="card-footer">
-                    <span class="badge">Normal</span>
-                    <span class="limite">Desde: --:--:--</span>
-                </div>
-            </article>
-
-        </section>
-
-        <section class="area-alerta-banner normal" id="area-alerta">
-            <img src="images/alerta.png" alt="Alerta" class="icon-alerta-banner">
+      <h2 class="section-title">PAINEL PRINCIPAL</h2>
+      <section class="painel-principal">
+        <article class="card" id="card-temperatura">
+          <div class="card-header">
+            <p alt="Temperatura" class="icon">🌡️</p>
             <div>
-                <h3>ÁREA DE ALERTA</h3>
-                <p id="txt-alerta-mensagem">Nenhuma anomalia detectada. Sistema operando normalmente.</p>
+              <span class="label">TEMPERATURA</span>
+              <div class="valor">
+                <span id="txt-temperatura">--</span
+                ><span class="unidade">°C</span>
+              </div>
             </div>
-        </section>
+          </div>
+          <div class="card-footer">
+            <span class="badge">Normal</span>
+            <span class="limite">Limite: 40 °C</span>
+          </div>
+        </article>
 
-        <h2 class="section-title">ÁREA DE CONTROLE</h2>
-        <section class="area-controle">
-            
-            <article class="control-box">
-                <p src="icons/sino-ativar.svg" alt="Ativar" class="control-icon">📢</p>
-                <div class="control-info">
-                    <h3>Ativar Alarme</h3>
-                    <p>Acionar alarme sonoro</p>
-                </div>
-                <button class="btn btn-ativar" id="btn-ativar-alarme">Ativar</button>
-            </article>
-
-            <article class="control-box">
-                <p alt="Desativar" class="control-icon">📢</p>
-                <div class="control-info">
-                    <h3>Desativar Alarme</h3>
-                    <p>Silenciar alarme sonoro</p>
-                </div>
-                <button class="btn btn-desativar" id="btn-desativar-alarme">Desativar</button>
-            </article>
-
-            <article class="control-box">
-                <p alt="Combate" class="control-icon">🕹️</p>
-                <div class="control-info">
-                    <h3>Acionar Combate</h3>
-                    <p>Ativar sistema de combate</p>
-                </div>
-                <button class="btn btn-acionar" id="btn-acionar-combate">Acionar</button>
-            </article>
-
-            <article class="control-box">
-                <p alt="Resetar" class="control-icon">🕹️</p>
-                <div class="control-info">
-                    <h3>Resetar Sistema</h3>
-                    <p>Reiniciar alertas e sensores</p>
-                </div>
-                <button class="btn btn-resetar" id="btn-resetar-sistema">Resetar</button>
-            </article>
-
-        </section>
-
-        <h2 class="section-title">ÁREA DE AVISOS</h2>
-        <section class="area-avisos">
-            <div class="aviso-box">
-                <p alt="Bombeiros" class="control-icon">🚒</p>
-                <div class="control-info">
-                    <h3>Ligar para Autoridades</h3>
-                    <p>Notifica o Corpo de Bombeiros da localização e incêndio</p>
-                </div>
-                <button class="btn btn-bombeiro" id="btn-ligar-autoridades">Desativar</button>
+        <article class="card" id="card-umidade">
+          <div class="card-header">
+            <p alt="Umidade" class="icon">🫧</p>
+            <div>
+              <span class="label">UMIDADE</span>
+              <div class="valor">
+                <span id="txt-umidade">--</span><span class="unidade">%</span>
+              </div>
             </div>
+          </div>
+          <div class="card-footer">
+            <span class="badge">Normal</span>
+            <span class="limite">Limite: 30% - 60%</span>
+          </div>
+        </article>
 
-            <div class="aviso-box">
-                <p alt="Residentes" class="control-icon">🏠</p>
-                <div class="control-info">
-                    <h3>Alerta de Residentes</h3>
-                    <p>Lista de pessoas que serão alertadas em caso de incêndio</p>
-                </div>
-                <button class="btn btn-residentes" id="btn-alerta-residentes">Abrir</button>
+        <article class="card" id="card-fumaca">
+          <div class="card-header">
+            <p src="🔥" alt="Fumaça" class="icon"></p>
+            <div>
+              <span class="label">FUMAÇA / FOGO</span>
+              <div class="valor">
+                <span id="txt-fumaca-status">Não Detectado</span>
+              </div>
             </div>
-        </section>
+          </div>
+          <div class="card-footer">
+            <span class="badge">Normal</span>
+            <span class="limite">Limite: <span id="txt-ldr">250</span></span>
+          </div>
+        </article>
+
+        <article class="card" id="card-gas">
+          <div class="card-header">
+            <p src="🔥" alt="gas" class="icon"></p>
+            <div>
+              <span class="label">GÁS</span>
+              <div class="valor">
+                <span id="txt-gas-status">Não Detectado</span>
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="badge">Normal</span>
+            <span class="limite">Limite: <span id="txt-mq-2">55494</span></span>
+          </div>
+        </article>
+
+        <article class="card" id="card-alarme">
+          <div class="card-header">
+            <p alt="Alarme" class="icon">🆘</p>
+            <div>
+              <span class="label">ALARME</span>
+              <div class="valor desativado" id="txt-alarme-status">
+                Desativado
+              </div>
+            </div>
+          </div>
+          <div class="card-footer">
+            <span class="badge">Normal</span>
+            <span class="limite">Desde: --:--:--</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="area-alerta-banner normal" id="area-alerta">
+        <img src="images/alerta.png" alt="Alerta" class="icon-alerta-banner" />
+        <div>
+          <h3>ÁREA DE ALERTA</h3>
+          <p id="txt-alerta-mensagem">
+            Nenhuma anomalia detectada. Sistema operando normalmente.
+          </p>
+        </div>
+      </section>
+
+      <h2 class="section-title">ÁREA DE CONTROLE</h2>
+      <section class="area-controle">
+        <article class="control-box">
+          <p src="icons/sino-ativar.svg" alt="Ativar" class="control-icon">
+            📢
+          </p>
+          <div class="control-info">
+            <h3>Ativar Alarme</h3>
+            <p>Acionar alarme sonoro</p>
+          </div>
+          <button class="btn btn-ativar" id="btn-ativar-alarme">Ativar</button>
+        </article>
+
+        <article class="control-box">
+          <p alt="Desativar" class="control-icon">📢</p>
+          <div class="control-info">
+            <h3>Desativar Alarme</h3>
+            <p>Silenciar alarme sonoro</p>
+          </div>
+          <button class="btn btn-desativar" id="btn-desativar-alarme">
+            Desativar
+          </button>
+        </article>
+
+        <article class="control-box">
+          <p alt="Combate" class="control-icon">🕹️</p>
+          <div class="control-info">
+            <h3>Acionar Combate</h3>
+            <p>Ativar sistema de combate</p>
+          </div>
+          <button class="btn btn-acionar" id="btn-acionar-combate">
+            Acionar
+          </button>
+        </article>
+
+        <article class="control-box">
+          <p alt="Resetar" class="control-icon">🕹️</p>
+          <div class="control-info">
+            <h3>Resetar Sistema</h3>
+            <p>Reiniciar alertas e sensores</p>
+          </div>
+          <button class="btn btn-resetar" id="btn-resetar-sistema">
+            Resetar
+          </button>
+        </article>
+      </section>
+
+      <h2 class="section-title">ÁREA DE AVISOS</h2>
+      <section class="area-avisos">
+        <div class="aviso-box">
+          <p alt="Bombeiros" class="control-icon">🚒</p>
+          <div class="control-info">
+            <h3>Ligar para Autoridades</h3>
+            <p>Notifica o Corpo de Bombeiros da localização e incêndio</p>
+          </div>
+          <button class="btn btn-bombeiro" id="btn-ligar-autoridades">
+            Desativar
+          </button>
+        </div>
+
+        <div class="aviso-box">
+          <p alt="Residentes" class="control-icon">🏠</p>
+          <div class="control-info">
+            <h3>Alerta de Residentes</h3>
+            <p>Lista de pessoas que serão alertadas em caso de incêndio</p>
+          </div>
+          <button class="btn btn-residentes" id="btn-alerta-residentes">
+            Abrir
+          </button>
+        </div>
+      </section>
     </main>
 
     <script src="script.js"></script>
-</body>
+  </body>
 </html>

@@ -1,7 +1,7 @@
 // ── CONFIGURAÇÕES DO BROKER MQTT ──────────────────────────────────
 const BROKER = "ws://192.168.1.XXX:8000"; // Substitua pelo IP do seu notebook/broker
-const TOPIC_TELEMETRIA = "pico/incendio/telemetria";
-const TOPIC_COMANDOS = "pico/incendio/comandos";
+const TOPIC_TELEMETRIA = "senai/grupo5/sensores";
+const TOPIC_COMANDOS = "senai/grupo5/comandos";
 
 const CLIENT_ID = "dashboard_" + Math.random().toString(16).slice(2, 8);
 
