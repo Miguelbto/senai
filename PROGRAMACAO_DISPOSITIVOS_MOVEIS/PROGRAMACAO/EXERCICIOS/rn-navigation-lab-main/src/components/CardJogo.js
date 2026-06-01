@@ -6,7 +6,7 @@ export default function CardJogo({titulo, genero, plataforma, nota}) {
     <View>
       <Text>Titulo: {titulo}</Text>
       <Text>Genero: {genero}</Text>
-      <Text>Plataforma: {genero}</Text>
+      <Text>Plataforma: {plataforma}</Text>
       <Text>Nota: {nota}</Text>
     </View>
   );

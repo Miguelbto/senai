@@ -71,7 +71,7 @@ const jogos = [
 ];
 
 // TODO: adicionar { navigation } como parametro quando a navegacao estiver configurada
-export default function HomeScreen() {
+export default function HomeScreen({navigation}) {
   // TODO: estado para o texto digitado na busca
   // const [busca, setBusca] = useState('');
   const [busca, setBusca] = useState('')
@@ -132,7 +132,7 @@ export default function HomeScreen() {
           placeholder="Buscar jogo..."
           placeholderTextColor="#999"
           value={busca}
-          onChange={setBusca}
+          onChangeText={setBusca}
           // value={busca}
           // onChangeText={setBusca}
         />

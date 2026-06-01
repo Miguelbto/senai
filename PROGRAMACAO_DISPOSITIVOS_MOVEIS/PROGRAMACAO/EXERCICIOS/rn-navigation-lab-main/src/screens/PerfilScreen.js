@@ -8,6 +8,12 @@ import {
 } from "react-native";
 
 export default function PerfilScreen() {
+  const usuario = {
+    nome: "Arthur Morgan",
+    email: "arthur.gamer@email.com",
+    jogosZerados: 14,
+    horasJogadas: 342,
+    membroDesde: "Junho 2026"}
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -17,26 +23,26 @@ export default function PerfilScreen() {
       <View style={styles.cartao}>
         {/* TODO: personalizar o avatar com a inicial do nome do usuario */}
         <View style={styles.avatar}>
-          <Text style={styles.avatarTexto}>U</Text>
+          <Text style={styles.avatarTexto}>{usuario.nome[0]}</Text>
         </View>
         {/* TODO: personalizar nome e e-mail */}
-        <Text style={styles.nome}>Nome do Usuario</Text>
-        <Text style={styles.email}>usuario@email.com</Text>
+        <Text style={styles.nome}>{usuario.nome}</Text>
+        <Text style={styles.email}>{usuario.email}</Text>
 
         <View style={styles.separador} />
 
         {/* TODO: substituir pelas estatisticas que fazem sentido no seu tema */}
         <View style={styles.infoLinha}>
           <Text style={styles.infoLabel}>Itens salvos</Text>
-          <Text style={styles.infoValor}>0</Text>
+          <Text style={styles.infoValor}>{usuario.jogosZerados}</Text>
         </View>
         <View style={styles.infoLinha}>
           <Text style={styles.infoLabel}>Itens favoritos</Text>
-          <Text style={styles.infoValor}>0</Text>
+          <Text style={styles.infoValor}>{usuario.horasJogadas}</Text>
         </View>
         <View style={styles.infoLinha}>
           <Text style={styles.infoLabel}>Membro desde</Text>
-          <Text style={styles.infoValor}>Maio 2026</Text>
+          <Text style={styles.infoValor}>{usuario.membroDesde}</Text>
         </View>
       </View>
 
