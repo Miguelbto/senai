@@ -25,8 +25,8 @@ export default function PerfilScreen() {
         </View>
 
         {/* Nome do usuário e Email temáticos */}
-        <Text style={styles.nome}>Ana Gamer</Text>
-        <Text style={styles.email}>anaferraz@cyberarcade.com</Text>
+        <Text style={styles.nome}>Miguel Gamer</Text>
+        <Text style={styles.email}>miguel@cyberarcade.com</Text>
 
         <View style={styles.separador} />
 
