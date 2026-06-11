@@ -109,7 +109,7 @@ class ProdutoService {
         if (categoria !== undefined) produtoAtualizado.categoria = categoria
         
         if (disponivel !== undefined) {
-            // CORREÇÃO: Convertendo string para booleano
+            
             produtoAtualizado.disponivel = disponivel === 'false' ? false : true
         }
 

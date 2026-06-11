@@ -13,7 +13,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) { //para que evite um usuario colocar o mesmo nome da foto de outro e assim sobre escrever e atualizar a imagem errada geramos um numero aleatório
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // pega a data e hora exata gera um número aleatório e junta os valores com um traço no meio
-    cb(null, uniqueSuffix + path.extname(file.originalname)); //o patch.extname descobre a extenção EX:(.png), originalname é o nome da foto no computador do usuário
+    cb(null, uniqueSuffix + path.extname(file.originalName)); //o patch.extname descobre a extenção EX:(.png), originalname é o nome da foto no computador do usuário
   }
 });
 
