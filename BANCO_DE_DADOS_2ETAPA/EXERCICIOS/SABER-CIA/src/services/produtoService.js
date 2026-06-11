@@ -118,7 +118,7 @@ class ProdutoService {
                 const caminhoAntigo = path.join(process.cwd(), produtoId.imagem_url) //cwd: Descobre qual e´o caminho raiz do projeto
                 await fs.unlink(caminhoAntigo).catch(() => {}) // fs.unlink - Serve para desvincular o arquivo do disco, o catch fala pro node tentar apagar e caso não dê certo ele continua rodando normalmente a API
             }
-            // Em vez de usar file.path, você pode fazer assim:
+            
             produtoAtualizado.imagem_url = `uploads/${file.filename}`;
         }
 

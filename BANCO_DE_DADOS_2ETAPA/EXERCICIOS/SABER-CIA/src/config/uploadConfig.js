@@ -9,7 +9,7 @@ if (!fs.existsSync(uploadDir)){ //verifica se existe uma pasta com esse nome, re
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) { //o multer passa a requisição(req), dados do arquivo(file) e uma função callback(cb)
-    cb(null, uploadDir + '/'); // o calbeck avisa que a decisão foi tomada e o primeiro parâmetro null(indica que não houve erros), o segundo é o caminho final da pasta(uploads/)
+    cb(null, uploadDir + '/'); // o callback avisa que a decisão foi tomada e o primeiro parâmetro null(indica que não houve erros), o segundo é o caminho final da pasta(uploads/)
   },
   filename: function (req, file, cb) { //para que evite um usuario colocar o mesmo nome da foto de outro e assim sobre escrever e atualizar a imagem errada geramos um numero aleatório
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9); // pega a data e hora exata gera um número aleatório e junta os valores com um traço no meio
