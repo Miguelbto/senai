@@ -30,6 +30,7 @@ class ProdutoService {
             dados: produto
         }
     }
+<<<<<<< Updated upstream
 
     async cadastrarProduto (dados, file) {
         const { nome, descricao, preco, categoria, disponivel } = dados
@@ -163,8 +164,109 @@ class ProdutoService {
         return {
             status: 200,
             mensagem: "Produto apagado"
+=======
+}
+
+/*
+
+const ProdutoRepository = require('../repositories/ProdutoRepositorie.js')
+
+class ProdutoService {
+
+    async listarProdutos () {
+        // Correção: Adicionados os () para executar a função
+        const produto = await ProdutoRepository.listarProdutos()
+
+        return {
+            sucesso: true,
+            dados: produto,
+            total: produto.length
+        }
+    }
+
+    async buscarProdutoPorId (id) {
+        if(!id || isNaN(id)){
+            throw {status: 400, mensagem: 'ID inválido'}
+        }
+
+        const produto = await ProdutoRepository.buscarProdutoPorId(id)
+
+        if(!produto){
+            throw {status:404, mensagem:'Produto não encontrado'}
+        }
+
+        return {
+            sucesso: true,
+            dados: produto
+        }
+    }
+
+    async cadastrarProduto (dadosDoProduto) {
+        // Validação básica para evitar cadastrar algo vazio
+        if (!dadosDoProduto || Object.keys(dadosDoProduto).length === 0) {
+            throw { status: 400, mensagem: 'Os dados do produto não podem estar vazios' }
+        }
+
+        // Aqui você pode adicionar validações específicas, ex: if(!dadosDoProduto.nome) throw ...
+
+        const idInserido = await ProdutoRepository.cadastrarProduto(dadosDoProduto)
+
+        return {
+            sucesso: true,
+            mensagem: 'Produto cadastrado com sucesso',
+            dados: { id: idInserido, ...dadosDoProduto }
+        }
+    }
+
+    async atualizarProduto (id, dadosDoProduto) {
+        if(!id || isNaN(id)){
+            throw {status: 400, mensagem: 'ID inválido'}
+        }
+
+        if (!dadosDoProduto || Object.keys(dadosDoProduto).length === 0) {
+            throw { status: 400, mensagem: 'Os dados para atualização não podem estar vazios' }
+        }
+
+        // Reaproveitamos a lógica para garantir que o produto existe antes de atualizar
+        const produtoExistente = await ProdutoRepository.buscarProdutoPorId(id)
+        if(!produtoExistente){
+            throw {status: 404, mensagem: 'Produto não encontrado para atualização'}
+        }
+
+        await ProdutoRepository.atualizarProduto(id, dadosDoProduto)
+
+        return {
+            sucesso: true,
+            mensagem: 'Produto atualizado com sucesso',
+            dados: { id, ...dadosDoProduto }
+        }
+    }
+
+    async apagarProduto (id) {
+        if(!id || isNaN(id)){
+            throw {status: 400, mensagem: 'ID inválido'}
+        }
+
+        // Garantimos que o produto existe antes de tentar deletar
+        const produtoExistente = await ProdutoRepository.buscarProdutoPorId(id)
+        if(!produtoExistente){
+            throw {status: 404, mensagem: 'Produto não encontrado para exclusão'}
+        }
+
+        await ProdutoRepository.apagarProduto(id)
+
+        return {
+            sucesso: true,
+            mensagem: 'Produto apagado com sucesso'
+>>>>>>> Stashed changes
         }
     }
 }
 
+<<<<<<< Updated upstream
 module.exports = new ProdutoService()
+=======
+module.exports = new ProdutoService()
+
+*/
+>>>>>>> Stashed changes

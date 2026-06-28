@@ -320,7 +320,30 @@ app.delete('/salas/:id', async (req, res) => {
 
 
 
+
+
+
+
+
+
 // CÓDIGO INSTRUTOR
+
+//Exercício 1 - Usuários
+
+app.get('/u', async (req, res) => {
+    const r = await queryAsync("SELECT * FROM usuario")
+    res.send(r)
+})
+
+app.get('/u/:id', async (req, res) => {
+    const x = await queryAsync("SELECT * FROM usuario WHERE id = ?", [req.params.id])
+
+    if (x.length == 0) {
+        res.send("erro")
+    } else {
+        res.send(x[0])
+    }
+})
 
 //Exercício 1
 function mensagem(res, tipo) {
@@ -355,6 +378,8 @@ app.get('/usuario', async (req, res) => {
     }
 })
 
+
+
 app.get('/usuario/:id', async (req, res) => {
     try {
         const { id } = req.params
@@ -377,6 +402,28 @@ app.get('/usuario/:id', async (req, res) => {
 })
 
 //Exercício 2
+
+//Exercício 2 - Pedidos
+
+app.post('/pedidos', async (req, res) => {
+    const { cliente, valor } = req.body
+
+    if (!cliente) {
+        return res.send("erro")
+    }
+
+    if (!valor) {
+        return res.send("erro")
+    }
+
+    if (typeof valor != "number") {
+        return res.send("erro")
+    }
+
+    await queryAsync("INSERT INTO pedido SET ?", [req.body])
+
+    res.send("ok")
+})
 
 const validarDadosPedido = ({ cliente, valor }) => {
     if (!cliente || valor === undefined) {
@@ -418,6 +465,23 @@ app.post('/pedidos', async (req, res) => {
 
 //Exercício 3
 
+//Exercício 3 - Salas
+
+app.put('/salas/:id', async (req, res) => {
+    const id = req.params
+    const dados = req.body
+
+    const s = await queryAsync("SELECT * FROM sala WHERE id = ?", [id])
+
+    if (s.length === 0) {
+        return res.send("nao tem")
+    }
+
+    await queryAsync("UPDATE sala SET ? WHERE id = ?", [dados, id])
+
+    res.send("foi")
+})
+
 const validarDadosAtualizados = (dados, res) => {
     if (Object.keys(dados).length === 0) {
             res.status(400).json({
@@ -456,6 +520,22 @@ app.put('/salas/:id', async (req, res) => {
             mensagem: erro
         })
     }
+})
+
+
+
+app.delete('/salas/:id', async (req, res) => {
+    const id = req.params
+
+    const s = await queryAsync("SELECT * FROM sala WHERE id = ?", [id])
+
+    if (s.length === 0) {
+        return res.send("nao tem")
+    }
+
+    await queryAsync("DELETE FROM sala WHERE id = ?", [id])
+
+    res.send("apagou")
 })
 
 app.delete('/salas/:id', async (req, res) => {
