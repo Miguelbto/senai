@@ -3,7 +3,7 @@
 export default function ListaDeTarefas(){
     function handleAdicionar (){
         const novaTarefa = {
-            id: Date.now().toString()
+            id: Date.now().toString(),
             nome: tarefa,
             prioridade: prioridade.trim() || "Normal", // se vazio
         }
