@@ -1,0 +1,18 @@
+Tabela Completa e Atualizada de RotasPara o seu backend ficar 100% alinhado com o banco de dados que criamos (incluindo o Soft Delete e as tabelas de Funcionário e Cargo), a lista final de rotas da sua API fica assim:RecursoMétodoRota (Endpoint)DescriçãoAutenticaçãoPOST/api/auth/loginAutentica funcionário e devolve o token JWTFuncionáriosGET/api/funcionariosLista todos os funcionários ativosPOST/api/funcionariosCadastra um novo funcionárioPATCH/api/funcionarios/:idAtualiza dados (ex: cargo, e-mail)DELETE/api/funcionarios/:idInativa funcionário (Soft Delete)CargosGET/api/cargosLista os cargos e níveis de acessoProdutosGET/api/produtosLista produtos ativos (com paginação/busca)POST/api/produtosCadastra novo produtoGET/api/produtos/:idBusca detalhes de 1 produto específicoPATCH/api/produtos/:idAtualização parcial (ex: preço, etiqueta)DELETE/api/produtos/:idInativa o produto (Soft Delete: ativo = false)PATCH/api/produtos/:id/restaurarReativa um produto inativado (ativo = true)EntradasGET/api/entradasHistórico de entradas de estoquePOST/api/entradasRegistra nova entrada no estoqueSaídasGET/api/saidasHistórico de vendas/saídasPOST/api/saidasRegistra nova saída de produtoDevoluçõesGET/api/devolucoesHistórico de devoluçõesPOST/api/devolucoesRegistra devolução e define se volta ao estoqueO que muda por baixo do pano (no Backend)Mesmo que a rota continue com a mesma cara para quem está chamando a API, veja o que acontece internamente:Na rota DELETE /api/produtos/5:Por fora: O front-end envia uma requisição DELETE.Por dentro: O seu backend não executa DELETE FROM produto, mas sim um UPDATE produto SET ativo = false WHERE codigo_produto = 5.Nas rotas GET (/api/produtos, /api/funcionarios):Por fora: O cliente pede a lista de produtos.Por dentro: Seu backend sempre anexa a condição WHERE ativo = true na consulta SQL para ocultar os itens "deletados".Na rota POST /api/saidas:Por dentro: O backend abre uma Transação MySQL (ENGINE=InnoDB), cadastra o registro na tabela saida e subtrai a quantidade do produto. Se der tudo certo, faz o COMMIT.
+
+
+Como Ficam as Consultas no Backend Agora
+1. Desativar um Produto (Rota DELETE /api/produtos/:id)
+SQL
+UPDATE produto 
+SET ativo = FALSE, deleted_at = NOW() 
+WHERE codigo_produto = ?;
+2. Listar Apenas Produtos Ativos no Catálogo (Rota GET /api/produtos)
+SQL
+SELECT * FROM produto 
+WHERE ativo = TRUE;
+3. Restaurar um Produto Excluído por Engano (Rota PATCH /api/produtos/:id/restaurar)
+SQL
+UPDATE produto 
+SET ativo = TRUE, deleted_at = NULL 
+WHERE codigo_produto = ?;

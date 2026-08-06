@@ -1,0 +1,33 @@
+SERVIÇO: FallDetectorService
+
+ESTADOS: 
+  - MONITORANDO
+  - AGUARDANDO_CONFIRMACAO
+  - EM_EMERGENCIA
+
+REGRAS E FLUXO:
+1. AO RECEBER dados do acelerômetro:
+   - SE estado != MONITORANDO -> ignorar.
+   - SE magnitude do impacto > LIMIAR_QUEDA:
+       - Alterar estado para AGUARDANDO_CONFIRMACAO.
+       - Notificar Interface (Exibir Modal "Você está bem?").
+       - Iniciar Temporizador de 15 segundos em segundo plano.
+
+2. AO RECEBER resposta do usuário (clique no botão):
+   - SE resposta == "ESTOU_BEM":
+       - Cancelar Temporizador de 15 segundos.
+       - Alterar estado para MONITORANDO.
+   - SE resposta == "SOCORRO":
+       - Cancelar Temporizador.
+       - Executar PROTOCOLO_DE_EMERGENCIA.
+
+3. AO EXPIRAR o temporizador de 15 segundos (sem resposta):
+   - Alterar estado para EM_EMERGENCIA.
+   - Executar PROTOCOLO_DE_EMERGENCIA.
+
+PROCEDIMENTO PROTOCOLO_DE_EMERGENCIA:
+   - Tocar Alarme Sonoro (Prioridade Maxima/Bypass Silencioso).
+   - Solicitar localização atual ao GPS.
+   - SE GPS responder a tempo: incluir coordenadas no pacote.
+   - SENAO: usar última localização conhecida.
+   - Enviar pacote de emergência via Notifier.

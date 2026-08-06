@@ -1,0 +1,9 @@
+lançar uma tarefa que não tem nada preenchido
+desmarcar e marcar a tarefa para analisar se realmente desmarca
+editar a tarefa com e deixar com espaço em branco 
+criar a tarefa com espaço em branco
+colocar códigos html para observar o resultado
+tentar apagar a tarefa 
+
+
+O estagiário está errado na questão do sistema estar livre de erros pois existem bugs que ainda não foram descobertos chamados dayZero, e o correto seria ele dizer que na "funcionalidade testada não encontrou erros".

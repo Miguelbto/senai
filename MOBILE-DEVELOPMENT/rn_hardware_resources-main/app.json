@@ -1,0 +1,45 @@
+{
+  "expo": {
+    "name": "hardware_resources",
+    "slug": "hardware_resources",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-audio",
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "Este app precisa de acesso à localização para demonstrar o recurso de GPS."
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Este app precisa de acesso à câmera para demonstrar o recurso de câmera.",
+          "microphonePermission": "Este app precisa do microfone para gravar vídeos."
+        }
+      ]
+    ]
+  }
+}

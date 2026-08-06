@@ -1,0 +1,11 @@
+Ferramentas que podem ser usadas nos testes do frontend: 
+	Cypress: Excelente para testes de ponta a ponta (E2E), rápido e roda diretamente no navegador.
+	Playwright: Moderno, suporta múltiplos navegadores em paralelo e possui execução extremamente rápida.
+	Selenium WebDriver: A ferramenta mais tradicional do mercado, altamente compatível com diversas linguagens (Java, Python, C#).
+	Percy / Applitools: Especializadas em testes de regressão visual para garantir que o layout não quebrou.
+
+Ferramentas que podem ser usadas nos testes do BackEnd:
+	Postman: A ferramenta mais popular para criar, organizar e automatizar testes de requisições HTTP (REST/GraphQL).
+	Insomnia: Alternativa leve ao Postman para testes e design de APIs.
+	RestAssured: Biblioteca Java excelente para automação de testes de API com validação de esquemas.
+	Newman: Linha de comando do Postman, ideal para rodar os testes de API em pipelines de CI/CD.
