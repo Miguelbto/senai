@@ -25,6 +25,7 @@ A navegacao entre as telas usa `@react-navigation/native-stack`, configurada em 
 ```bash
 npm install
 ```
+npx create
 
 ## Executar
 
