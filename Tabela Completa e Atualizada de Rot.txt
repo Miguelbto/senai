@@ -16,3 +16,17 @@ SQL
 UPDATE produto 
 SET ativo = TRUE, deleted_at = NULL 
 WHERE codigo_produto = ?;
+
+
+Lista de Verificações para Produção (Checklist)
+Toda vez que você for criar ou refatorar uma camada de Service, valide contra este checklist mental:
+
+Segurança da Informação: Dados sensíveis (senhas, tokens, dados bancários) estão sendo omitidos na resposta e protegidos na entrada?
+
+Validações de Domínio: As regras da empresa (idade mínima, obrigatoriedade de ter um cargo válido no banco) foram verificadas antes do estado ser persistido?
+
+Contrato do Banco: Operações de deleção respeitam a política de Soft Delete (não remover registros referenciados como Chave Estrangeira em histórico de vendas ou estoque)?
+
+Invariantes de FK: Validou se a Chave Estrangeira (id_cargo) realmente existe no banco antes de disparar o comando no MySQL?
+
+Fail-Fast & CPU Exhaustion: Operações caras (hashing, I/O) são executadas após as validações baratas (presença de campos, duplicidade no DB)?
