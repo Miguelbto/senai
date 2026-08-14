@@ -3,10 +3,10 @@ const jwt = require('jsonwebtoken')
 const UsuarioRepository = require('../repositories/UsuarioRepository')
 const SALT_ROUNDS = 10
 
-class UsuarioService {
+class UsuarioService{
 
     async registrarUsuario({nome, email, senha, papel}) {
-        const usuarioExistente = await usuarioRepository.findByEmail(email)
+        const usuarioExistente = await UsuarioRepository.findByEmail(email)
 
         if(usuarioExistente) {
             throw new Error('Email já cadastrado')
@@ -14,8 +14,8 @@ class UsuarioService {
 
         const senhaHash = await bcrypt.hash(senha, SALT_ROUNDS)
 
-        const newUser = await usuarioRepository.create({
-            nome, 
+        const newUser = await UsuarioRepository.create({
+            nome,
             email,
             senha: senhaHash,
             papel,
@@ -59,15 +59,39 @@ class UsuarioService {
         await UsuarioRepository.salvarRefreshToken(usuario.id, refreshToken, expiraEm)
 
         return {
-            usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email, papel: usuario.papel}
+            usuario: { id: usuario.id, nome: usuario.nome, email: usuario.email, papel: usuario.papel },
+            acessToken,
+            refreshToken,
         }
     }
 
+    async renovarToken(refreshTokenRecebido) {
+        const registro = await UsuarioRepository.buscarRefreshToken(refreshTokenRecebido)
+        if(!registro) {
+            throw new Error('Refresh token inválido')
+        }
 
-    
+        if(new Date(registro.expira_em) < new Date()) {
+            await UsuarioRepository.removerRefreshToken(refreshTokenRecebido)
+            throw new Error('Refresh token expirado')
+        }
 
+        // Valida a assinatura e extrai os dados
+        const payload = jwt.verify(refreshTokenRecebido, process.env.JWT_REFRESH_SECRET)
 
+        const usuario = { id: payload.id, papel: registro.papel }
+        const novoAccessToken = jwt.sign(
+            { id: usuario.id, papel: usuario.papel },
+            process.env.JWT_SECRET,
+            { expiresIn: process.env.JWT_EXPIRES_IN },
+        )
 
+        return { AccessToken: novoAccessToken }
+    }
+
+    async logout(refreshToken) {
+        await UsuarioRepository.removerRefreshToken(refreshToken)
+    }
 
 }
 
