@@ -35,7 +35,7 @@ class UsuarioService{
         return jwt.sign(
             { id: user.id },
             process.env.JWT_REFRESH_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
+            { expiresIn: process.env.JWT_EXPIRES_IN, algorithm: "ES256" }
         )
     }
 

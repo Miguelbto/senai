@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { runInNewContext } = require('node:vm');
 
 function verificarToken(req, res, next) {
     const authHeader = req.headers['authorization'] //formato bearer

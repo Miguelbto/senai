@@ -5,6 +5,8 @@ CREATE TABLE usuarios (
   senha VARCHAR(255) NOT NULL,       -- vai guardar o HASH, não a senha real
   papel VARCHAR(20) DEFAULT 'user',  -- 'user' ou 'admin'
   criado_em TIMESTAMP DEFAULT NOW()
+  atualizado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON
+  UPDATE CURRENT_TIMESTAMP
 );
 
 CREATE TABLE refresh_tokens (
