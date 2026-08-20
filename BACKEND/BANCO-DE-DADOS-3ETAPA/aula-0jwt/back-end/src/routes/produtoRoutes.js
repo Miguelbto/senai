@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const ProdutoController = require("../controllers/ProdutoController")
 const upload = require ("../config/uploadConfig")
+const { verificarToken, verificarAdmin } = require('../middleware/auth')
 
 // ✅ Middleware de logging para debug
 router.use((req, res, next) => {
@@ -13,7 +14,7 @@ router.get('/', ProdutoController.listarProduto)
 router.get('/:id', ProdutoController.buscarProdutoPorId)
 
 // POST com upload
-router.post('/', (req, res, next) => {
+router.post('/', verificarToken, verificarAdmin,  (req, res, next) => {
     console.log('📤 POST /produtos - Iniciando upload...');
     upload.single('imagem')(req, res, (err) => {
         if (err) {
@@ -25,8 +26,8 @@ router.post('/', (req, res, next) => {
     });
 });
 
-router.put('/:id', upload.single('imagem'), ProdutoController.atualizarProduto)
-router.delete('/:id', ProdutoController.deletarProduto)
+router.put('/:id', verificarToken, verificarAdmin, upload.single('imagem'), ProdutoController.atualizarProduto)
+router.delete('/:id', verificarToken, verificarAdmin, ProdutoController.deletarProduto)
 
 
 module.exports = router

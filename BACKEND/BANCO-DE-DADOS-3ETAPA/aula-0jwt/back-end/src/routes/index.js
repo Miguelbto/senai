@@ -4,6 +4,7 @@ const router = express.Router();
 const produtoRoutes = require('./produtoRoutes');
 const cardapioRoutes = require('./cardapioRoutes');
 const pedidoRoutes = require('./pedidoRoutes');
+const authRoutes = require('./authRoutes')
 
 // Rota base (Root endpoint que estava em app.js)
 router.get('/', (req, res) => {
@@ -18,6 +19,6 @@ router.get('/', (req, res) => {
 router.use('/produtos', produtoRoutes);
 router.use('/cardapios', cardapioRoutes);
 router.use('/pedidos', pedidoRoutes);
-router.use('/auth')
+router.use('/auth', authRoutes)
 
 module.exports = router;

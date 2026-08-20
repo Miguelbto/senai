@@ -15,7 +15,8 @@ class Execute {
     charsetNumber,
     timezone,
     attributes,
-    clientFlags
+    clientFlags,
+    jsonAsString
   ) {
     this.id = id;
     this.parameters = parameters;
@@ -23,6 +24,7 @@ class Execute {
     this.timezone = timezone;
     this.attributes = attributes;
     this.clientFlags = clientFlags || 0;
+    this.jsonAsString = jsonAsString || false;
   }
 
   static fromPacket(packet, encoding) {
@@ -34,6 +36,7 @@ class Execute {
     while (i < packet.end - 1) {
       if (
         (packet.buffer[i + 1] === Types.VAR_STRING ||
+          packet.buffer[i + 1] === Types.BLOB ||
           packet.buffer[i + 1] === Types.NULL ||
           packet.buffer[i + 1] === Types.DOUBLE ||
           packet.buffer[i + 1] === Types.TINY ||
@@ -54,6 +57,7 @@ class Execute {
     for (let i = packet.offset + 1; i < packet.end - 1; i++) {
       if (
         (packet.buffer[i] === Types.VAR_STRING ||
+          packet.buffer[i] === Types.BLOB ||
           packet.buffer[i] === Types.NULL ||
           packet.buffer[i] === Types.DOUBLE ||
           packet.buffer[i] === Types.TINY ||
@@ -72,6 +76,8 @@ class Execute {
     for (let i = 0; i < types.length; i++) {
       if (types[i] === Types.VAR_STRING) {
         values.push(packet.readLengthCodedString(encoding));
+      } else if (types[i] === Types.BLOB) {
+        values.push(packet.readLengthCodedBuffer());
       } else if (types[i] === Types.DOUBLE) {
         values.push(packet.readDouble());
       } else if (types[i] === Types.TINY) {
@@ -119,7 +125,7 @@ class Execute {
       const bindParams =
         numParams > 0
           ? this.parameters.map((v) =>
-              toParameter(v, this.encoding, this.timezone)
+              toParameter(v, this.encoding, this.timezone, this.jsonAsString)
             )
           : [];
       const attrParams = attrNames.map((name) =>

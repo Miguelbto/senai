@@ -1,9 +1,12 @@
-const express = require('express')
+const express = require('express');
+const UsuarioController = require('../controllers/UsuarioController');
 const router = express.Router()
-const authCrontroller = require()
 
-router.post('/register', authCrontroller.register)
-router.post('/login', authCrontroller.login)
+
+router.post('/registro', UsuarioController.registrar)
+router.post('/login', UsuarioController.login)
+router.post('/refresh-token', UsuarioController.refresh)
+router.post('/logout', UsuarioController.logout)
 
 
 module.exports = router
