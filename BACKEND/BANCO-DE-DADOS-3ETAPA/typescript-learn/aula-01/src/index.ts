@@ -178,5 +178,9 @@ list.push('manga')
 
 const date: CalendarDate = [30, 56, 5]
 
+function createDate(date: CalendarDate){
+    const [day, month, year] = date
+}
+
 
 
