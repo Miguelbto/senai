@@ -12,6 +12,9 @@ import errorMiddleware from './shared/middlewares/errorMiddleware.js';
 const app = express();
 app.use(cors());
 app.use(express.json());
+
+
+
 app.use('/uploads', express.static('public/uploads'));
 app.use('/auth', authRoutes);
 app.use('/users', userRoutes);
