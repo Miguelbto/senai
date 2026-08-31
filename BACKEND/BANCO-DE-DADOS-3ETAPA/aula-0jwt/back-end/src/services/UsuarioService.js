@@ -27,7 +27,7 @@ class UsuarioService{
         return jwt.sign(
             { id: user.id, papel: user.papel },
             process.env.JWT_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN }
+            { expiresIn: process.env.JWT_EXPIRES_IN , algorithm: 'HS256'}
         )
     }
 
@@ -35,7 +35,7 @@ class UsuarioService{
         return jwt.sign(
             { id: user.id },
             process.env.JWT_REFRESH_SECRET,
-            { expiresIn: process.env.JWT_EXPIRES_IN, algorithm: "ES256" }
+            { expiresIn: process.env.JWT_EXPIRES_IN, algorithm: 'HS256' }
         )
     }
 
@@ -85,7 +85,6 @@ class UsuarioService{
             process.env.JWT_SECRET,
             { expiresIn: process.env.JWT_EXPIRES_IN },
         )
-
         return { AccessToken: novoAccessToken }
     }
 

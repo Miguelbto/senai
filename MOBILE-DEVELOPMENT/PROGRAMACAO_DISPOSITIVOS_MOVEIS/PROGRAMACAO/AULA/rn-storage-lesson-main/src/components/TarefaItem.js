@@ -1,4 +1,4 @@
-import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 
 // Componente responsável por renderizar UM item da lista de tarefas.
 // Recebe a tarefa e duas funções (callbacks) vindas do componente pai (a screen)
@@ -15,6 +15,8 @@ export default function TarefaItem({ tarefa, aoAlternarConcluida, aoExcluir , on
           {tarefa.texto}
         </Text>
       </TouchableOpacity>
+
+      
 
       <TouchableOpacity style={styles.botaoEditar} onPress={() => onEdit(tarefa.id)}>
         <Text style={[styles.texto]}>editar</Text>
@@ -67,11 +69,12 @@ const styles = StyleSheet.create({
   },
 
   botaoEditar: {
-    backgroundColor: '#e74c3c',
-    paddingVertical: 6,
-    paddingHorizontal: 10,
-    borderRadius: 6,
-  },
+  backgroundColor: '#f2a900',   // amarelo/laranja, contrasta bem com o vermelho do Excluir
+  paddingVertical: 8,
+  paddingHorizontal: 14,
+  borderRadius: 20,             // formato mais "pill", moderno
+  marginRight: 8,               // espaçamento entre editar e excluir
+},
 
   textoBotaoExcluir: {
     color: '#fff',

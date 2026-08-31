@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   FlatList,
   KeyboardAvoidingView,
+  Modal,
   Platform,
   StyleSheet,
   Text,
@@ -11,7 +12,6 @@ import {
   View,
 } from "react-native";
 import TarefaItem from "../components/TarefaItem";
-import { text } from "node:stream/consumers";
 
 const STORAGE_KEY = "@my_works";
 
@@ -74,22 +74,41 @@ export default function ListaTarefasScreen() {
   }
 
   function clearAllWorks() {
-    const currentWorks = [];
-    setWork(currentWorks);
+    setWork([]);
   }
 
-  function editWork(idWork, newText) {
-    const textFormatted = newText.trim();
-    if (textFormatted === "") return; //não salva texto nulo
-    setWork(() => {});
 
-    setWork((currentWorks) =>
-      currentWorks.map((item) =>
-        item.id === idWork
-          ? { ...item, text: textFormatted, texto: textFormatted }
-          : item,
-      ),
-    );
+  function editWork(idWork, newText) {
+  const textFormatted = newText.trim();
+  if (textFormatted === "") return; // não salva texto vazio
+
+  setWork((currentWorks) =>
+    currentWorks.map((item) =>
+      item.id === idWork ? { ...item, texto: textFormatted } : item
+    )
+  );
+}
+
+
+  const [editingId, setEditingId ] = useState(null)
+  const [ editText, setEditText ] = useState('')
+
+  function openEdit(idWork) {
+    const Work = work.find((item) => item.id === idWork)
+    if(!work) return 
+    setEditingId(idWork)
+    setEditText(Work.texto)
+  }
+
+  function confirmEdit() {
+    editWork(editingId, editText)
+    setEditingId(null)
+    setEditText('')
+  }
+
+  function cancelEdit() {
+    setEditingId(null)
+    setEditText('')
   }
 
   if (!isLoaded) return null; // Aguarda carregar para evitar sobrescrita
@@ -110,6 +129,19 @@ export default function ListaTarefasScreen() {
           onSubmitEditing={addWork}
           returnKeyType="done"
         />
+
+        <View>
+                <TextInput
+                  style={styles.input}
+                  placeholder='Digite uma nova tarefa...'
+                  value={textoInput}
+                  onChangeText={setTextoInput}
+                  onSubmitEditing={addWork}
+                  returnKeyType="done"
+                />
+              </View>
+              
+
         <TouchableOpacity style={styles.botaoAdicionar} onPress={addWork}>
           <Text style={styles.textoBotaoAdicionar}>Adicionar</Text>
         </TouchableOpacity>
@@ -123,6 +155,7 @@ export default function ListaTarefasScreen() {
             tarefa={item}
             aoAlternarConcluida={alterWorkReady}
             aoExcluir={deleteWork}
+            onEdit={openEdit}
           />
         )}
         ListEmptyComponent={
@@ -132,6 +165,31 @@ export default function ListaTarefasScreen() {
         }
         contentContainerStyle={styles.listaConteudo}
       />
+
+      <Modal visible={editingId !== null} transparent animationType="fade">
+        <View style={styles.modalFundo}>
+          <View style={styles.modalCaixa}>
+            <TextInput
+              style={styles.modalInput}
+              value={editText}
+              onChangeText={setEditText}
+              autoFocus
+              placeholder="Edite a tarefa..."
+              placeholderTextColor="#999"
+              onSubmitEditing={confirmEdit}
+              returnKeyType="done"
+            />
+            <View style={{ flexDirection: 'row', justifyContent:'flex-end' }}>
+              <TouchableOpacity onPress={cancelEdit} style={{ marginRight: 12 }}>
+                <Text>Cancelar</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmEdit}>
+                <Text style={{ color: '#2e86de', fontWeight: 'bold' }}>Salvar</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </KeyboardAvoidingView>
   );
 }
@@ -181,4 +239,38 @@ const styles = StyleSheet.create({
     color: "#888",
     marginTop: 24,
   },
+
+  botaoLimpar: {
+  alignSelf: "flex-end",
+  marginBottom: 12,
+},
+textoBotaoLimpar: {
+  color: "#e74c3c",
+  fontWeight: "bold",
+},
+modalFundo: {
+  flex: 1,
+  backgroundColor: "rgba(0,0,0,0.4)",
+  justifyContent: "center",
+  alignItems: "center",
+},
+modalCaixa: {
+  backgroundColor: "#fff",
+  borderRadius: 8,
+  padding: 16,
+  width: "80%",
+},
+modalInput: {
+  backgroundColor: "#fff",
+  color: "#222",           // garante que o texto digitado apareça
+  borderWidth: 1,
+  borderColor: "#ccc",
+  borderRadius: 8,
+  paddingHorizontal: 12,
+  paddingVertical: 10,
+  fontSize: 16,
+  minHeight: 44,           // caixa com tamanho confortável pra digitar
+  marginBottom: 16,
+  width: "100%",
+},
 });
