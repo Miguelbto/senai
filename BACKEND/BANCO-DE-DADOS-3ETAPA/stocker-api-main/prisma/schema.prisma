@@ -1,0 +1,75 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  password  String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  products  Product[]
+  stockMovements StockMovement[]
+  role UserRole @default(VIEWER)
+}
+
+enum UserRole {
+  ADMIN
+  MANAGER
+  OPERATOR
+  VIEWER
+
+}
+
+model Product {
+  id          Int             @id @default(autoincrement())
+  userId      Int
+  name        String          @unique
+  description String
+  category    String
+  price       Float
+  stock       Int             @default(0)
+  minStock    Int             @default(5)
+  imageUrl    String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+  movements   StockMovement[]
+
+  createdBy   User            @relation(fields: [userId], references: [id])
+}
+
+model StockMovement {
+  id        Int               @id @default(autoincrement())
+  userId    Int
+  productId Int
+  quantity  Int
+  type      StockMovementType
+  reason    String?
+  createdAt DateTime          @default(now())
+
+  product Product @relation(fields: [productId], references: [id])
+  user  User @relation(fields: [userId], references: [id])
+}
+
+enum StockMovementType {
+  INITIAL
+  IN
+  OUT
+  ADJUSTMENT
+}
+
+model InvalidToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  expiresAt DateTime
+  createdAt  DateTime @default(now())
+}
