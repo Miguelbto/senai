@@ -21,7 +21,7 @@
     //"target": "esnext",
     "types": [],
     // For nodejs:
-    // "lib": ["esnext"],
+     "lib": ["es2024", "ESNext.Array", "ESNext.Collection", "ESNext.Iterator"],
     // "types": ["node"],
     // and npm install -D @types/node
 

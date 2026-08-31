@@ -1,6 +1,4 @@
-// ═══════════════════════════════════════════════════════════════════════════════
-// src/domains/menu/models/MenuModel.js — Classe de Domínio do Cardápio
-// ═══════════════════════════════════════════════════════════════════════════════
+
 
 import { ProductModel } from '../../product/models/ProductModel.js';
 
