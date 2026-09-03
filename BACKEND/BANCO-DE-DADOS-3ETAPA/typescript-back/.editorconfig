@@ -1,0 +1,14 @@
+root = true
+
+[*]
+indent_style = space
+indent_size = 2
+
+
+# root = true: Avisa ao editor que este é o arquivo principal na raiz do projeto, evitando que ele busque outras configurações em pastas superiores.
+
+# [*]: Aplica as regras a todos os arquivos do projeto.
+
+# indent_style = space: Define que a indentação (recuo de código) usará espaços em vez da tecla Tab.
+
+# indent_size = 2: Define que cada nível de recuo terá exatamente 2 espaços.
