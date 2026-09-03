@@ -6,3 +6,7 @@ DESAFIO HARD: IMPLEMENTAR O SAML 2.0 PARA MOSTRAR PARA O CELSO NA PROXIMO AULA E
 configurar agentes de IA
 Formas diferentes de utilizar IA
 SOAP arquitetura
+Clean arthicture
+SOLID
+clean code
+ADE
