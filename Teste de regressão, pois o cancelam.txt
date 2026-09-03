@@ -1,0 +1,15 @@
+Teste de regressão, pois o cancelamento da matricula tem relação com o cadastro de alunos, emissão do boletim e pagamentos de mensalidade, pois caso seja cancelado a matricula de um aluno e ainda existe o cadastro dele o sistema pode ler isso como se o aluno ainda estivesse ativo na escola e assim dando suas preferências de usuário para o nível de estudante, pode emitir um boletim para este aluno que não pertence mais a escola, e gerar boletos para pagar a mensalidade escolar do aluno que não está ativo no sistema escolar
+
+
+Teste de performance, para analisar quantas requisições serão possíveis por segundo, analisar o número obtido e o que pode ser feito para aumentar essa quantidade levando em consideração a quantidade de requisições que serão feitas com a promoção, podendo causar um tempo bem maior para realizar cada requisição do usuário para o servidor, falta de resposta do servidor para o cliente
+
+Teste de estresse, pois iremos analisar qual é o limite de requisições que o software aguenta, assim podemos definir uma média de requisições que o software pode aguentar sem ter nenhuma complicação que resulte em uma má experiência do usuário.
+
+
+Teste de recuperação, o sistema deve continuar a ação que estava fazendo e informar oq aconteceu com a ação se foi concluída ou não, e caso não tenha essas funções no sistema o software pode perder dados importantes do cliente que estavam sendo processados porém ao interromper a conexão com o servidor eles foram perdidos e o sistema não indicou nada para o usuário.
+
+
+Teste de segurança, para que seja verificado as regras de acesso do usuário, garantindo que os entregadores tenham acesso a área exclusiva e garantir que o cliente não possa ter acesso a está área, verificaria a mudança dos tokens caso use JWT como autentificação, 
+
+
+Teste de Paralelo, iremos testas e analisar se todas as funções de calculo de média estão sendo executados e realizados com a mesma eficiência do antigo ou até melhor 

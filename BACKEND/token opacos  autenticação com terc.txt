@@ -1,0 +1,8 @@
+token opacos / autenticação com terceiros / 
+
+DESAFIO: IMPLEMENTAR A ARQUITETURA SOAP
+DESAFIO HARD: IMPLEMENTAR O SAML 2.0 PARA MOSTRAR PARA O CELSO NA PROXIMO AULA ENTENDENDO TUDO O QUE ESTÁ ACONTECENDO E AINDA EM TYPESCRIPT
+
+configurar agentes de IA
+Formas diferentes de utilizar IA
+SOAP arquitetura

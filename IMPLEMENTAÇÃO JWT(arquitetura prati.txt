@@ -1,0 +1,23 @@
+IMPLEMENTAÇÃO JWT(arquitetura praticamente completa agora / pesquisar informações ausentes )
+
+
+instalar o jsonwebtoken e bcrypt
+
+preparar o banco de dados
+id
+nome
+email
+senha
+papel(permissão)
+criado_em
+
+usuarioRepository - create/findbyemail
+usuarioService  registrarUsuario/ gerabcrypt(Hash) / login - Busca o usuário por email - comparar senha criptografada - id, papel(token)
+usuarioController - registrar / login
+
+authRoutes - login/registro - POST
+
+
+criar middleware de proteção - src/middleware/authMiddleware.js  / exports( verificarToken / verificarAdmin )
+
+produtosRoutes (router.post('/', verificarToken, VerificarAdmin ProdutoController.cadastrar))

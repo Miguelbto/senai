@@ -1,0 +1,12 @@
+TESTE UNITÁRIO: 
+ * testar a função de adicionar e retirar e excluir o produto do carrinho
+ * testar pagamento no debito, crédito, pix, e as outras formas 
+ * testar baixa de produtos, aumento de produtos
+
+
+TESTE DE INTEGRAÇÃO: 
+ * testar se o produto está indo para o carrinho quando selecionado
+ * testar se quando clicado em pagar no carrinho será direcionado para a página de pagamento
+ * testar se os itens do carrinho que foram comprados irão ser retirados logo após o pagamento
+ * testar se o estoque reduzirá a quantidade de produtos quando realizado a compra
+ 
