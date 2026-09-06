@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply } from 'fastify'
-import { formatError } from '../../shared/utils/errors/formatZodErrors.js'
-import { AuthService } from './auth_service.js'
+import { formatError } from '../../../shared/utils/errors/formatZodErrors.js'
+import { AuthService } from '../services/auth.service.js'
 import {
     authBodySchema,
     ForgotPasswordBody,
@@ -8,7 +8,7 @@ import {
     LoginBody,
     ResetPasswordBody,
     resetPasswordSchema,
-} from './auth_schema.js'
+} from '../schemas/auth.schema.js'
 
 const authService = new AuthService() 
 

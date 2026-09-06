@@ -1,10 +1,10 @@
 generator client {
-  provider = "prisma-client-js"
-  previewFeatures = ["driverAdapters"]
+  provider        = "prisma-client-js"
+  
 }
 
 datasource db {
-  provider = "mysql" 
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -108,7 +108,8 @@ model ItemPedido {
 
   @@map("item_pedido")
 }
-  model InvalidToken {
+
+model InvalidToken {
   id       Int      @id @default(autoincrement())
   token    String   @unique @db.VarChar(500)
   criadoEm DateTime @default(now()) @map("criado_em")

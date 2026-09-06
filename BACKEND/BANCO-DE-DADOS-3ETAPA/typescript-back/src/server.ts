@@ -3,14 +3,14 @@ import Fastify from 'fastify'
 import cors from '@fastify/cors'
 
 // Import de rotas 
-// import { userRoutes } from './domain/user/user.routes'
+import { authRoutes } from './domain/auth/auth.routes.js'
 
 const app = Fastify({ logger: true })
 
 
-// app.register(userRoutes)
+app.register(authRoutes, { prefix: '/auth' })
 
-const start = async () => {
+export const start = async () => {
     try {
 
         await app.register(cors, {

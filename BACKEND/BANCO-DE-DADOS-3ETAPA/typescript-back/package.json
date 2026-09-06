@@ -4,14 +4,18 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:unit": "vitest run --dir src --exclude '**/*.e2e.spec.ts'",
+    "test:e2e": "vitest run --dir src --include '**/*.e2e.spec.ts'",
+    "test:watch": "vitest",
+    "test:cov": "vitest run --coverage",
     "postinstall": "prisma skills sync || exit 0",
     "dev": "tsx watch src/server.ts",
     "lint:check": "prettier --check .",
     "lint:fix": "prettier --write ."
   },
   "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "seed": "npx tsx prisma/seed.ts"
   },
   "keywords": [],
   "author": "",
@@ -29,14 +33,19 @@
     "zod": "^4.5.4"
   },
   "devDependencies": {
+    "@faker-js/faker": "^10.6.0",
     "@prisma/client": "^6.19.3",
     "@types/bcryptjs": "^2.4.6",
     "@types/node": "^26.4.0",
     "@types/nodemailer": "^8.0.1",
+    "@vitest/coverage-v8": "^5.0.0",
     "dotenv": "^17.4.2",
     "prettier": "^3.9.6",
     "prisma": "^6.19.3",
     "tsx": "^4.23.13",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "vite-tsconfig-paths": "^6.1.1",
+    "vitest": "^5.0.0",
+    "vitest-mock-extended": "^5.1.1"
   }
 }

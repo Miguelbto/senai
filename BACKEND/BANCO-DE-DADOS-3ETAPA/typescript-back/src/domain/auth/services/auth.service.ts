@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
-import { prisma } from '../../shared/lib/prisma.js'
-import { signResetToken, signToken } from '../../shared/lib/jwt.js'
-import { sendResetEmail } from '../../shared/lib/mailer.js'
+import { prisma } from '../../../shared/lib/prisma.js'
+import { signResetToken, signToken } from '../../../shared/lib/jwt.js'
+import { sendResetEmail } from '../../../shared/lib/mailer.js'
 import { email } from 'zod';
 
 export class AuthService {
@@ -17,7 +17,7 @@ export class AuthService {
             throw new Error("Usuario não encontrado")
         }
 
-        const isPasswordValid = await bcrypt.compare(user.senha, data.password)
+        const isPasswordValid = await bcrypt.compare(data.password, user.senha)
 
         if (!isPasswordValid) {
             throw new Error("Credencias inválidas")
@@ -31,7 +31,6 @@ export class AuthService {
         await prisma.invalidToken.create({
             data: {
                 token,
-                expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
             },
         })
         return { message: "Logout realizado com sucesso!"}
@@ -61,7 +60,7 @@ export class AuthService {
 
             await prisma.usuario.update({
                 where: { email },
-                data: { password: hashed },
+                data: { senha: hashed },
             })
         } catch (error) {
             throw new Error("Token inválido ou expirado")
