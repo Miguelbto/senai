@@ -10,3 +10,9 @@ Clean arthicture
 SOLID
 clean code
 ADE
+
+
+API por fora do mobile
+continuar armazenação no async storage 
+chatBot
+inserir imagens 
