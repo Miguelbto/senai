@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ProdutoService"
+    targetNamespace="http://sabordigital.com/produto"
+    xmlns:tns="http://sabordigital.com/produto"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <!-- ========================= TYPES ========================= -->
+    <types>
+        <xsd:schema targetNamespace="http://sabordigital.com/produto">
+
+            <xsd:complexType name="Produto">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nome" type="xsd:string"/>
+                    <xsd:element name="descricao" type="xsd:string"/>
+                    <xsd:element name="preco" type="xsd:decimal"/>
+                    <xsd:element name="categoria" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="imagem" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="disponivel" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ProdutoArray">
+                <xsd:sequence>
+                    <xsd:element name="produto" type="tns:Produto" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- ListarProdutos -->
+            <xsd:element name="ListarProdutosRequest">
+                <xsd:complexType>
+                    <xsd:sequence/>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ListarProdutosResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="total" type="xsd:int"/>
+                        <xsd:element name="produtos" type="tns:ProdutoArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- BuscarProdutoPorId -->
+            <xsd:element name="BuscarProdutoPorIdRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="BuscarProdutoPorIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="produto" type="tns:Produto"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- CadastrarProduto -->
+            <xsd:element name="CadastrarProdutoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="nome" type="xsd:string"/>
+                        <xsd:element name="descricao" type="xsd:string"/>
+                        <xsd:element name="preco" type="xsd:decimal"/>
+                        <xsd:element name="categoria" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="imagem" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="disponivel" type="xsd:boolean" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CadastrarProdutoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- AtualizarProduto -->
+            <xsd:element name="AtualizarProdutoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="nome" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="descricao" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="preco" type="xsd:decimal" minOccurs="0"/>
+                        <xsd:element name="categoria" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="imagem" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="disponivel" type="xsd:boolean" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="AtualizarProdutoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- DeletarProduto -->
+            <xsd:element name="DeletarProdutoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DeletarProdutoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <!-- ========================= MESSAGES ========================= -->
+    <message name="ListarProdutosInput">
+        <part name="parameters" element="tns:ListarProdutosRequest"/>
+    </message>
+    <message name="ListarProdutosOutput">
+        <part name="parameters" element="tns:ListarProdutosResponse"/>
+    </message>
+
+    <message name="BuscarProdutoPorIdInput">
+        <part name="parameters" element="tns:BuscarProdutoPorIdRequest"/>
+    </message>
+    <message name="BuscarProdutoPorIdOutput">
+        <part name="parameters" element="tns:BuscarProdutoPorIdResponse"/>
+    </message>
+
+    <message name="CadastrarProdutoInput">
+        <part name="parameters" element="tns:CadastrarProdutoRequest"/>
+    </message>
+    <message name="CadastrarProdutoOutput">
+        <part name="parameters" element="tns:CadastrarProdutoResponse"/>
+    </message>
+
+    <message name="AtualizarProdutoInput">
+        <part name="parameters" element="tns:AtualizarProdutoRequest"/>
+    </message>
+    <message name="AtualizarProdutoOutput">
+        <part name="parameters" element="tns:AtualizarProdutoResponse"/>
+    </message>
+
+    <message name="DeletarProdutoInput">
+        <part name="parameters" element="tns:DeletarProdutoRequest"/>
+    </message>
+    <message name="DeletarProdutoOutput">
+        <part name="parameters" element="tns:DeletarProdutoResponse"/>
+    </message>
+
+    <!-- ========================= PORT TYPE ========================= -->
+    <portType name="ProdutoPortType">
+        <operation name="ListarProdutos">
+            <input message="tns:ListarProdutosInput"/>
+            <output message="tns:ListarProdutosOutput"/>
+        </operation>
+        <operation name="BuscarProdutoPorId">
+            <input message="tns:BuscarProdutoPorIdInput"/>
+            <output message="tns:BuscarProdutoPorIdOutput"/>
+        </operation>
+        <operation name="CadastrarProduto">
+            <input message="tns:CadastrarProdutoInput"/>
+            <output message="tns:CadastrarProdutoOutput"/>
+        </operation>
+        <operation name="AtualizarProduto">
+            <input message="tns:AtualizarProdutoInput"/>
+            <output message="tns:AtualizarProdutoOutput"/>
+        </operation>
+        <operation name="DeletarProduto">
+            <input message="tns:DeletarProdutoInput"/>
+            <output message="tns:DeletarProdutoOutput"/>
+        </operation>
+    </portType>
+
+    <!-- ========================= BINDING ========================= -->
+    <binding name="ProdutoBinding" type="tns:ProdutoPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+        <operation name="ListarProdutos">
+            <soap:operation soapAction="http://sabordigital.com/produto/ListarProdutos"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="BuscarProdutoPorId">
+            <soap:operation soapAction="http://sabordigital.com/produto/BuscarProdutoPorId"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="CadastrarProduto">
+            <soap:operation soapAction="http://sabordigital.com/produto/CadastrarProduto"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="AtualizarProduto">
+            <soap:operation soapAction="http://sabordigital.com/produto/AtualizarProduto"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="DeletarProduto">
+            <soap:operation soapAction="http://sabordigital.com/produto/DeletarProduto"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <!-- ========================= SERVICE ========================= -->
+    <service name="ProdutoService">
+        <port name="ProdutoPort" binding="tns:ProdutoBinding">
+            <soap:address location="http://localhost:3000/produtoService"/>
+        </port>
+    </service>
+
+</definitions>
