@@ -1,0 +1,13 @@
+{
+  "name": "pagina-virada-api",
+  "version": "1.0.0",
+  "description": "API REST didatica para o app Pagina Virada",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
