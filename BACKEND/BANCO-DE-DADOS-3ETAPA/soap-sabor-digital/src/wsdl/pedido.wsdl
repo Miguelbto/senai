@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="PedidoService"
+    targetNamespace="http://sabordigital.com/pedido"
+    xmlns:tns="http://sabordigital.com/pedido"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <xsd:schema targetNamespace="http://sabordigital.com/pedido">
+
+            <xsd:complexType name="ItemPedidoInput">
+                <xsd:sequence>
+                    <xsd:element name="produtoId" type="xsd:int"/>
+                    <xsd:element name="quantidade" type="xsd:int"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ItemPedidoInputArray">
+                <xsd:sequence>
+                    <xsd:element name="item" type="tns:ItemPedidoInput" minOccurs="1" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ItemPedido">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="produto_id" type="xsd:int"/>
+                    <xsd:element name="produto_nome" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="quantidade" type="xsd:int"/>
+                    <xsd:element name="preco_unitario" type="xsd:decimal"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="ItemPedidoArray">
+                <xsd:sequence>
+                    <xsd:element name="item" type="tns:ItemPedido" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="Pedido">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="cliente" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="status" type="xsd:string"/>
+                    <xsd:element name="total" type="xsd:decimal"/>
+                    <xsd:element name="criado_em" type="xsd:string" minOccurs="0"/>
+                    <xsd:element name="itens" type="tns:ItemPedidoArray" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+            <xsd:complexType name="PedidoArray">
+                <xsd:sequence>
+                    <xsd:element name="pedido" type="tns:Pedido" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- CriarPedido -->
+            <xsd:element name="CriarPedidoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="cliente" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="itens" type="tns:ItemPedidoInputArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CriarPedidoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="pedido" type="tns:Pedido"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- ListarPedidos -->
+            <xsd:element name="ListarPedidosRequest">
+                <xsd:complexType><xsd:sequence/></xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ListarPedidosResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="pedidos" type="tns:PedidoArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- ObterPedidoPorId -->
+            <xsd:element name="ObterPedidoPorIdRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ObterPedidoPorIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="pedido" type="tns:Pedido"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- AtualizarStatusPedido -->
+            <xsd:element name="AtualizarStatusPedidoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                        <xsd:element name="status" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="AtualizarStatusPedidoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="pedido" type="tns:Pedido"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- ExcluirPedido -->
+            <xsd:element name="ExcluirPedidoRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ExcluirPedidoResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <message name="CriarPedidoInput">
+        <part name="parameters" element="tns:CriarPedidoRequest"/>
+    </message>
+    <message name="CriarPedidoOutput">
+        <part name="parameters" element="tns:CriarPedidoResponse"/>
+    </message>
+
+    <message name="ListarPedidosInput">
+        <part name="parameters" element="tns:ListarPedidosRequest"/>
+    </message>
+    <message name="ListarPedidosOutput">
+        <part name="parameters" element="tns:ListarPedidosResponse"/>
+    </message>
+
+    <message name="ObterPedidoPorIdInput">
+        <part name="parameters" element="tns:ObterPedidoPorIdRequest"/>
+    </message>
+    <message name="ObterPedidoPorIdOutput">
+        <part name="parameters" element="tns:ObterPedidoPorIdResponse"/>
+    </message>
+
+    <message name="AtualizarStatusPedidoInput">
+        <part name="parameters" element="tns:AtualizarStatusPedidoRequest"/>
+    </message>
+    <message name="AtualizarStatusPedidoOutput">
+        <part name="parameters" element="tns:AtualizarStatusPedidoResponse"/>
+    </message>
+
+    <message name="ExcluirPedidoInput">
+        <part name="parameters" element="tns:ExcluirPedidoRequest"/>
+    </message>
+    <message name="ExcluirPedidoOutput">
+        <part name="parameters" element="tns:ExcluirPedidoResponse"/>
+    </message>
+
+    <portType name="PedidoPortType">
+        <operation name="CriarPedido">
+            <input message="tns:CriarPedidoInput"/>
+            <output message="tns:CriarPedidoOutput"/>
+        </operation>
+        <operation name="ListarPedidos">
+            <input message="tns:ListarPedidosInput"/>
+            <output message="tns:ListarPedidosOutput"/>
+        </operation>
+        <operation name="ObterPedidoPorId">
+            <input message="tns:ObterPedidoPorIdInput"/>
+            <output message="tns:ObterPedidoPorIdOutput"/>
+        </operation>
+        <operation name="AtualizarStatusPedido">
+            <input message="tns:AtualizarStatusPedidoInput"/>
+            <output message="tns:AtualizarStatusPedidoOutput"/>
+        </operation>
+        <operation name="ExcluirPedido">
+            <input message="tns:ExcluirPedidoInput"/>
+            <output message="tns:ExcluirPedidoOutput"/>
+        </operation>
+    </portType>
+
+    <binding name="PedidoBinding" type="tns:PedidoPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+        <operation name="CriarPedido">
+            <soap:operation soapAction="http://sabordigital.com/pedido/CriarPedido"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="ListarPedidos">
+            <soap:operation soapAction="http://sabordigital.com/pedido/ListarPedidos"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="ObterPedidoPorId">
+            <soap:operation soapAction="http://sabordigital.com/pedido/ObterPedidoPorId"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="AtualizarStatusPedido">
+            <soap:operation soapAction="http://sabordigital.com/pedido/AtualizarStatusPedido"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="ExcluirPedido">
+            <soap:operation soapAction="http://sabordigital.com/pedido/ExcluirPedido"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <service name="PedidoService">
+        <port name="PedidoPort" binding="tns:PedidoBinding">
+            <soap:address location="http://localhost:3000/pedidoService"/>
+        </port>
+    </service>
+
+</definitions>

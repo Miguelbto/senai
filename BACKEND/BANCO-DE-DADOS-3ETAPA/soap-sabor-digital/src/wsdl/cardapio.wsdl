@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="CardapioService"
+    targetNamespace="http://sabordigital.com/cardapio"
+    xmlns:tns="http://sabordigital.com/cardapio"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <xsd:schema targetNamespace="http://sabordigital.com/cardapio">
+
+            <xsd:complexType name="Produto">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nome" type="xsd:string"/>
+                    <xsd:element name="descricao" type="xsd:string"/>
+                    <xsd:element name="preco" type="xsd:decimal"/>
+                    <xsd:element name="categoria" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="disponivel" type="xsd:boolean"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="ProdutoArray">
+                <xsd:sequence>
+                    <xsd:element name="produto" type="tns:Produto" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="Cardapio">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nome" type="xsd:string"/>
+                    <xsd:element name="descricao" type="xsd:string" minOccurs="0" nillable="true"/>
+                    <xsd:element name="disponivel" type="xsd:boolean"/>
+                    <xsd:element name="produtos" type="tns:ProdutoArray" minOccurs="0"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="CardapioArray">
+                <xsd:sequence>
+                    <xsd:element name="cardapio" type="tns:Cardapio" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <xsd:complexType name="IntArray">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int" minOccurs="0" maxOccurs="unbounded"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- ListarCardapios -->
+            <xsd:element name="ListarCardapiosRequest">
+                <xsd:complexType><xsd:sequence/></xsd:complexType>
+            </xsd:element>
+            <xsd:element name="ListarCardapiosResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="total" type="xsd:int"/>
+                        <xsd:element name="cardapios" type="tns:CardapioArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- BuscarCardapioPorId -->
+            <xsd:element name="BuscarCardapioPorIdRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="BuscarCardapioPorIdResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="cardapio" type="tns:Cardapio"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- CadastrarCardapio -->
+            <xsd:element name="CadastrarCardapioRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="nome" type="xsd:string"/>
+                        <xsd:element name="descricao" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="disponivel" type="xsd:boolean" minOccurs="0"/>
+                        <xsd:element name="produtoIds" type="tns:IntArray"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="CadastrarCardapioResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- DeletarCardapio -->
+            <xsd:element name="DeletarCardapioRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="DeletarCardapioResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <message name="ListarCardapiosInput">
+        <part name="parameters" element="tns:ListarCardapiosRequest"/>
+    </message>
+    <message name="ListarCardapiosOutput">
+        <part name="parameters" element="tns:ListarCardapiosResponse"/>
+    </message>
+
+    <message name="BuscarCardapioPorIdInput">
+        <part name="parameters" element="tns:BuscarCardapioPorIdRequest"/>
+    </message>
+    <message name="BuscarCardapioPorIdOutput">
+        <part name="parameters" element="tns:BuscarCardapioPorIdResponse"/>
+    </message>
+
+    <message name="CadastrarCardapioInput">
+        <part name="parameters" element="tns:CadastrarCardapioRequest"/>
+    </message>
+    <message name="CadastrarCardapioOutput">
+        <part name="parameters" element="tns:CadastrarCardapioResponse"/>
+    </message>
+
+    <message name="DeletarCardapioInput">
+        <part name="parameters" element="tns:DeletarCardapioRequest"/>
+    </message>
+    <message name="DeletarCardapioOutput">
+        <part name="parameters" element="tns:DeletarCardapioResponse"/>
+    </message>
+
+    <portType name="CardapioPortType">
+        <operation name="ListarCardapios">
+            <input message="tns:ListarCardapiosInput"/>
+            <output message="tns:ListarCardapiosOutput"/>
+        </operation>
+        <operation name="BuscarCardapioPorId">
+            <input message="tns:BuscarCardapioPorIdInput"/>
+            <output message="tns:BuscarCardapioPorIdOutput"/>
+        </operation>
+        <operation name="CadastrarCardapio">
+            <input message="tns:CadastrarCardapioInput"/>
+            <output message="tns:CadastrarCardapioOutput"/>
+        </operation>
+        <operation name="DeletarCardapio">
+            <input message="tns:DeletarCardapioInput"/>
+            <output message="tns:DeletarCardapioOutput"/>
+        </operation>
+    </portType>
+
+    <binding name="CardapioBinding" type="tns:CardapioPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+        <operation name="ListarCardapios">
+            <soap:operation soapAction="http://sabordigital.com/cardapio/ListarCardapios"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="BuscarCardapioPorId">
+            <soap:operation soapAction="http://sabordigital.com/cardapio/BuscarCardapioPorId"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="CadastrarCardapio">
+            <soap:operation soapAction="http://sabordigital.com/cardapio/CadastrarCardapio"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="DeletarCardapio">
+            <soap:operation soapAction="http://sabordigital.com/cardapio/DeletarCardapio"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <service name="CardapioService">
+        <port name="CardapioPort" binding="tns:CardapioBinding">
+            <soap:address location="http://localhost:3000/cardapioService"/>
+        </port>
+    </service>
+
+</definitions>

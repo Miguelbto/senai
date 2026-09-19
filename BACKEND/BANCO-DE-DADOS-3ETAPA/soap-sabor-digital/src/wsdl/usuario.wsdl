@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="UsuarioService"
+    targetNamespace="http://sabordigital.com/usuario"
+    xmlns:tns="http://sabordigital.com/usuario"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns="http://schemas.xmlsoap.org/wsdl/">
+
+    <types>
+        <xsd:schema targetNamespace="http://sabordigital.com/usuario">
+
+            <xsd:complexType name="UsuarioPublico">
+                <xsd:sequence>
+                    <xsd:element name="id" type="xsd:int"/>
+                    <xsd:element name="nome" type="xsd:string"/>
+                    <xsd:element name="email" type="xsd:string"/>
+                    <xsd:element name="papel" type="xsd:string"/>
+                </xsd:sequence>
+            </xsd:complexType>
+
+            <!-- RegistrarUsuario -->
+            <xsd:element name="RegistrarUsuarioRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="nome" type="xsd:string"/>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="senha" type="xsd:string"/>
+                        <xsd:element name="papel" type="xsd:string" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="RegistrarUsuarioResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="id" type="xsd:int"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+            <!-- Login -->
+            <xsd:element name="LoginRequest">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="email" type="xsd:string"/>
+                        <xsd:element name="senha" type="xsd:string"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="LoginResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="sucesso" type="xsd:boolean"/>
+                        <xsd:element name="mensagem" type="xsd:string"/>
+                        <xsd:element name="token" type="xsd:string" minOccurs="0"/>
+                        <xsd:element name="usuario" type="tns:UsuarioPublico" minOccurs="0"/>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+
+        </xsd:schema>
+    </types>
+
+    <message name="RegistrarUsuarioInput">
+        <part name="parameters" element="tns:RegistrarUsuarioRequest"/>
+    </message>
+    <message name="RegistrarUsuarioOutput">
+        <part name="parameters" element="tns:RegistrarUsuarioResponse"/>
+    </message>
+
+    <message name="LoginInput">
+        <part name="parameters" element="tns:LoginRequest"/>
+    </message>
+    <message name="LoginOutput">
+        <part name="parameters" element="tns:LoginResponse"/>
+    </message>
+
+    <portType name="UsuarioPortType">
+        <operation name="RegistrarUsuario">
+            <input message="tns:RegistrarUsuarioInput"/>
+            <output message="tns:RegistrarUsuarioOutput"/>
+        </operation>
+        <operation name="Login">
+            <input message="tns:LoginInput"/>
+            <output message="tns:LoginOutput"/>
+        </operation>
+    </portType>
+
+    <binding name="UsuarioBinding" type="tns:UsuarioPortType">
+        <soap:binding transport="http://schemas.xmlsoap.org/soap/http" style="document"/>
+
+        <operation name="RegistrarUsuario">
+            <soap:operation soapAction="http://sabordigital.com/usuario/RegistrarUsuario"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+        <operation name="Login">
+            <soap:operation soapAction="http://sabordigital.com/usuario/Login"/>
+            <input><soap:body use="literal"/></input>
+            <output><soap:body use="literal"/></output>
+        </operation>
+    </binding>
+
+    <service name="UsuarioService">
+        <port name="UsuarioPort" binding="tns:UsuarioBinding">
+            <soap:address location="http://localhost:3000/usuarioService"/>
+        </port>
+    </service>
+
+</definitions>
