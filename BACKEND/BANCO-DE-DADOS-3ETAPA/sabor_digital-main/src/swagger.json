@@ -1,0 +1,857 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Sabor Digital API",
+    "description": "API REST para gerenciamento de produtos, cardápios, pedidos e usuários.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    },
+    "schemas": {
+      "Erro": {
+        "type": "object",
+        "properties": {
+          "sucesso": {
+            "type": "boolean",
+            "example": false
+          },
+          "mensagem": {
+            "type": "string",
+            "example": "Erro de validação"
+          },
+          "erro": {
+            "type": "string",
+            "example": "Detalhes do erro"
+          }
+        }
+      },
+      "Produto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "Pizza Margherita"
+          },
+          "descricao": {
+            "type": "string",
+            "example": "Pizza com molho de tomate e manjericao"
+          },
+          "preco": {
+            "type": "number",
+            "format": "float",
+            "example": 39.9
+          },
+          "categoria": {
+            "type": "string",
+            "nullable": true,
+            "example": "Pizzas"
+          },
+          "disponivel": {
+            "type": "boolean",
+            "example": true
+          },
+          "imagem": {
+            "type": "string",
+            "nullable": true,
+            "example": "/public/uploads/produtos/pizza.jpg"
+          }
+        }
+      },
+      "ItemPedido": {
+        "type": "object",
+        "required": [
+          "produto_id",
+          "quantidade"
+        ],
+        "properties": {
+          "produto_id": {
+            "type": "integer",
+            "example": 1
+          },
+          "quantidade": {
+            "type": "integer",
+            "minimum": 1,
+            "example": 2
+          }
+        }
+      },
+      "Pedido": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "cliente": {
+            "type": "string",
+            "example": "Miguel"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "pendente",
+              "preparo",
+              "pronto",
+              "entregue"
+            ],
+            "example": "pendente"
+          },
+          "total": {
+            "type": "number",
+            "format": "float",
+            "example": 79.8
+          },
+          "itens": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ItemPedido"
+            }
+          }
+        }
+      },
+      "Cardapio": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "example": 1
+          },
+          "nome": {
+            "type": "string",
+            "example": "Menu executivo"
+          },
+          "descricao": {
+            "type": "string",
+            "nullable": true,
+            "example": "Opcoes do dia"
+          },
+          "disponivel": {
+            "type": "boolean",
+            "example": true
+          },
+          "produtos": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            },
+            "example": [
+              1,
+              2
+            ]
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/produtos": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Lista os produtos",
+        "responses": {
+          "200": {
+            "description": "Lista de produtos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sucesso": {
+                      "type": "boolean"
+                    },
+                    "dados": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Produto"
+                      }
+                    },
+                    "total": {
+                      "type": "integer"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Requisicao invalida"
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Cadastra um produto",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nome",
+                  "descricao",
+                  "preco"
+                ],
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "preco": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  },
+                  "disponivel": {
+                    "type": "boolean"
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto cadastrado"
+          },
+          "201": {
+            "description": "Produto cadastrado"
+          },
+          "400": {
+            "description": "Dados invalidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/produtos/{id}": {
+      "get": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Busca um produto pelo ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            },
+            "description": "ID do produto"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Produto"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "ID invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Atualiza um produto",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "preco": {
+                    "type": "number",
+                    "format": "float"
+                  },
+                  "categoria": {
+                    "type": "string"
+                  },
+                  "disponivel": {
+                    "type": "boolean"
+                  },
+                  "imagem": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Produto atualizado"
+          },
+          "400": {
+            "description": "ID ou dados invalidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Produtos"
+        ],
+        "summary": "Exclui um produto",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto excluido"
+          },
+          "400": {
+            "description": "ID invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/pedidos": {
+      "post": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Cria um pedido",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "cliente",
+                  "itens"
+                ],
+                "properties": {
+                  "cliente": {
+                    "type": "string"
+                  },
+                  "itens": {
+                    "type": "array",
+                    "items": {
+                      "$ref": "#/components/schemas/ItemPedido"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pedido criado"
+          },
+          "201": {
+            "description": "Pedido criado"
+          },
+          "400": {
+            "description": "Dados invalidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "get": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Lista os pedidos",
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos"
+          },
+          "400": {
+            "description": "Requisicao invalida"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/pedidos/{id}": {
+      "get": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Busca um pedido pelo ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido encontrado"
+          },
+          "400": {
+            "description": "ID invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Exclui um pedido",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido excluido"
+          },
+          "400": {
+            "description": "ID ou pedido invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/pedidos/{id}/status": {
+      "patch": {
+        "tags": [
+          "Pedidos"
+        ],
+        "summary": "Atualiza o status de um pedido",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "status"
+                ],
+                "properties": {
+                  "status": {
+                    "type": "string",
+                    "enum": [
+                      "pendente",
+                      "preparo",
+                      "pronto",
+                      "entregue"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Status atualizado"
+          },
+          "400": {
+            "description": "Status invalido ou ausente"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "tags": [
+          "Sistema"
+        ],
+        "summary": "Verifica se a API esta funcionando",
+        "responses": {
+          "200": {
+            "description": "API disponivel"
+          },
+          "500": {
+            "description": "Erro interno do servidor",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Erro"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cardapios": {
+      "get": {
+        "tags": [
+          "Cardapios"
+        ],
+        "summary": "Lista os cardapios",
+        "responses": {
+          "200": {
+            "description": "Lista de cardapios"
+          },
+          "400": {
+            "description": "Requisicao invalida"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Cardapios"
+        ],
+        "summary": "Cadastra um cardapio",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nome",
+                  "produtos"
+                ],
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "descricao": {
+                    "type": "string"
+                  },
+                  "disponivel": {
+                    "type": "boolean"
+                  },
+                  "produtos": {
+                    "type": "array",
+                    "items": {
+                      "type": "integer"
+                    },
+                    "example": [
+                      1,
+                      2
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cardapio cadastrado"
+          },
+          "201": {
+            "description": "Cardapio cadastrado"
+          },
+          "400": {
+            "description": "Dados invalidos"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/cardapios/{id}": {
+      "get": {
+        "tags": [
+          "Cardapios"
+        ],
+        "summary": "Busca um cardapio pelo ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cardapio encontrado"
+          },
+          "400": {
+            "description": "ID invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Cardapios"
+        ],
+        "summary": "Exclui um cardapio",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Cardapio excluido"
+          },
+          "400": {
+            "description": "ID invalido"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/auth/registrar": {
+      "post": {
+        "tags": [
+          "Autenticacao"
+        ],
+        "summary": "Registra um usuario",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "nome",
+                  "email",
+                  "senha"
+                ],
+                "properties": {
+                  "nome": {
+                    "type": "string"
+                  },
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "format": "password"
+                  },
+                  "papel": {
+                    "type": "string",
+                    "enum": [
+                      "cliente",
+                      "admin"
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Usuario registrado"
+          },
+          "201": {
+            "description": "Usuario registrado"
+          },
+          "400": {
+            "description": "Dados obrigatorios ausentes"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": [
+          "Autenticacao"
+        ],
+        "summary": "Autentica um usuario e retorna um JWT",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "email",
+                  "senha"
+                ],
+                "properties": {
+                  "email": {
+                    "type": "string",
+                    "format": "email"
+                  },
+                  "senha": {
+                    "type": "string",
+                    "format": "password"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Login realizado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sucesso": {
+                      "type": "boolean"
+                    },
+                    "token": {
+                      "type": "string"
+                    },
+                    "usuario": {
+                      "type": "object"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Credenciais ausentes"
+          },
+          "500": {
+            "description": "Erro interno do servidor"
+          }
+        }
+      }
+    }
+  },
+  "tags": []
+}

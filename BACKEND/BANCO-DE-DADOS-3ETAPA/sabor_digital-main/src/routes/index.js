@@ -6,6 +6,22 @@ const cardapioRoutes = require('./cardapioRoutes');
 const pedidoRoutes = require('./pedidoRoutes');
 const authRoutes = require('./authRoutes');
 
+/**
+ * @openapi
+ * /:
+ *   get:
+ *     tags: [Sistema]
+ *     summary: Verifica se a API esta funcionando
+ *     responses:
+ *       200:
+ *         description: API disponivel
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               $ref: '#/components/schemas/Erro'
+ */
 // Rota base (Root endpoint que estava em app.js)
 router.get('/', (req, res) => {
     res.json({

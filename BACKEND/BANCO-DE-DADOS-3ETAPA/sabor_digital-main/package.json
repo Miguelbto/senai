@@ -19,7 +19,7 @@
     "multer": "^2.1.1",
     "mysql2": "^3.22.2",
     "puppeteer-core": "^25.4.0",
-    "swagger-autogen": "^2.23.7",
-    "swagger-ui-express": "^5.0.1"
+    "@scalar/express-api-reference": "^0.9.19",
+    "swagger-jsdoc": "^6.2.8"
   }
 }
