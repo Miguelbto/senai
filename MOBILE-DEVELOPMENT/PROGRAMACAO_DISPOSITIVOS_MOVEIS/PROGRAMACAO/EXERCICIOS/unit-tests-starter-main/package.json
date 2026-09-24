@@ -1,0 +1,11 @@
+{
+  "name": "aula05-testes-starter",
+  "version": "1.0.0",
+  "description": "Projeto base da Aula 05 - Testes Unitarios com Jest",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
