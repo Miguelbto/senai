@@ -1,0 +1,249 @@
+AUTOMATIZAR A CRIAÇÃO DE ISSUES
+
+1. criar o documento com todos os problemas, todos muito bem detalhados
+
+2. utilizar este prompt para deixar formatado da maneira correta:
+	"Analise o documento abaixo e crie um script em Bash usando a ferramenta gh issue create para cadastrar todas as tarefas como issues no meu repositório GitHub.
+
+Para cada issue, defina:
+
+--title: Título direto e com prefixo (ex: feat:, fix:, docs:).
+
+--body: Descrição rica contendo Contexto, O que fazer e Critérios de Aceite.
+
+--label: Uma tag apropriada (ex: enhancement, bug, documentation).
+
+Documento:"seu_documento_aqui"
+
+
+3. utilizizar este código no google coolab, apenas trocar o repositório e token gerado pelo developer settings:
+
+import os
+import time
+import requests
+
+# ==========================================
+# Configurações de Ambiente (CORRIGIDO)
+# ==========================================
+GITHUB_TOKEN = "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"    # Cole seu token do GitHub entre as aspas
+REPO_PATH = "Sihfcruz/Projeto_grupo5"    # Apenas 'usuario/repositorio'
+
+# Base de Dados das Issues (Mapeamento completo do seu backlog)
+ISSUES_BACKLOG = [
+    {
+        "title": "fix: corrigir import de SaidaRoutes em src/app.js",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "O arquivo `src/app.js` tenta importar `./domain/saida/SaidaRoutes`, mas o arquivo físico se chama `VendaRoutes.js`. "
+            "Isso lança um erro `Cannot find module` e impede a inicialização da aplicação com `npm start`.\n\n"
+            "### O que fazer\n"
+            "- Ajustar o caminho do `require` em `src/app.js` para apontar para `./domain/saida/VendaRoutes`.\n"
+            "- Verificar se todas as referências ao roteador de saída/venda estão consistentes.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Aplicação inicia sem erros no boot via `npm start`.\n"
+            "- [ ] Nenhuma exceção de `Cannot find module` relacionada a `SaidaRoutes` é disparada."
+        )
+    },
+    {
+        "title": "feat: refactor no módulo produto para novo schema de 3 níveis (marca, modelo, sku)",
+        "labels": ["enhancement"],
+        "body": (
+            "### Contexto\n"
+            "Os arquivos de `Produto` (Repository, Service, Controller) utilizam uma tabela plana que não existe mais. "
+            "O catálogo atual está estruturado em 3 níveis: **marca → modelo → sku**, além de **categoria** e **fornecedor** como tabelas próprias.\n\n"
+            "### O que fazer\n"
+            "- Apagar o módulo antigo `produto`.\n"
+            "- Criar os módulos para `marca`, `categoria`, `modelo` e `sku` (Repository, Service, Controller e Routes).\n"
+            "- Implementar marcas e categorias como CRUDs simples.\n"
+            "- Atualizar o mapeamento no `src/app.js` e documentar as novas rotas em `ROTAS.md`.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Código obsoleto do módulo `produto` removido.\n"
+            "- [ ] Endpoints de CRUD para `marca`, `categoria`, `modelo` e `sku` funcionando corretamente.\n"
+            "- [ ] Arquivos `ROTAS.md` e `app.js` refletindo o novo catálogo."
+        )
+    },
+    {
+        "title": "fix: reescrever CargoRepository e alinhar métodos com CargoService",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "O arquivo `CargoRepository.js` não exporta sua instância (`module.exports = new CargoRepository()`), "
+            "retornando um objeto vazio `{}` que quebra as chamadas do `CargoService`. Além disso, contém erros de sintaxe SQL, "
+            "nomes de tabelas/colunas incorretos e faltam vários métodos exigidos pelo Service.\n\n"
+            "### O que fazer\n"
+            "- Exportar a instância de `CargoRepository`.\n"
+            "- Corrigir a tabela SQL de `cargos` para `cargo` (singular), a chave primária para `id_cargo` e ajustar a sintaxe do `ORDER BY`.\n"
+            "- Implementar no Repository os métodos: `listar()`, `buscarPorId()`, `buscarPorNome()`, `cadastrar()`, `atualizar()` e `excluir()`.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] `CargoRepository` exporta sua instância corretamente.\n"
+            "- [ ] Queries SQL corrigidas e validadas no banco.\n"
+            "- [ ] Chamadas executadas pelo `CargoService` funcionam sem disparar `not a function`."
+        )
+    },
+    {
+        "title": "fix: corrigir incompatibilidade de campos e implementar soft delete em funcionario",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "O módulo de funcionário apresenta desalinhamentos entre Service e Repository: chave `cargo` enviada enquanto se espera `idCargo`, "
+            "uso de `id` genérico em vez da PK `id_funcionario`, chamadas a métodos inexistentes e utilização de hard delete em um schema projetado para soft delete.\n\n"
+            "### O que fazer\n"
+            "- Padronizar o envio da FK do cargo como `idCargo` entre Service e Repository.\n"
+            "- Ajustar as cláusulas `WHERE` para utilizar a PK `id_funcionario`.\n"
+            "- Implementar o método `softDeleteFuncionario` no Repository atualizando a coluna `deleted_at`.\n"
+            "- Implementar os métodos ausentes: `buscarPorEmail` e `buscarCargoPorId`.\n"
+            "- Adicionar a condição `WHERE deleted_at IS NULL` em todas as consultas SQL do módulo.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Cadastro armazena o `id_cargo` corretamente sem resultar em `undefined`.\n"
+            "- [ ] Exclusão de funcionário realiza soft-delete preenchendo a coluna `deleted_at`.\n"
+            "- [ ] Funcionários excluídos logicamente não são retornados nas consultas."
+        )
+    },
+    {
+        "title": "fix: corrigir vulnerabilidades de segurança e erros de runtime no módulo auth",
+        "labels": ["bug", "security"],
+        "body": (
+            "### Contexto\n"
+            "O módulo `auth` possui bugs graves: falha de import do JWT, falta de verificação de hash da senha (bcrypt), "
+            "erro de escopo de variável (`ReferenceError` no `renovarToken`), chamada dupla de geração de tokens, SQL inválido e envio duplo de resposta HTTP.\n\n"
+            "### O que fazer\n"
+            "- Importar `jsonwebtoken` ou utilizar o helper `shared/lib/jwtUtils.js` em `AuthFuncionarioService.js`.\n"
+            "- Validar as senhas no `login()` utilizando `bcrypt.compare`.\n"
+            "- Corrigir a declaração da variável `funcionario` na função `renovarToken`.\n"
+            "- Corrigir a lógica do `login()` para não chamar `gerarRefreshToken` duas vezes nem usar segredos incorretos.\n"
+            "- Ajustar a tabela/estrutura de `refresh_tokens` em `AuthFuncionarioRepository` e corrigir a instrução SQL `INSERT`.\n"
+            "- Corrigir `AuthController.refresh` para evitar a chamada duplicada `res.json(200).json(resultado)`.\n"
+            "- Incluir a propriedade `papel` no payload do JWT e conectar o middleware `authMiddleware.verificarAdmin` nas rotas protegidas.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Login só autoriza mediante senha válida no bcrypt.\n"
+            "- [ ] Tokens JWT gerados com o segredo e payload corretos (incluindo `papel`).\n"
+            "- [ ] Endpoint de refresh token funciona sem erros de `headers already sent` ou SQL inválido.\n"
+            "- [ ] Rotas protegidas exigem autenticação e autorização adequadas."
+        )
+    },
+    {
+        "title": "fix: reescrever EntradasRepository e ajustar retorno de status no EntradaController",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "`EntradasRepository.js` contém o código duplicado do Service (importando a si mesmo) e depende do módulo `sku` ainda não criado. "
+            "Além disso, o `EntradaController` força status 500 ignorando o `statusCode` lançado pelo `AppError`.\n\n"
+            "### O que fazer\n"
+            "- Reescrever `EntradasRepository.js` implementando as queries SQL reais.\n"
+            "- Integrar com o `SkuRepository` (criado na reestruturação do catálogo).\n"
+            "- Corrigir o `EntradaController` para utilizar o `statusCode` apropriado informado pelo erro capturado.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] `EntradasRepository` executa queries no banco sem erros de auto-importação.\n"
+            "- [ ] Integração com `SkuRepository` funcionando.\n"
+            "- [ ] Erros de validação e negócio retornam o status HTTP correto (400, 404, 409, etc.)."
+        )
+    },
+    {
+        "title": "fix: ajustar EstoqueRepository para view vw_estoque_atual e limpar código morto",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "`EstoqueRepository.listarTodos()` consulta uma tabela `estoque` inexistente. O saldo de estoque agora deve ser obtido através da view `vw_estoque_atual`. "
+            "Além disso, há métodos mortos/incompletos no Controller e Service.\n\n"
+            "### O que fazer\n"
+            "- Atualizar a consulta do `EstoqueRepository` para utilizar a view `vw_estoque_atual` (aproveitando o campo `abaixo_do_minimo` para alertas).\n"
+            "- Remover ou implementar corretamente o método `EstoqueController.buscarPorId` / `EstoqueService.buscarPorId`.\n"
+            "- Mapear ou remover a rota `/estoque/:id` conforme a necessidade.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Consultas de estoque retornam dados corretos da view `vw_estoque_atual`.\n"
+            "- [ ] Alerta de estoque mínimo funcionando via coluna `abaixo_do_minimo`.\n"
+            "- [ ] Código morto/incompleto removido ou corrigido."
+        )
+    },
+    {
+        "title": "fix: ajustar VendaController para repassar o statusCode do AppError",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "O módulo de venda/saída está alinhado ao novo schema, porém o `VendaController` descarta o `error.statusCode` tratado pelo `VendaService` e sempre devolve status HTTP 500 para o cliente.\n\n"
+            "### O que fazer\n"
+            "- Atualizar os blocos `catch` do `VendaController` para responder com o status de erro definido no `AppError` (ex: 400, 404, 409).\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Respostas de erro na API de Vendas retornam o código HTTP correspondente à regra de negócio violada."
+        )
+    },
+    {
+        "title": "fix: adequar módulo devolucao ao novo schema e corrigir commit da transação",
+        "labels": ["bug"],
+        "body": (
+            "### Contexto\n"
+            "`DevolucaoService.criarDevolucao` utiliza atributos da tabela antiga. O Controller tenta chamar o método `cadastrar` (que se chama `criarDevolucao`) "
+            "e o Repository não efetua o `commit()` da transação SQL, descartando o registro.\n\n"
+            "### O que fazer\n"
+            "- Atualizar o Service para usar os campos do novo schema: `id_funcionario`, `id_item_venda`, `tipo`, `quantidade`, `motivo`, `reutilizavel`, `valor_reembolso`, `id_venda_troca`, `data_devolucao`.\n"
+            "- Implementar o tratamento para os tipos `DEVOLUCAO` vs `TROCA` (gerando `id_venda_troca`).\n"
+            "- Corrigir no `DevolucaoController` o nome da chamada para `DevolucaoService.criarDevolucao`.\n"
+            "- Adicionar `connection.commit()` e o retorno de `result.insertId` no `DevolucaoRepository.cadastrarDevolucao`.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] Transação SQL de devolução finalizada com sucesso via `commit()`.\n"
+            "- [ ] Retorno correto de `insertId` após a inserção.\n"
+            "- [ ] Operações de devolução e troca salvando dados alinhados ao schema atual."
+        )
+    },
+    {
+        "title": "refactor: padronizar manipulação de erros utilizando a propriedade statusCode",
+        "labels": ["enhancement"],
+        "body": (
+            "### Contexto\n"
+            "O `errorHandler.js` global busca pela propriedade `err.status`, enquanto as classes `AppError` definem `this.statusCode`. "
+            "Essa divergência faz com que qualquer exceção resulte em erro HTTP 500.\n\n"
+            "### O que fazer\n"
+            "- Padronizar o atributo em toda a aplicação utilizando `statusCode`.\n"
+            "- Atualizar o middleware `errorHandler.js` para ler `err.statusCode` antes de fallback para 500.\n"
+            "- Refatorar os `catch` dos controllers para passar os erros capturados para `next(error)` ou utilizar o status do próprio erro.\n\n"
+            "### Critérios de Aceite\n"
+            "- [ ] `errorHandler.js` interpreta e responde corretamente com o status HTTP lançado pelo `AppError`.\n"
+            "- [ ] Respostas de erro padronizadas em todas as rotas da API."
+        )
+    }
+]
+
+def cadastrar_issues_em_lote(repo: str, token: str, backlog: list[dict]) -> None:
+    """Cadastra uma lista de issues via API REST v3 do GitHub garantindo tratamento de erros e throttling."""
+    
+    if token == "COLE_SEU_TOKEN_AQUI" or not token:
+        raise ValueError("Token de autenticação do GitHub não foi fornecido.")
+
+    url = f"https://api.github.com/repos/{repo}/issues"
+    
+    # Session reutiliza a conexão TCP/TLS
+    session = requests.Session()
+    session.headers.update({
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28"
+    })
+
+    print(f"🚀 Iniciando importação de {len(backlog)} issues para '{repo}'...\n")
+
+    for index, issue_payload in enumerate(backlog, start=1):
+        try:
+            response = session.post(url, json=issue_payload, timeout=(3.05, 10))
+            response.raise_for_status()
+            
+            data = response.json()
+            print(f"✅ [{index}/{len(backlog)}] Issue #{data['number']} criada: {data['html_url']}")
+
+            # Throttling preventivo contra Rate Limit da API
+            time.sleep(1)
+
+        except requests.exceptions.HTTPError as err:
+            status_code = err.response.status_code
+            if status_code in (401, 403):
+                print(f"❌ [ERRO {status_code}] Falha de autorização ou Rate Limit excedido ao tentar criar '{issue_payload['title']}'.")
+                print(f"Detalhes: {err.response.text}")
+                break
+            else:
+                print(f"⚠️ [ERRO {status_code}] Falha ao criar issue '{issue_payload['title']}': {err.response.text}")
+
+        except requests.exceptions.RequestException as err:
+            print(f"💥 [ERRO DE REDE] Exceção de I/O ao processar '{issue_payload['title']}': {err}")
+
+if __name__ == "__main__":
+    cadastrar_issues_em_lote(REPO_PATH, GITHUB_TOKEN, ISSUES_BACKLOG)
