@@ -22,3 +22,27 @@
 10. string soltas validando, frete gratis, promo, vip, estão todos soltos 
 
 11. o bound context de pagamento ele é generico, deveria ser um ACL(anti corruption layer)
+
+12. console.log totalmente errados para mostrar eventos 
+
+**Classificação dominio/aplicação/infraestrutura**
+
+1. USERS
+    Dominio: 
+        1. um usuario só pode ser cadastrado tendo um nome, email e senha
+        2. o usuario deve ser criado com o campo vip como falso por padrão
+        3. um usuario não pode ser cadastrado com um email já existente
+        
+
+    Aplicação: 
+        1. verificarExistenciaUsuario
+        2. UniqueIdGenerator
+        4. createUsuarioUsecase
+        5. buscarUsuarioUnicoUsecase
+
+
+    Infraestrutura: 
+        1. hashPassword
+        2. post "/users"
+        3. get "/users"
+        4. buscarUsuarioRepository
