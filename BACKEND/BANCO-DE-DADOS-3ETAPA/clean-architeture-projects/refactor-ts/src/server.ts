@@ -13,9 +13,12 @@
  *    npx tsx src/server.ts
  */
 
-import Fastify from 'fastify'
+import { describe, it, beforeEach, afterEach } from 'node:test';
+import assert from 'node:assert/strict';
+import Fastify, {FastifyInstance} from 'fastify'
 import Database from 'better-sqlite3'
 import crypto from 'crypto'
+
 
 const app = Fastify({ logger: false })
 const db = new Database('loja.db')
@@ -62,21 +65,7 @@ db.exec(`
   );
 `)
 
-async function runTests(){
 
-  // register valid
-  const responsePost = await app.inject({
-    method: 'POST',
-    url: '/users',
-    payload: { name: "miguel", email: "miguel@gmail.com", password: "123", isVip: true },
-    headers: {
-      'content-type': 'application/json',
-    }
-  })
-
-  console.log('Status POST:', responsePost.statusCode)
-  console.log('Corpo POST:', responsePost.json())
-}
 
 
 // ---------- USUÁRIOS ----------
@@ -402,3 +391,397 @@ app.get('/reports/sales', async () => {
 app.listen({ port: 3000, host: '0.0.0.0' }).then(() => {
   console.log('Servidor rodando em http://localhost:3000')
 })
+
+
+
+//------------------------------------------------
+//     TESTES
+//-------------------------------------------------------
+
+
+describe('Suíte de Testes de Integração em Memória', () => {
+  let app: FastifyInstance;
+
+  beforeEach(async () => {
+    app = buildApp({ dbInMemoria: true });
+    await app.ready();
+  });
+
+  afterEach(async () => {
+    await app.close();
+  });
+
+  // ==========================================
+  // 1. USUÁRIOS E CADASTRO
+  // ==========================================
+  describe('Cadastro de Usuários', () => {
+    it('deve cadastrar um usuário com dados válidos', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/users',
+        payload: {
+          nome: 'Miguel Silva',
+          email: 'miguel@email.com',
+          senha: 'SenhaSegura123!',
+          isVip: false,
+        },
+      });
+
+      assert.equal(response.statusCode, 201);
+      assert.ok(response.json().id);
+    });
+
+    it('deve recusar cadastro com e-mail duplicado', async () => {
+      const payload = { nome: 'Ana', email: 'ana@email.com', senha: 'Password123!' };
+
+      await app.inject({ method: 'POST', url: '/users', payload });
+      const response = await app.inject({ method: 'POST', url: '/users', payload });
+
+      assert.equal(response.statusCode, 409);
+    });
+
+    it('deve recusar dados inválidos (e-mail, senha e nome)', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/users',
+        payload: {
+          nome: '', // Inválido
+          email: 'email-invalido', // Inválido
+          senha: '123', // Senha fraca/curta
+        },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+  });
+
+  // ==========================================
+  // 2. PRODUTOS
+  // ==========================================
+  describe('Gestão de Produtos', () => {
+    it('deve criar um produto válido', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/products',
+        payload: {
+          nome: 'Teclado Mecânico',
+          preco: 150.0,
+          estoque: 20,
+          ativo: true,
+        },
+      });
+
+      assert.equal(response.statusCode, 201);
+    });
+
+    it('deve recusar produto inválido (preço negativo)', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/products',
+        payload: { nome: 'Mouse', preco: -10, estoque: 5 },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve listar todos os produtos ativos', async () => {
+      const response = await app.inject({ method: 'GET', url: '/products' });
+
+      assert.equal(response.statusCode, 200);
+      assert.ok(Array.isArray(response.json()));
+    });
+
+    it('deve permitir exclusão de produto sem pedido pendente', async () => {
+      const createRes = await app.inject({
+        method: 'POST',
+        url: '/products',
+        payload: { nome: 'Monitor', preco: 800, estoque: 2 },
+      });
+      const productId = createRes.json().id;
+
+      const deleteRes = await app.inject({
+        method: 'DELETE',
+        url: `/products/${productId}`,
+      });
+
+      assert.equal(deleteRes.statusCode, 200);
+    });
+
+    it('deve impedir exclusão de produto com pedido pendente', async () => {
+      // Cria produto, cria pedido vinculado e tenta excluir o produto
+      const prodRes = await app.inject({
+        method: 'POST',
+        url: '/products',
+        payload: { nome: 'Cadeira', preco: 500, estoque: 10 },
+      });
+      const productId = prodRes.json().id;
+
+      await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: { itens: [{ produtoId: productId, quantidade: 1 }] },
+      });
+
+      const deleteRes = await app.inject({
+        method: 'DELETE',
+        url: `/products/${productId}`,
+      });
+
+      assert.equal(deleteRes.statusCode, 400);
+    });
+  });
+
+  // ==========================================
+  // 3. PEDIDOS E REGRAS DE NEGÓCIO
+  // ==========================================
+  describe('Criação de Pedidos', () => {
+    it('deve criar pedido no caminho feliz', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-1', quantidade: 2 }],
+        },
+      });
+
+      assert.equal(response.statusCode, 201);
+    });
+
+    it('deve rejeitar pedido sem itens', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: { clienteId: 'user-1', itens: [] },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve rejeitar quantidade maior que o limite permitido (ex: 11 unidades)', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-1', quantidade: 11 }],
+        },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve rejeitar pedido por estoque insuficiente', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-baixo-estoque', quantidade: 10 }],
+        },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve rejeitar pedido com produto inativo', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-inativo', quantidade: 1 }],
+        },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve aplicar cupom válido', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-1', quantidade: 1 }],
+          cupom: 'PROMO10',
+        },
+      });
+
+      assert.equal(response.statusCode, 201);
+      assert.ok(response.json().desconto > 0);
+    });
+
+    it('deve impedir uso de cupom VIP por usuário não-VIP', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-normal',
+          itens: [{ produtoId: 'prod-1', quantidade: 1 }],
+          cupom: 'CUPOM_VIP',
+        },
+      });
+
+      assert.equal(response.statusCode, 403);
+    });
+
+    it('deve conceder frete grátis ao atingir valor mínimo', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-caro', quantidade: 1 }], // Valor > R$ 200
+        },
+      });
+
+      assert.equal(response.json().valorFrete, 0);
+    });
+
+    it('deve rejeitar pedido abaixo do valor mínimo exigido', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/orders',
+        payload: {
+          clienteId: 'user-1',
+          itens: [{ produtoId: 'prod-barato', quantidade: 1 }], // Valor < R$ 10
+        },
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+  });
+
+  // ==========================================
+  // 4. PAGAMENTOS
+  // ==========================================
+  describe('Processamento de Pagamentos', () => {
+    it('deve processar pagamento via PIX', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-1', metodo: 'PIX' },
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.json().status, 'PAGO');
+    });
+
+    it('deve processar cartão à vista', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-1', metodo: 'CREDITO', parcelas: 1 },
+      });
+
+      assert.equal(response.statusCode, 200);
+    });
+
+    it('deve processar cartão em 7x', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-1', metodo: 'CREDITO', parcelas: 7 },
+      });
+
+      assert.equal(response.statusCode, 200);
+    });
+
+    it('deve tratar cartão recusado pela operadora', async () => {
+      const response = await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-1', metodo: 'CREDITO', numeroCartao: '0000000000000000' },
+      });
+
+      assert.equal(response.statusCode, 402); // Payment Required / Recusado
+    });
+
+    it('deve recusar pagamento para pedido já pago', async () => {
+      await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-pago', metodo: 'PIX' },
+      });
+
+      const segundoPgto = await app.inject({
+        method: 'POST',
+        url: '/payments',
+        payload: { pedidoId: 'order-pago', metodo: 'PIX' },
+      });
+
+      assert.equal(segundoPgto.statusCode, 400);
+    });
+  });
+
+  // ==========================================
+  // 5. ENVIO E CANCELAMENTO
+  // ==========================================
+  describe('Fluxo de Estados (Envio e Cancelamento)', () => {
+    it('deve enviar pedido com status PAGO', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/orders/order-paga/ship',
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.json().status, 'ENVIADO');
+    });
+
+    it('deve recusar envio de pedido com status PENDENTE', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/orders/order-pendente/ship',
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+
+    it('deve permitir cancelamento de pedido PENDENTE', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/orders/order-pendente/cancel',
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.json().status, 'CANCELADO');
+    });
+
+    it('deve permitir cancelamento de pedido PAGO e estornar', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/orders/order-paga/cancel',
+      });
+
+      assert.equal(response.statusCode, 200);
+      assert.equal(response.json().estornado, true);
+    });
+
+    it('deve recusar cancelamento de pedido já ENVIADO ou ENTREGUE', async () => {
+      const response = await app.inject({
+        method: 'PATCH',
+        url: '/orders/order-enviada/cancel',
+      });
+
+      assert.equal(response.statusCode, 400);
+    });
+  });
+
+  // ==========================================
+  // 6. RELATÓRIO DE VENDAS
+  // ==========================================
+  describe('Relatórios', () => {
+    it('deve gerar relatório de vendas com totais calculados', async () => {
+      const response = await app.inject({
+        method: 'GET',
+        url: '/reports/sales?dataInicio=2026-01-01&dataFim=2026-12-31',
+      });
+
+      assert.equal(response.statusCode, 200);
+      const data = response.json();
+      assert.ok('totalVendas' in data);
+      assert.ok('faturamentoTotal' in data);
+    });
+  });
+});
