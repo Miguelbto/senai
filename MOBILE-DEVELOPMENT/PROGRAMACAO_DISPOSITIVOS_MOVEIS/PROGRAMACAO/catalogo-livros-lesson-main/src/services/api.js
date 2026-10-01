@@ -18,13 +18,16 @@ export async function buscarLivros() {
 
 export async function buscarLivroPorId(id) {
   try {
-    const response = await fetch(`${BASE_URL}/${id}`)
+    const response = await fetch(`${BASE_URL}/livros/${id}`)
 
     if (!response.ok) {
       throw new Error(`Erro ${response.status}: falha ao buscar livro por Id`)
     }
-  } catch (error) {
-    console.error(`buscar livros`, error.message)
+
+    return response.json()
+  } catch (e) {
+    console.error(`buscar livros`, e.message)
+    throw e
   }
 }
 
@@ -32,14 +35,12 @@ export async function adicionarFavorito(livroId, observacao = '') {
   try {
     const response = await fetch(`${BASE_URL}/favoritos`, {
       method: 'POST',
-      headers: { 'Content-Type': 'Aplication/json' },
+      headers: { 'Content-Type': 'Application/json' },
       body: JSON.stringify({ livroId, observacao })
     })
 
     if (!response.ok) {
-      const corpo = await response.json()
-        .catch(() => { })
-
+      const corpo = await response.json().catch(() => ({}))
       const erro = new Error(corpo.erro ?? `Erro ${response.status}: falha ao adicionar favorito`)
       erro.status = response.status
       throw erro
@@ -48,7 +49,8 @@ export async function adicionarFavorito(livroId, observacao = '') {
     return response.json()
 
   } catch (error) {
-    console.erro('Adicionar favorito', error.message)
+    console.error('Adicionar favorito', error.message)
+    throw error
   }
 }
 
@@ -61,8 +63,9 @@ export async function listarFavoritos() {
     }
 
     return response.json()
-  } catch (error) {
-    console.error("Erro: listar favoritos", error.message)
+  } catch (e) {
+    console.error("Erro: listar favoritos", e.message)
+    throw e
   }
 }
 

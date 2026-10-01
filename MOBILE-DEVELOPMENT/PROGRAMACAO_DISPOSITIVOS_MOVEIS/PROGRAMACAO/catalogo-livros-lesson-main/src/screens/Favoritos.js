@@ -25,7 +25,6 @@ export default function Favoritos() {
   const [erro, setErro] = useState(null);
 
   const carregar = useCallback(async () => {
-    // TODO: chamar listarFavoritos() e atualizar os estados favoritos, carregando e erro
     setCarregando(true)
     setErro(null)
     try {
@@ -49,7 +48,6 @@ export default function Favoritos() {
   );
 
   async function handleEditar(id, observacao) {
-    // TODO: chamar editarFavorito(id, observacao) e atualizar o item no estado favoritos
     setCarregando(true)
     setErro(null)
     try {
@@ -57,8 +55,13 @@ export default function Favoritos() {
       setFavoritos((listaAtual) => listaAtual.map((favorito) =>
         favorito.id === id ? { ...listarFavoritos, observacao: atualizado.observacao } : favorito,
       ))
+
     } catch (error) {
-      Alert.alert("Erro", e.message);
+      setErro(error.message)
+      Alert.alert("Erro", error.message);
+    }
+    finally {
+      setCarregando(false)
     }
   }
 

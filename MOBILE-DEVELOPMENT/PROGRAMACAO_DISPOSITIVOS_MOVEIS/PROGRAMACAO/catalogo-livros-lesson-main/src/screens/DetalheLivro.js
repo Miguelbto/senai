@@ -36,7 +36,7 @@ export default function DetalheLivro({ route }) {
     setAdicionando(true)
     setFeedback(null)
     try {
-      await adicionarFavorito(livroId.id, "");
+      await adicionarFavorito(livroId, "");
       setJaFavoritado(true)
       setFeedback({ tipo: "sucesso", texto: "adicionado aos favoritos!" })
     } catch (e) {
