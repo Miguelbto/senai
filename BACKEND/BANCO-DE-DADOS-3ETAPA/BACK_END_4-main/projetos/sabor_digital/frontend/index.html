@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <!-- Configuração para tornar a tela responsiva em dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabor Digital - Administração</title>
+    
+    <!-- Importação da folha de estilos CSS criada -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Importação da fonte moderna 'Inter' direto do Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="navbar">
+        <div class="container" style="display: flex; gap: 15px; align-items: center;">
+            <h1 style="flex-grow: 1;">Sabor <span>Digital</span></h1>
+            
+            <!-- Botão que abrirá o modal para inserir um novo produto (oculto por padrão) -->
+            <button id="btn-novo-produto" class="btn primary hidden">Novo Produto</button>
+            
+            <!-- Botões de Autenticação -->
+            <button id="btn-login" class="btn secondary">Entrar</button>
+            <button id="btn-registrar" class="btn secondary" style="background-color: var(--accent-success); border: none;">Registrar</button>
+            <button id="btn-logout" class="btn danger hidden">Sair</button>
+        </div>
+    </header>
+
+    <!-- Conteúdo principal da página -->
+    <main class="container">
+        <!-- Seção da Grade de Produtos -->
+        <section class="products-section">
+            <h2>Nossos Produtos</h2>
+            
+            <!-- Esta 'div' vazia será preenchida pelo JavaScript com os cards que vêm do Banco de Dados -->
+            <div id="products-grid" class="grid">
+                <!-- Produtos serão renderizados aqui pelo JS -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Modal Form (A Janela Pop-up flutuante) -->
+    <!-- Começa com a classe 'hidden' para não aparecer até clicarmos no botão -->
+    <div id="modal" class="modal hidden">
+        <div class="modal-content">
+            <!-- Botão 'X' de fechar a janela -->
+            <span class="close-btn">&times;</span>
+            
+            <!-- Título do Modal que vai mudar para "Editar Produto" dependendo da ação -->
+            <h2 id="modal-title">Cadastrar Produto</h2>
+            
+            <!-- O Formulário de cadastro/edição -->
+            <form id="product-form">
+                <!-- ID escondido (usado apenas na edição para saber qual produto atualizar) -->
+                <input type="hidden" id="produto-id">
+                
+                <div class="form-group">
+                    <label for="nome">Nome</label>
+                    <input type="text" id="nome" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="descricao">Descrição</label>
+                    <textarea id="descricao" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="preco">Preço (R$)</label>
+                    <!-- Campo numérico com precisão decimal (aceita centavos) -->
+                    <input type="number" step="0.01" id="preco" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoria">Categoria</label>
+                    <input type="text" id="categoria">
+                </div>
+                
+                <div class="form-group">
+                    <label for="imagem">Imagem</label>
+                    <!-- Campo para fazer upload (accept restringe para mostrar apenas imagens) -->
+                    <input type="file" id="imagem" accept="image/jpeg, image/png, image/jpg">
+                </div>
+                
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="disponivel" checked>
+                    <label for="disponivel">Disponível</label>
+                </div>
+                
+                <!-- Botão que aciona o evento 'submit' do formulário -->
+                <button type="submit" class="btn secondary">Salvar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Login -->
+    <div id="modal-login" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-login-btn">&times;</span>
+            <h2>Acesso Restrito</h2>
+            <form id="login-form">
+                <div class="form-group">
+                    <label for="login-email">E-mail</label>
+                    <input type="email" id="login-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="login-senha">Senha</label>
+                    <input type="password" id="login-senha" required>
+                </div>
+                <button type="submit" class="btn primary">Entrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal de Registro -->
+    <div id="modal-registrar" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-btn" id="close-registrar-btn">&times;</span>
+            <h2>Criar Conta</h2>
+            <form id="registrar-form">
+                <div class="form-group">
+                    <label for="reg-nome">Nome Completo</label>
+                    <input type="text" id="reg-nome" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-email">E-mail</label>
+                    <input type="email" id="reg-email" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-senha">Senha</label>
+                    <input type="password" id="reg-senha" required>
+                </div>
+                <div class="form-group">
+                    <label for="reg-papel">Tipo de Conta</label>
+                    <select id="reg-papel" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid #ccc;">
+                        <option value="cliente">Cliente (Padrão)</option>
+                        <option value="admin">Administrador</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn" style="background-color: var(--accent-success); color: white; width: 100%; padding: 10px; border-radius: 6px; border: none; cursor: pointer;">Cadastrar</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Importação do arquivo de lógica JavaScript -->
+    <!-- O script deve estar no final do body para carregar depois que os elementos HTML existirem -->
+    <script src="app.js"></script>
+</body>
+</html>

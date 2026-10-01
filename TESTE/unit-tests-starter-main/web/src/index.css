@@ -1,0 +1,30 @@
+body {
+  font-family: sans-serif;
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+nav,
+form {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 16px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-bottom: 1px solid #ddd;
+  padding: 6px;
+  text-align: left;
+}
+
+.erro {
+  color: #b00020;
+}

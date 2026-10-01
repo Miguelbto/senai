@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entendendo o JWT - JSON Web Token</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-primary: #3b82f6;
+            --accent-secondary: #ec4899;
+            --accent-success: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Outfit', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* HEADER / CAPA */
+        header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: radial-gradient(circle at center, #1e293b 0%, #0f172a 100%);
+            position: relative;
+        }
+
+        header h1 {
+            font-size: 5rem;
+            font-weight: 800;
+            background: linear-gradient(to right, var(--accent-primary), var(--accent-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        header p {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            max-width: 600px;
+        }
+
+        .scroll-down {
+            position: absolute;
+            bottom: 40px;
+            font-size: 1rem;
+            color: var(--text-muted);
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-20px); }
+            60% { transform: translateY(-10px); }
+        }
+
+        /* SEÇÕES (SLIDES) */
+        section {
+            padding: 100px 0;
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+        }
+
+        section:nth-child(even) {
+            background-color: #151e2e;
+        }
+
+        .section-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: var(--accent-primary);
+        }
+
+        .section-text {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        /* CARDS / VISUALIZAÇÕES */
+        .visual-card {
+            background-color: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
+            position: relative;
+        }
+
+        .visual-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+        }
+
+        .jwt-structure {
+            font-family: 'Roboto Mono', monospace;
+            font-size: 1.1rem;
+            word-break: break-all;
+            line-height: 1.5;
+        }
+
+        .jwt-header { color: #ef4444; }
+        .jwt-payload { color: #a855f7; }
+        .jwt-signature { color: #3b82f6; }
+        
+        .jwt-dot { color: var(--text-main); font-weight: bold; }
+
+        .feature-list {
+            list-style: none;
+        }
+        
+        .feature-list li {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .feature-list li::before {
+            content: '✓';
+            color: var(--accent-success);
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        /* RESPONSIVIDADE */
+        @media (max-width: 900px) {
+            .section-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            header h1 { font-size: 3.5rem; }
+            .feature-list li { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CAPA -->
+    <header>
+        <div class="container">
+            <h1>O Poder do JWT</h1>
+            <p>JSON Web Token: A forma moderna e segura de autenticar usuários em APIs REST.</p>
+        </div>
+        <div class="scroll-down">Role para baixo ↓</div>
+    </header>
+
+    <!-- SEÇÃO 1: O QUE É? -->
+    <section>
+        <div class="container section-content">
+            <div>
+                <h2 class="section-title">O que é JWT?</h2>
+                <p class="section-text">
+                    O <strong>JSON Web Token (JWT)</strong> é um padrão aberto (RFC 7519) que define uma maneira compacta e autossuficiente de transmitir informações com segurança entre as partes como um objeto JSON.
+                </p>
+                <p class="section-text">
+                    Em palavras simples, é como um <strong>"Crachá Digital"</strong>. Uma vez que o usuário faz login, o servidor cria esse crachá e o entrega ao navegador. A partir daí, o usuário mostra esse crachá para entrar em áreas restritas sem precisar digitar a senha novamente.
+                </p>
+            </div>
+            <div class="visual-card">
+                <h3>Vantagens</h3>
+                <ul class="feature-list">
+                    <li><strong>Stateless:</strong> O servidor não precisa guardar a sessão na memória. O próprio token tem tudo.</li>
+                    <li><strong>Compacto:</strong> Pode ser enviado via URL, POST ou Headers HTTP (o mais comum).</li>
+                    <li><strong>Seguro:</strong> Assinado digitalmente, não pode ser alterado por terceiros.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 2: A ESTRUTURA DO TOKEN -->
+    <section>
+        <div class="container section-content">
+            <div class="visual-card">
+                <h3>Anatomia do JWT</h3>
+                <p style="margin-bottom: 15px; color: var(--text-muted);">Um JWT é formado por três partes divididas por pontos:</p>
+                <div class="jwt-structure">
+                    <span class="jwt-header">eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9</span><span class="jwt-dot">.</span><br>
+                    <span class="jwt-payload">eyJpZCI6MSwicGFwZWwiOiJhZG1pbiIsImlhdCI6MTYyMjU1NTE3OH0</span><span class="jwt-dot">.</span><br>
+                    <span class="jwt-signature">SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c</span>
+                </div>
+                <div style="margin-top: 20px; font-size: 0.9rem;">
+                    <span style="color: #ef4444; margin-right: 10px;">■ Header</span>
+                    <span style="color: #a855f7; margin-right: 10px;">■ Payload (Dados)</span>
+                    <span style="color: #3b82f6;">■ Assinatura</span>
+                </div>
+            </div>
+            <div>
+                <h2 class="section-title">A Estrutura</h2>
+                <p class="section-text">
+                    <strong style="color: #ef4444;">1. Header (Cabeçalho):</strong> Define o tipo do token (JWT) e o algoritmo de criptografia usado (geralmente HMAC SHA256 ou RSA).
+                </p>
+                <p class="section-text">
+                    <strong style="color: #a855f7;">2. Payload (Corpo):</strong> Contém as afirmações (claims). Aqui colocamos dados do usuário, como o ID e se ele é 'admin' ou 'cliente'. <em>Atenção: Não coloque senhas aqui, pois esta parte pode ser lida por qualquer um!</em>
+                </p>
+                <p class="section-text">
+                    <strong style="color: #3b82f6;">3. Assinatura (Signature):</strong> A mágica acontece aqui. O servidor junta o Header, o Payload e uma <strong>Chave Secreta</strong> (que só o servidor sabe) para criar uma assinatura. Se alguém alterar o Payload, a assinatura fica inválida.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEÇÃO 3: COMO É USADO NA PRÁTICA -->
+    <section>
+        <div class="container section-content">
+            <div>
+                <h2 class="section-title">Como é usado?</h2>
+                <p class="section-text">
+                    <strong>Passo 1:</strong> O cliente envia Email e Senha (POST /login).<br>
+                    <strong>Passo 2:</strong> O servidor valida no banco. Se ok, gera o JWT e devolve.<br>
+                    <strong>Passo 3:</strong> O cliente guarda o JWT (ex: LocalStorage).<br>
+                    <strong>Passo 4:</strong> Em requisições futuras, o cliente envia o JWT no cabeçalho HTTP: <br><code>Authorization: Bearer &lt;token&gt;</code>.<br>
+                    <strong>Passo 5:</strong> O servidor valida a assinatura. Se válido, libera o acesso.
+                </p>
+            </div>
+            <div class="visual-card" style="text-align: center;">
+                <h3>Pronto para o Projeto!</h3>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">
+                    No nosso projeto <strong>Sabor Digital</strong>, usamos JWT para diferenciar o acesso de <em>Admins</em> (podem criar e excluir produtos) de <em>Clientes</em> (só visualizam o cardápio).
+                </p>
+                <button onclick="window.scrollTo(0,0)" style="padding: 12px 24px; background: var(--accent-primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1.1rem; font-weight: bold;">
+                    Voltar ao Topo
+                </button>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

@@ -1,15 +1,29 @@
 {
   "name": "aula05-testes-starter",
   "version": "1.0.0",
-  "description": "Projeto base da Aula 05 - Testes Unitarios com Jest",
+  "description": "Projeto base das aulas de Testes de Software (Jest e Supertest)",
   "scripts": {
-    "test": "jest"
-  },
-  "devDependencies": {
-    "jest": "^29.7.0"
+    "test": "jest",
+    "test:unit": "jest api/__tests__/unit",
+    "test:integration": "jest api/__tests__/integration",
+    "api": "node api/server.js",
+    "api:e2e": "node api/server.js --e2e",
+    "dev": "concurrently -n api,web \"npm run api\" \"npm run dev --prefix web\""
   },
   "dependencies": {
-    "express": "^5.2.1",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "concurrently": "^9.2.1",
+    "jest": "^29.7.0",
     "supertest": "^7.2.2"
+  },
+  "jest": {
+    "testPathIgnorePatterns": [
+      "/node_modules/",
+      "/web/",
+      "/e2e/"
+    ]
   }
 }
