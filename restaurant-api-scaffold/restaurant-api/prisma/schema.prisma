@@ -1,0 +1,24 @@
+// Schema inicial — espelha o modelo lógico de
+// restaurant-api-documentacao-completa.md (seção 11).
+// Esta é só a FASE 0: só os campos de infraestrutura básica.
+// Cada bounded context adiciona seus próprios models na fase dele
+// (Identity na Fase 1, Floor Management na Fase 2, etc.) — não criamos
+// tudo de uma vez para o schema crescer junto com o código que o usa.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Placeholder para a Fase 0: confirma que a conexão com o Postgres
+// funciona antes de qualquer bounded context ser implementado.
+model HealthCheck {
+  id        String   @id @default(uuid())
+  checkedAt DateTime @default(now())
+
+  @@map("health_check")
+}

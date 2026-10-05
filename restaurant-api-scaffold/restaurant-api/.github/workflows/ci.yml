@@ -1,0 +1,89 @@
+name: CI
+
+# Roda em todo push e em todo Pull Request para main — é o PR que vai
+# bloquear merge se algo quebrar, então essa trigger dupla é de propósito.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    # Serviços efêmeros: o job inteiro ganha um Postgres e um Redis
+    # reais, isolados, que só existem durante esta execução do CI —
+    # testes de integração rodam contra banco de verdade, não mocks.
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: restaurant
+          POSTGRES_PASSWORD: restaurant
+          POSTGRES_DB: restaurant_api_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U restaurant -d restaurant_api_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+
+    env:
+      NODE_ENV: test
+      DATABASE_URL: postgresql://restaurant:restaurant@localhost:5432/restaurant_api_test
+      REDIS_HOST: localhost
+      REDIS_PORT: 6379
+      JWT_ACCESS_SECRET: ci-only-secret-at-least-32-characters-long
+      JWT_REFRESH_SECRET: ci-only-refresh-secret-at-least-32-chars
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Prisma generate
+        run: npx prisma generate
+
+      - name: Apply migrations
+        run: npx prisma migrate deploy
+
+      - name: Unit + integration tests
+        run: npm test -- --coverage
+
+      - name: E2E tests
+        run: npm run test:e2e
+
+      - name: Build
+        run: npm run build
+
+  docker-build:
+    runs-on: ubuntu-latest
+    needs: lint-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      # Valida que a imagem de produção builda de ponta a ponta.
+      # Ainda não faz push para nenhum registry — isso entra quando
+      # decidirmos onde hospedar (fica para a Fase 7 do roadmap).
+      - name: Build production image
+        run: docker build --target production -t restaurant-api:ci .

@@ -1,0 +1,61 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: restaurant-api-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: restaurant
+      POSTGRES_PASSWORD: restaurant
+      POSTGRES_DB: restaurant_api
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U restaurant -d restaurant_api"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    container_name: restaurant-api-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build:
+      context: .
+      target: development # usa o estágio "development" do Dockerfile
+    container_name: restaurant-api-app
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      # host/porta sempre apontam para os NOMES DE SERVIÇO do compose,
+      # não localhost — containers se enxergam pela rede interna do Docker.
+      DATABASE_URL: postgresql://restaurant:restaurant@postgres:5432/restaurant_api
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/app # código local montado -> hot-reload sem rebuild
+      - /app/node_modules # evita que o node_modules do host sobrescreva o do container
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  redis_data:
