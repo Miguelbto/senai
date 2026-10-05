@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "tsx watch src/main.ts",
+    "test": "node --import tsx --test \"tests/**/*.test.ts\"",
+    "test:unit": "node --import tsx --test \"tests/unit/**/*.test.ts\"",
+    "test:e2e": "node --import tsx --test \"tests/e2e/**/*.test.ts\"",
+    "typecheck": "tsc --noEmit",
+    "deps:check": "depcruise src --config .dependency-cruiser.cjs",
+    "type-check":"tsc --noEmit"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +22,8 @@
   },
   "devDependencies": {
     "@types/better-sqlite3": "^9.6.0",
-    "@types/node": "^26.6.3",
+    "@types/node": "^26.6.4",
+    "dependency-cruiser": "^18.5.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }

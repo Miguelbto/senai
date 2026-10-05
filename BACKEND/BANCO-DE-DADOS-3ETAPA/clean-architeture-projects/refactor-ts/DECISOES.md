@@ -131,3 +131,95 @@ Rever o mínimo de R$ 10: hoje o frete de R$ 19,90 o torna quase inalcançável 
  Diagrama de estados do pedido (PENDING, PAID, SHIPPED, CANCELED e as transições permitidas).
  Criar o DECISOES.md com: (a) por que o Pedido referencia produtos pelo id + preço congelado; (b) por que a consulta de "pedido pendente com este produto" mora no repositório de pedidos; (c) onde fica a validação do número do cartão (forma vs. regra).
 
+
+
+
+📁 MEU-PROJETO
+├── 📁 src
+│   ├── 📁 shared-kernel
+│   │   ├── 📁 domain
+│   │   │   ├── 📄 money.ts
+│   │   │   └── 📄 domain-error.ts
+│   │   ├── 📁 application
+│   │   │   ├── 📄 clock.ts
+│   │   │   ├── 📄 id-generator.ts
+│   │   │   └── 📄 unit-of-work.ts
+│   │   └── 📁 infrastructure
+│   │       ├── 📄 system-clock.ts
+│   │       ├── 📄 uuid-generator.ts
+│   │       └── 📄 sqlite-unit-of-work.ts
+│   │
+│   ├── 📁 contexts
+│   │   ├── 📁 identity
+│   │   │   ├── 📁 domain
+│   │   │   │   ├── 📄 user.ts
+│   │   │   │   ├── 📄 email.ts
+│   │   │   │   ├── 📄 plain-password.ts
+│   │   │   │   ├── 📄 password-hash.ts
+│   │   │   │   └── 📄 errors.ts
+│   │   │   ├── 📁 application
+│   │   │   │   ├── 📁 ports
+│   │   │   │   ├── 📁 use-cases
+│   │   │   │   └── 📁 dto
+│   │   │   ├── 📁 infrastructure
+│   │   │   │   ├── 📄 sqlite-user-repository.ts
+│   │   │   │   ├── 📄 user-mapper.ts
+│   │   │   │   └── 📄 scrypt-password-hasher.ts
+│   │   │   ├── 📁 interface
+│   │   │   │   └── 📁 http
+│   │   │   │       ├── 📄 user-routes.ts
+│   │   │   │       └── 📄 user-schemas.ts
+│   │   │   └── 📄 public-api.ts
+│   │   │
+│   │   ├── 📁 catalog
+│   │   │   ├── 📁 domain
+│   │   │   ├── 📁 application
+│   │   │   ├── 📁 infrastructure
+│   │   │   ├── 📁 interface
+│   │   │   │   └── 📁 http
+│   │   │   └── 📄 public-api.ts
+│   │   │
+│   │   ├── 📁 ordering
+│   │   │   ├── 📁 domain
+│   │   │   │   ├── 📁 services
+│   │   │   │   └── 📁 coupons
+│   │   │   ├── 📁 application
+│   │   │   ├── 📁 infrastructure
+│   │   │   ├── 📁 interface
+│   │   │   │   └── 📁 http
+│   │   │   └── 📄 public-api.ts
+│   │   │
+│   │   ├── 📁 payment
+│   │   │   ├── 📁 domain
+│   │   │   ├── 📁 application
+│   │   │   ├── 📁 infrastructure
+│   │   │   ├── 📁 interface
+│   │   │   │   └── 📁 http
+│   │   │   └── 📄 public-api.ts
+│   │   │
+│   │   └── 📁 reporting
+│   │       ├── 📁 application
+│   │       ├── 📁 infrastructure
+│   │       ├── 📁 interface
+│   │       │   └── 📁 http
+│   │       └── 📄 public-api.ts
+│   │
+│   ├── 📁 app
+│   │   ├── 📄 build-app.ts
+│   │   ├── 📄 composition-root.ts
+│   │   ├── 📄 error-handler.ts
+│   │   └── 📄 config.ts
+│   │
+│   └── 📄 main.ts
+│
+├── 📁 tests
+│   ├── 📁 unit
+│   │   ├── 📁 identity
+│   │   ├── 📁 catalog
+│   │   └── 📁 ordering
+│   ├── 📁 integration
+│   │   ├── 📁 identity
+│   │   └── 📁 ordering
+│   └── 📁 e2e
+├── 📄 package.json
+└── 📄 tsconfig.json
