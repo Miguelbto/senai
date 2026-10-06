@@ -2,6 +2,7 @@ import { describe, it, beforeEach, afterEach, mock } from 'node:test'
 import assert from 'node:assert/strict'
 import type { FastifyInstance } from 'fastify'
 import { buildApp } from '../../src/server'
+import { brotliDecompressSync } from 'node:zlib';
 
 describe('Módulo de Relatórios (/reports)', () => {
     let app: FastifyInstance
@@ -68,7 +69,15 @@ describe('Módulo de Relatórios (/reports)', () => {
         assert.equal(res.statusCode, 200)
 
         const body = res.json()
-        assert.equal(body.faturamento, 190) // 95 + 95
+        assert.equal(body.faturamento, 227.82) // 95 + 95
         assert.ok(Array.isArray(body.porStatus))
     })
+
+    const byStatus = Object.fromEntries(body.porStatus.map((r: any) => [r.status, r]))
+    assert.equal(byStatus.PAID.qtd, 1)
+assert.equal(byStatus.SHIPPED.qtd, 1)
+assert.equal(byStatus.PENDING.qtd, 1)
+assert.equal(byStatus.CANCELED.qtd, 1)
+assert.equal(byStatus.PAID.soma, 11391)        // centavos (quirk 7)
+assert.equal(byStatus.CANCELED.soma, 11990)  
 })

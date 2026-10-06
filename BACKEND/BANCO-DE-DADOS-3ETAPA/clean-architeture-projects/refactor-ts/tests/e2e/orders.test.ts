@@ -56,9 +56,9 @@ describe('Módulo de Pedidos (/orders)', () => {
             const body = res.json()
             assert.equal(body.status, 'PENDING')
             assert.equal(body.subtotal, 400)
-            assert.equal(body.discount, 0)
-            assert.equal(body.shipping, 0) // subtotal >= 200
-            assert.equal(body.total, 400)
+            assert.equal(body.discount, 20)
+            assert.equal(body.shipping, 19.9) // subtotal >= 200
+            assert.equal(body.total, 199.9)
 
             const prodList = await app.inject({ method: 'GET', url: '/products' })
             assert.equal(prodList.json()[0].stock, 8)
