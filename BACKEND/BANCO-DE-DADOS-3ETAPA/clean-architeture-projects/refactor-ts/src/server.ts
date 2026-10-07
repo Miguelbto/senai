@@ -72,42 +72,7 @@ export function buildApp(options: BuildAppOptions = {}): FastifyInstance {
   app.addHook('onClose', async () => { db.close() })
 
 
-  // ----------USUÁRIOS ----------
-  app.post('/users', async (req: any, reply: any) => {
-    const { name, email, password, isVip } = req.body || {}
-
-    if (!name || name.length < 2) {
-      return reply.status(400).send({ error: 'nome invalido' })
-    }
-    if (!email || !email.includes('@') || !email.includes('.')) {
-      return reply.status(400).send({ error: 'email invalido' })
-    }
-    if (!password || password.length < 6) {
-      return reply.status(400).send({ error: 'senha deve ter no minimo 6 caracteres' })
-    }
-
-    const exists = db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase())
-    if (exists) {
-      return reply.status(409).send({ error: 'email ja cadastrado' })
-    }
-
-    const id = crypto.randomUUID()
-    const hash = crypto.createHash('sha256').update(password + 'segredo123').digest('hex')
-
-    db.prepare(
-      'INSERT INTO users (id, name, email, password, is_vip, created_at) VALUES (?, ?, ?, ?, ?, ?)'
-    ).run(id, name, email.toLowerCase(), hash, isVip ? 1 : 0, new Date().toISOString())
-
-    console.log('[EMAIL FAKE] Bem-vindo, ' + name + '! Enviado para ' + email)
-
-    return reply.status(201).send({ id, name, email: email.toLowerCase(), isVip: !!isVip })
-  })
-
-  app.get('/users/:id', async (req: any, reply: any) => {
-    const u: any = db.prepare('SELECT * FROM users WHERE id = ?').get(req.params.id)
-    if (!u) return reply.status(404).send({ error: 'usuario nao encontrado' })
-    return { id: u.id, name: u.name, email: u.email, isVip: !!u.is_vip, createdAt: u.created_at }
-  })
+  //app.register()
 
   // ---------- PRODUTOS ----------
   app.post('/products', async (req: any, reply: any) => {
