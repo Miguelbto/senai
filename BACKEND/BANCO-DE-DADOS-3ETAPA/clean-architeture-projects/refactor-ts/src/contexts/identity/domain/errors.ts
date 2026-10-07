@@ -27,7 +27,7 @@ export class InvalidEmailError extends DomainError {
     }
 }
 
-export class WeakpasswordError extends DomainError {
+export class WeakPasswordError extends DomainError {
     readonly kind = 'validation' as const // 400
     constructor(minLenght: number) {
         super(`senha deve ter no minimo ${minLenght} caracteres`)
