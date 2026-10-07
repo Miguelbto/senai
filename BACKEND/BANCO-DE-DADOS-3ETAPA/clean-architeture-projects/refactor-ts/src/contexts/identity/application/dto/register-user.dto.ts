@@ -13,7 +13,7 @@ export interface RegisterUserInput {
     isVip: boolean;
 }
 
-export interface registerUserOutput {
+export interface RegisterUserOutput {
     id: string;
     name: string;
     email: string;
