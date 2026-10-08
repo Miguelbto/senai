@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass: Documentação de APIs Profissionais e IA</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Tema Escuro Padrão */
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.4);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --ai-color: #a855f7;
+            --ai-glow: rgba(168, 85, 247, 0.4);
+            --code-bg: #334155;
+            --border: rgba(255, 255, 255, 0.1);
+        }
+
+        [data-theme="light"] {
+            /* Tema Claro para Projetor */
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.3);
+            --success: #059669;
+            --danger: #dc2626;
+            --ai-color: #9333ea;
+            --ai-glow: rgba(147, 51, 234, 0.3);
+            --code-bg: #e2e8f0;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        /* Top Controls (Theme Toggle) */
+        .top-controls {
+            position: fixed;
+            top: 25px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .btn-theme {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-theme:hover {
+            transform: translateY(-2px);
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Nav Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .btn-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-nav:hover:not(:disabled) {
+            background: var(--accent);
+            color: #fff;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transform: translateY(-2px);
+            border-color: var(--accent);
+        }
+
+        .btn-nav:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: var(--border);
+            z-index: 1000;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent);
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--accent-glow);
+        }
+
+        /* Slides Container */
+        .slides {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.5s ease, transform 0.5s ease;
+            transform: translateY(20px) scale(0.98);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5% 10%;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Typography */
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--accent), var(--ai-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2.8rem;
+            margin-bottom: 2rem;
+            color: var(--text-main);
+            font-weight: 800;
+        }
+
+        .ai-title {
+            background: linear-gradient(135deg, var(--ai-color), #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+            font-weight: 400;
+        }
+
+        /* Formatting */
+        code {
+            font-family: monospace;
+            background-color: var(--code-bg);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 1.1rem;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        li {
+            font-size: 1.25rem;
+            line-height: 1.6;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            background: var(--bg-card);
+            padding: 20px 25px;
+            border-radius: 12px;
+            border-left: 5px solid var(--accent);
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            animation: slideIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .slide.active li:nth-child(1) { animation-delay: 0.1s; }
+        .slide.active li:nth-child(2) { animation-delay: 0.2s; }
+        .slide.active li:nth-child(3) { animation-delay: 0.3s; }
+        .slide.active li:nth-child(4) { animation-delay: 0.4s; }
+
+        @keyframes slideIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        li i {
+            color: var(--accent);
+            font-size: 1.8rem;
+            margin-top: 2px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .ai-li {
+            border-left-color: var(--ai-color);
+        }
+        .ai-li i {
+            color: var(--ai-color) !important;
+        }
+
+        /* Grid System */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 1.5rem;
+            align-items: stretch; /* Garante que os cards tenham a mesma altura */
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 35px 30px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+        }
+
+        .card.bad::before { background: var(--danger); }
+        .card.good::before { background: var(--success); }
+        .card.ai::before { background: var(--ai-color); }
+        .card.accent::before { background: var(--accent); }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card p {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .card i {
+            font-size: 1.4rem;
+            margin-top: 2px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <!-- Theme Toggle -->
+    <div class="top-controls">
+        <button class="btn-theme" id="btnTheme" title="Alternar Tema Claro/Escuro">
+            <i class="fa-solid fa-sun" id="themeIcon"></i>
+        </button>
+    </div>
+
+    <div class="slides">
+        <!-- 1. Capa -->
+        <div class="slide active">
+            <h1>Arquitetura, Documentação & IA</h1>
+            <p style="text-align: center; font-size: 2.2rem; color: var(--accent); font-weight: 600;">A Fonte Única da Verdade no Desenvolvimento</p>
+            <p style="text-align: center; margin-top: 2rem; max-width: 800px; margin-left: auto; margin-right: auto;">
+                A transição de "programador" para "Engenheiro de Software" exige uma habilidade crucial: <strong>saber comunicar e padronizar</strong> o que o seu sistema faz antes mesmo de codificá-lo.
+            </p>
+        </div>
+
+        <!-- 2. O Problema -->
+        <div class="slide">
+            <h2>O "Caos" do Acoplamento</h2>
+            <p>O que acontece em uma empresa quando o backend constrói uma API sem documentação?</p>
+            <ul>
+                <li>
+                    <i class="fa-solid fa-bug"></i> 
+                    <div>
+                        <strong>Atrito entre Equipes:</strong> 
+                        O frontend tenta adivinhar os campos (Ex: A chave é <code>produtoId</code> ou <code>id_produto</code>? O preço é <code>String</code> ou <code>Number</code>?).
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-hourglass-half"></i> 
+                    <div>
+                        <strong>Gargalo de Comunicação:</strong> 
+                        O Frontend fica parado esperando respostas no chat sobre como a rota funciona.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-truck-fast"></i> 
+                    <div>
+                        <strong>Falsa Agilidade:</strong> 
+                        Códigos são lançados rapidamente, mas quebram a aplicação porque as regras de negócio existiam apenas "na cabeça do dev".
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 3. Paradigmas -->
+        <div class="slide">
+            <h2>A Batalha dos Paradigmas</h2>
+            <div class="comparison-grid">
+                <div class="card bad">
+                    <h3>Code-First (O Tradicional)</h3>
+                    <p><i class="fa-solid fa-code" style="color: var(--danger)"></i> O código nasce primeiro.</p>
+                    <p><i class="fa-solid fa-file-lines" style="color: var(--danger)"></i> Depois, documenta-se o que foi feito.</p>
+                    <p style="margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border);"><strong>Problema:</strong> O Frontend fica bloqueado esperando o Backend terminar. A documentação vira um fardo e rapidamente fica defasada.</p>
+                </div>
+                <div class="card good">
+                    <h3>API-First (O Enterprise)</h3>
+                    <p><i class="fa-solid fa-handshake" style="color: var(--success)"></i> O Contrato (Documento) nasce primeiro.</p>
+                    <p><i class="fa-solid fa-users-gear" style="color: var(--success)"></i> Frontend e Backend codam simultaneamente baseados no contrato.</p>
+                    <p style="margin-top: auto; padding-top: 15px; border-top: 1px solid var(--border);"><strong>Vantagem:</strong> A documentação é o centro do projeto. Ninguém escreve código sem planejar antes.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Por que API First é tão bom? -->
+        <div class="slide">
+            <h2>Os Superpoderes do API-First Profundo</h2>
+            <p>Por que gigantes como Netflix e Nubank amam ter um contrato forte? Porque o documento não serve só para leitura!</p>
+            <ul>
+                <li>
+                    <i class="fa-solid fa-server"></i> 
+                    <div>
+                        <strong>Mock Servers Instantâneos:</strong> 
+                        Ferramentas leem o contrato e criam um servidor "falso" na hora. O Frontend testa telas perfeitamente sem o Backend ter escrito uma linha de NodeJS.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-laptop-code"></i> 
+                    <div>
+                        <strong>SDK Generation Automático:</strong> 
+                        Ferramentas leem o contrato e geram as funções de requisição (Axios, Retrofit, Swift) sozinhas. Máquinas escrevendo código para máquinas!
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 5. Ferramentas (Swagger vs OpenAPI) -->
+        <div class="slide">
+            <h2>A confusão Clássica: OpenAPI vs Swagger</h2>
+            <p>Muitos devs acham que são a mesma coisa, mas existe uma diferença estrutural enorme:</p>
+            <div class="comparison-grid">
+                <div class="card accent">
+                    <h3><i class="fa-solid fa-file-contract"></i> OpenAPI (A Regra)</h3>
+                    <p style="display: block;">
+                        É a <strong>Especificação</strong>. Um padrão global e independente de linguagem. É um arquivo textual (<code>YAML</code> ou <code>JSON</code>) que dita como sua API deve ser desenhada e estruturada.
+                    </p>
+                </div>
+                <div class="card good">
+                    <h3><i class="fa-solid fa-toolbox"></i> Swagger (A Ferramenta)</h3>
+                    <p style="display: block;">
+                        É o <strong>Software</strong>. Um conjunto de ferramentas (Swagger UI, Editor, Codegen) que consome o arquivo OpenAPI e o transforma em algo útil, como a tela gráfica no navegador.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Evolução -->
+        <div class="slide">
+            <h2>A Evolução: Níveis de Documentação</h2>
+            <ul>
+                <li>
+                    <i class="fa-brands fa-markdown"></i> 
+                    <div>
+                        <strong>Nível 1 (Markdown):</strong> O bom e velho arquivo <code>.md</code>. Ótimo para leitura no Github, mas 100% estático. Não dá pra testar rotas.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-rocket"></i> 
+                    <div>
+                        <strong>Nível 2 (Postman Collections):</strong> Excelente para devs testarem localmente. Ruim para compartilhar publicamente e manter equipes sincronizadas.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-cube"></i> 
+                    <div>
+                        <strong>Nível 3 (Contratos Dinâmicos):</strong> O padrão ouro da engenharia clássica. Um portal interativo dentro do servidor (Ex: Swagger UI).
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 7. O Futuro (IA) -->
+        <div class="slide">
+            <h2 class="ai-title"><i class="fa-solid fa-brain"></i> O Nível 4: Inteligência Artificial</h2>
+            <p>Hoje, IAs (DevAgents, Copilots) revolucionaram o "API-First". A documentação tornou-se orgânica e automatizada.</p>
+            <ul>
+                <li class="ai-li">
+                    <i class="fa-solid fa-bolt"></i> 
+                    <div>
+                        <strong>Engenharia de Prompt para APIs:</strong> 
+                        O Arquiteto pede: "Gere um contrato OpenAPI para um e-commerce". Em 5 segundos, a IA gera o JSON/YAML estruturado perfeito.
+                    </div>
+                </li>
+                <li class="ai-li">
+                    <i class="fa-solid fa-microscope"></i> 
+                    <div>
+                        <strong>Agentes Validadores:</strong> 
+                        IAs hoje olham para a sua documentação e alertam: "Você esqueceu de documentar o erro 404 nesta rota" ou "Esta rota está vulnerável".
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 8. IA na Prática -->
+        <div class="slide">
+            <h2 class="ai-title"><i class="fa-solid fa-robot"></i> IA na Prática: Engenharia Aumentada</h2>
+            <div class="comparison-grid">
+                <div class="card ai">
+                    <h3>Documentação Reversa</h3>
+                    <p style="display: block;">
+                        Se o desenvolvedor herda um sistema legado gigantesco sem documentação, a IA consegue varrer o repositório inteiro e reconstruir o contrato OpenAPI do zero.
+                    </p>
+                </div>
+                <div class="card ai">
+                    <h3>Code Generation Inteligente</h3>
+                    <p style="display: block;">
+                        Ao aprovar um contrato OpenAPI (API-First), podemos mandar a IA escrever a base (boilerplate) do backend conectando as rotas automaticamente. O Humano foca só nas regras de negócio.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Detalhes Sênior -->
+        <div class="slide">
+            <h2>Documentação Sênior: "Detalhes" que importam</h2>
+            <p>Se você quer que sua API pareça profissional, documente não apenas o que funciona:</p>
+            <ul>
+                <li>
+                    <i class="fa-solid fa-code-branch"></i> 
+                    <div>
+                        <strong>Versionamento (v1 vs v2):</strong> 
+                        APIs mudam. Documente a evolução marcando <code>deprecated: true</code> para avisar clientes que uma rota vai sumir, sem quebrar apps de surpresa.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-triangle-exclamation"></i> 
+                    <div>
+                        <strong>Tratamento de Erros (RFC 7807):</strong> 
+                        Documente o "Caminho Triste". Devolver erro não basta. Use padrões universais (Problem Details) para que o frontend entenda e mostre alertas padronizados.
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 10. Nossa Realidade -->
+        <div class="slide">
+            <h2>Nossa Solução Híbrida: Swagger-Autogen</h2>
+            <p>Como resolver o problema de termos nascido Code-First no Sabor Digital?</p>
+            <ul>
+                <li>
+                    <i class="fa-solid fa-cogs"></i> 
+                    <div>
+                        <strong>swagger-autogen:</strong> 
+                        Um script NodeJS que funciona quase como uma ferramenta inteligente, varrendo as rotas, lendo nossos arquivos e cuspindo o contrato JSON.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-paintbrush"></i> 
+                    <div>
+                        <strong>swagger-ui-express:</strong> 
+                        Pega o JSON (OpenAPI) gerado pelo robô e renderiza a interface gráfica fantástica.
+                    </div>
+                </li>
+                <li>
+                    <i class="fa-solid fa-lock"></i> 
+                    <div>
+                        <strong>Segurança Viva:</strong> 
+                        Injeção direta de JWT (Token) no Swagger UI, eliminando o Postman da jogada para nossos testes rápidos!
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- 11. Final -->
+        <div class="slide">
+            <h1 style="text-align: center; margin-top: 10%;">Mão na Massa!</h1>
+            <p style="text-align: center; font-size: 2rem;">Vamos abrir o código, rodar a documentação automática e visualizar o resultado no navegador.</p>
+        </div>
+    </div>
+
+    <!-- Navegação -->
+    <div class="controls">
+        <button class="btn-nav" id="btnPrev" disabled><i class="fa-solid fa-chevron-left"></i></button>
+        <button class="btn-nav" id="btnNext"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <script>
+        // Tema (Dark/Light)
+        const btnTheme = document.getElementById('btnTheme');
+        const themeIcon = document.getElementById('themeIcon');
+        const html = document.documentElement;
+
+        btnTheme.addEventListener('click', () => {
+            const currentTheme = html.getAttribute('data-theme');
+            if(currentTheme === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+            }
+        });
+
+        // Slides
+        const slides = document.querySelectorAll('.slide');
+        const btnPrev = document.getElementById('btnPrev');
+        const btnNext = document.getElementById('btnNext');
+        const progressBar = document.getElementById('progressBar');
+        
+        let currentSlide = 0;
+
+        function updateSlides() {
+            slides.forEach((slide, index) => {
+                slide.classList.remove('active');
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                }
+            });
+
+            btnPrev.disabled = currentSlide === 0;
+            btnNext.disabled = currentSlide === slides.length - 1;
+
+            const progress = (currentSlide / (slides.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        btnPrev.addEventListener('click', () => {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlides();
+            }
+        });
+
+        btnNext.addEventListener('click', () => {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlides();
+            }
+        });
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                if (currentSlide < slides.length - 1) {
+                    currentSlide++;
+                    updateSlides();
+                }
+            }
+            if (e.key === 'ArrowLeft') {
+                if (currentSlide > 0) {
+                    currentSlide--;
+                    updateSlides();
+                }
+            }
+        });
+    </script>
+</body>
+</html>

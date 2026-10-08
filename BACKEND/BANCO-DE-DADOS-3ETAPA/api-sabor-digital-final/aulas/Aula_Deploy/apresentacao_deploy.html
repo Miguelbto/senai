@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masterclass: Deploy e Infraestrutura</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            /* Tema Escuro */
+            --bg-main: #09090b;
+            --bg-card: #18181b;
+            --text-main: #fafafa;
+            --text-muted: #a1a1aa;
+            --accent: #10b981; /* Emerald */
+            --accent-glow: rgba(16, 185, 129, 0.4);
+            --danger: #ef4444;
+            --paas: #3b82f6; /* Blue */
+        }
+
+        [data-theme="light"] {
+            /* Tema Claro */
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --accent: #059669;
+            --accent-glow: rgba(5, 150, 105, 0.2);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Controles do Professor */
+        .controls {
+            position: fixed;
+            top: 20px;
+            right: 30px;
+            display: flex;
+            gap: 15px;
+            z-index: 100;
+        }
+
+        .btn-theme, .btn-nav {
+            background: var(--bg-card);
+            border: 1px solid var(--text-muted);
+            color: var(--text-main);
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-theme:hover, .btn-nav:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* Área de Slides */
+        .slider-container {
+            flex: 1;
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+        }
+
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(30px) scale(0.95);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 40px;
+        }
+
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        /* Tipografia */
+        h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.1;
+        }
+
+        h2 {
+            font-size: 3rem;
+            margin-bottom: 30px;
+            color: var(--accent);
+        }
+
+        p {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            margin-bottom: 20px;
+            max-width: 900px;
+        }
+
+        .highlight {
+            color: var(--accent);
+            text-shadow: 0 0 20px var(--accent-glow);
+        }
+
+        /* Grids e Cards */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .card {
+            background: var(--bg-card);
+            padding: 30px;
+            border-radius: 16px;
+            border-left: 4px solid var(--accent);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        }
+
+        .card.paas { border-color: var(--paas); }
+        .card.danger { border-color: var(--danger); }
+
+        .card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .card p {
+            font-size: 1.2rem;
+            margin-bottom: 0;
+        }
+
+        /* Etiqueta de Código */
+        code {
+            background: rgba(128, 128, 128, 0.15);
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-family: monospace;
+            color: var(--text-main);
+            font-size: 0.9em;
+        }
+
+        /* Progresso */
+        .progress-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: 4px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button class="btn-theme" onclick="toggleTheme()" title="Modo Claro/Escuro">
+            <i class="fa-solid fa-moon"></i>
+        </button>
+        <button class="btn-nav" onclick="prevSlide()" title="Anterior (Seta Esquerda)">
+            <i class="fa-solid fa-chevron-left"></i>
+        </button>
+        <button class="btn-nav" onclick="nextSlide()" title="Próximo (Seta Direita ou Espaço)">
+            <i class="fa-solid fa-chevron-right"></i>
+        </button>
+    </div>
+
+    <div class="slider-container">
+
+        <!-- Slide 1 -->
+        <div class="slide active">
+            <h1 style="text-align: center;">Da sua máquina para o <br><span class="highlight">Mundo.</span></h1>
+            <p style="text-align: center; font-size: 1.8rem;">Masterclass: Arquitetura, Infraestrutura e Deploy</p>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="slide">
+            <h2>O Fim do Localhost</h2>
+            <p>O maior pecado de um desenvolvedor júnior é dizer: <strong>"Na minha máquina funciona"</strong>.</p>
+            <p>Deploy (Implantação) não é apenas copiar arquivos. É garantir que o seu sistema sobreviva no ambiente hostil e imprevisível da internet.</p>
+        </div>
+
+        <!-- Slide 3 -->
+        <div class="slide">
+            <h2>Os Tipos de Hospedagem</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>IaaS</h3>
+                    <p><strong>Infrastructure as a Service.</strong> Você aluga a máquina vazia. Tem que configurar o Linux, o Firewall e instalar o Node. <br><br><em>AWS EC2, DigitalOcean.</em></p>
+                </div>
+                <div class="card paas">
+                    <h3>PaaS</h3>
+                    <p><strong>Platform as a Service.</strong> Você apenas envia o código. A plataforma cuida de toda a infraestrutura por você. <br><br><em>Render, Heroku, Railway.</em></p>
+                </div>
+                <div class="card danger">
+                    <h3>On-Premise</h3>
+                    <p>Você compra o servidor físico e cuida do hardware. Se faltar luz, o sistema cai.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 4 -->
+        <div class="slide">
+            <h2>Os 6 Pilares do Deploy (1/2)</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>1. Empacotamento</h3>
+                    <p>Gestão estrita de dependências (lockfiles), variáveis de ambiente isoladas (.env) e uso de <strong>Docker</strong>.</p>
+                </div>
+                <div class="card">
+                    <h3>2. Infraestrutura</h3>
+                    <p>A escolha entre PaaS, IaaS ou Serverless. Em alta escala, uso de orquestradores (ex: Kubernetes).</p>
+                </div>
+                <div class="card">
+                    <h3>3. Banco de Dados</h3>
+                    <p>Bancos na nuvem, rotinas de backup rígidas e execuções automatizadas de <strong>Migrations</strong> e Seeders.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 5 -->
+        <div class="slide">
+            <h2>Os 6 Pilares do Deploy (2/2)</h2>
+            <div class="grid">
+                <div class="card">
+                    <h3>4. Rede & Segurança</h3>
+                    <p>Configuração de Domínio, certificados SSL/TLS (HTTPS) e Load Balancers/Proxy Reverso (ex: Nginx).</p>
+                </div>
+                <div class="card paas">
+                    <h3>5. Automação (CI/CD)</h3>
+                    <p>Pipelines de testes e estratégias de entrega seguras (Blue/Green, Canary Releases).</p>
+                </div>
+                <div class="card danger">
+                    <h3>6. Observabilidade</h3>
+                    <p>Health Checks, APM (monitoramento de performance) e alertas (O famoso pager de madrugada).</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 6 -->
+        <div class="slide">
+            <h2>A Porta Dinâmica</h2>
+            <p>Em produção, nós não somos donos do servidor. A nuvem decide qual porta o Node.js deve usar.</p>
+            <p>Se você colocar `app.listen(3000)`, seu app <strong>vai quebrar</strong> na nuvem.</p>
+            <div class="card" style="margin-top: 20px;">
+                <p>O jeito Sênior:</p>
+                <p><code>const PORT = process.env.PORT || 3000;</code></p>
+            </div>
+        </div>
+
+        <!-- Slide 7 -->
+        <div class="slide">
+            <h2>A Arquitetura da Nossa Aula</h2>
+            <p>Usaremos uma solução híbrida muito requisitada pelo mercado: Nuvem distribuída.</p>
+            <div class="grid">
+                <div class="card paas">
+                    <h3>O Motor (Render)</h3>
+                    <p>Nossa <strong>API Node.js</strong> será hospedada no Render. Ele ficará encarregado do CI/CD, SSL e de ler nosso repositório no GitHub.</p>
+                </div>
+                <div class="card paas" style="border-color: #f59e0b;">
+                    <h3>O Banco (Aiven)</h3>
+                    <p>Como utilizamos MySQL nativo, nosso <strong>Banco de Dados</strong> ficará na nuvem pelo Aiven.io. O Render se conectará nele pela internet via `.env`.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Slide 8 -->
+        <div class="slide">
+            <h1 style="text-align: center;">Hora de ir pro <span class="highlight" style="color: var(--paas); text-shadow: 0 0 20px rgba(59, 130, 246, 0.4);">Ar!</span></h1>
+            <p style="text-align: center;">Vamos pegar nossa API, colocar no GitHub e configurar nosso serviço no Render.</p>
+        </div>
+
+    </div>
+
+    <div class="progress-bar" id="progress"></div>
+
+    <script>
+        // Lógica dos Slides
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+        const progress = document.getElementById('progress');
+
+        function updateSlider() {
+            slides.forEach((slide, index) => {
+                if (index === currentSlide) {
+                    slide.classList.add('active');
+                } else {
+                    slide.classList.remove('active');
+                }
+            });
+            progress.style.width = ((currentSlide + 1) / slides.length) * 100 + '%';
+        }
+
+        function nextSlide() {
+            if (currentSlide < slides.length - 1) {
+                currentSlide++;
+                updateSlider();
+            }
+        }
+
+        function prevSlide() {
+            if (currentSlide > 0) {
+                currentSlide--;
+                updateSlider();
+            }
+        }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                nextSlide();
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
+        });
+
+        // Alternar Tema Light/Dark
+        function toggleTheme() {
+            const html = document.documentElement;
+            const btn = document.querySelector('.btn-theme i');
+            
+            if (html.getAttribute('data-theme') === 'dark') {
+                html.setAttribute('data-theme', 'light');
+                btn.className = 'fa-solid fa-sun';
+            } else {
+                html.setAttribute('data-theme', 'dark');
+                btn.className = 'fa-solid fa-moon';
+            }
+        }
+
+        // Init progress bar
+        updateSlider();
+    </script>
+</body>
+</html>
