@@ -13,7 +13,7 @@ import { DomainError } from '../../../shared-kernel/domain/domain-error'
  * camada de interface (shared-kernel/interface/http/domain-error-handler.ts).
  */
 
-export class InvaliduserNameError extends DomainError {
+export class InvalidUserNameError extends DomainError {
     readonly kind = 'validation' as const // 400
     constructor() {
         super('nome invalido')
@@ -36,7 +36,7 @@ export class WeakPasswordError extends DomainError {
 
 export class EmailAlreadyRegisteredError extends DomainError {
     readonly kind = 'validation' as const // 409
-    constructor(){
+    constructor() {
         super('email ja cadastrado')
     }
 }

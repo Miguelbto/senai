@@ -11,7 +11,7 @@ import type Database from 'better-sqlite3'
  * dados que mencionamos no mapa de contextos.
  */
 
-export function createidentitySchema(db: Database.Database): void {
+export function createIdentitySchema(db: Database.Database): void {
     db.exec(`
     CREATE TABLE IF NOT EXISTS users (
       id TEXT PRIMARY KEY,

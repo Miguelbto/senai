@@ -4,7 +4,7 @@ import { GetCustomerSnapshot } from '../../../../src/contexts/identity/applicati
 import { GetUser } from '../../../../src/contexts/identity/application/use-cases/get-user'
 import { RegisterUser } from '../../../../src/contexts/identity/application/use-cases/register-user'
 import { UserNotFoundError } from '../../../../src/contexts/identity/domain/errors'
-import { FixedClock } from '../../../support/fixed-clock'
+import { Fixed } from '../../../support/fixed-clock'
 import { SequentialIdGenerator } from '../../../support/sequential-id-generator'
 import { FakePasswordHasher } from '../../../support/identity/fake-password-hasher'
 import { InMemoryUserRepository } from '../../../support/identity/in-memory-user-repository'
