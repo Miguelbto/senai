@@ -11,5 +11,17 @@ function criptografarCPF(cpf) {
     return cifra.update(cpf, 'utf8', 'hex') + cifra.final('hex')
 }
 
+/*console.log('hash da senha 123456:', gerarHashSenha('123456'))*/
+/*console.log('CPF 11122233344 criptografado:', criptografarCPF('11122233344'))*/
+
+// João da Silva
 console.log('hash da senha 123456:', gerarHashSenha('123456'))
 console.log('CPF 11122233344 criptografado:', criptografarCPF('11122233344'))
+
+// Maria Souza
+console.log('hash da senha 654321:', gerarHashSenha('654321'))
+console.log('CPF 22233344455 criptografado:', criptografarCPF('22233344455'))
+
+// Pedro Oliveira
+console.log('hash da senha 123123:', gerarHashSenha('123123'))
+console.log('CPF 33344455566 criptografado:', criptografarCPF('33344455566'))
