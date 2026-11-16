@@ -1,38 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Oficina - Veículos</title>
 </head>
 <body>
-    <h1>veiculos</h1>
-    <p><a href="/principal"></a></p>
+    <h1>Veículos</h1>
+    <p><a href="/principal">Voltar</a></p>
 
-    <table class="tabela">
+    <table class="tabela" border="1">
         <thead>
             <tr>
                 <th class="tabela-cabecalho">Placa</th>
+                <th class="tabela-cabecalho">Marca</th>
                 <th class="tabela-cabecalho">Modelo</th>
                 <th class="tabela-cabecalho">Ano</th>
                 <th class="tabela-cabecalho">Cliente</th>
                 <th class="tabela-cabecalho"></th>
             </tr>
-            {{/veiculos}}
         </thead>
         <tbody>
-            {{#veiculoss}}
+            {{#veiculos}}
             <tr class="tabela-linha">
                 <td class="tabela-celula">{{placa}}</td>
                 <td class="tabela-celula">{{marca}}</td>
                 <td class="tabela-celula">{{modelo}}</td>
                 <td class="tabela-celula">{{ano}}</td>
-                <td class="tabela-celula">{{cliente_id}}</td>
+                <td class="tabela-celula">{{cliente_nome}}</td>
                 <td class="tabela-celula tabela-acoes">
                     <a href="/veiculos?editar={{id}}" class="btn-editar">Editar</a>
-                    <form method="POST" action="/veiculos/{{id}}" class="form-excluir">
+                    <form method="POST" action="/veiculos/{{id}}" class="form-excluir" style="display:inline;">
                         <input type="hidden" name="_method" value="DELETE">
-                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este veículo?')">Excluir</button>
                     </form>
                 </td>
             </tr>
@@ -40,13 +40,15 @@
         </tbody>
     </table>
 
-    <h2 class="titulo-secao">{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}}veiculo</h2>
+    <h2 class="titulo-secao">{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}} veículo</h2>
     <form method="POST" action="{{acao}}" class="form-cadastro">
         {{#editando}}<input type="hidden" name="_method" value="PUT">{{/editando}}
 
         <select name="cliente_id" required>
-            <option value="">Selecione o cliente</option>{{#editando}}
-            <option value="{{id}}" {{selecionado}}>{{nome}}</option>{{/editando}}
+            <option value="">Selecione o cliente</option>
+            {{#clientes}}
+            <option value="{{id}}" {{selecionado}}>{{nome}}</option>
+            {{/clientes}}
         </select>
 
         <input type="text" name="placa" placeholder="Placa" value="{{form.placa}}" class="campo-texto" required/>
@@ -55,6 +57,8 @@
         <input type="text" name="ano" placeholder="Ano" value="{{form.ano}}" class="campo-texto" required/>
         <button class="btn-primario">{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
     </form>
+
+    {{#editando}}<p><a href="/veiculos">Cancelar edição</a></p>{{/editando}}
     <p>{{erro}}</p>
 </body>
 </html>

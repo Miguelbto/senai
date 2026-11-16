@@ -1,0 +1,234 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.pagina {
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background-color: #eef2f6;
+    color: #1e293b;
+    line-height: 1.5;
+    padding: 36px 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+/* Cabeçalho e Títulos */
+.titulo-principal {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #0f172a;
+    letter-spacing: -0.02em;
+    border-left: 4px solid #1d4ed8;
+    padding-left: 12px;
+    margin-bottom: 14px;
+}
+
+.titulo-secao {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin-top: 36px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid #cbd5e1;
+}
+
+/* Botões de navegação (Voltar / Cancelar edição) */
+.navegacao {
+    margin-bottom: 20px;
+}
+
+.link-navegacao {
+    display: inline-block;
+    padding: 7px 14px;
+    background-color: #ffffff;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    border-bottom: 2px solid #94a3b8;
+    border-radius: 3px;
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 600;
+    transition: all 0.15s ease;
+}
+
+.link-navegacao:hover {
+    background-color: #f8fafc;
+    border-color: #94a3b8;
+    color: #0f172a;
+}
+
+/* Formulários (Busca e Cadastro) */
+.form-busca,
+.form-cadastro {
+    background-color: #ffffff;
+    padding: 18px;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    margin-bottom: 24px;
+}
+
+.form-busca {
+    display: flex;
+    gap: 10px;
+}
+
+.form-cadastro {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    max-width: 680px;
+}
+
+/* Campos de texto */
+.campo-texto {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 0.92rem;
+    color: #1e293b;
+    background-color: #f8fafc;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+}
+
+.form-busca .campo-texto {
+    flex: 1;
+}
+
+.campo-texto:focus {
+    background-color: #ffffff;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Botão Principal (Buscar / Cadastrar / Salvar) */
+.btn-primario {
+    padding: 10px 20px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    background-color: #1d4ed8;
+    border: 1px solid #1e40af;
+    border-bottom: 2px solid #1e3a8a;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.1s ease;
+}
+
+.btn-primario:hover {
+    background-color: #1e40af;
+}
+
+.btn-primario:active {
+    transform: translateY(1px);
+}
+
+.form-cadastro .btn-primario {
+    grid-column: 1 / -1;
+    justify-self: start;
+    margin-top: 4px;
+}
+
+/* Tabela clara e bem demarcada */
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-top: 3px solid #1d4ed8;
+    border-radius: 3px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
+    font-size: 0.92rem;
+}
+
+.tabela-cabecalho {
+    background-color: #e2e8f0;
+    color: #334155;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    text-align: left;
+    padding: 12px 14px;
+    border: 1px solid #cbd5e1;
+}
+
+.tabela-celula {
+    padding: 11px 14px;
+    color: #334155;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.tabela-linha:nth-child(even) .tabela-celula {
+    background-color: #f8fafc;
+}
+
+.tabela-linha:hover .tabela-celula {
+    background-color: #eff6ff;
+}
+
+/* Coluna de Ações (Editar e Excluir) */
+.tabela-acoes {
+    text-align: right;
+    white-space: nowrap;
+    width: 1%;
+}
+
+.form-excluir {
+    display: inline-block;
+    margin-left: 6px;
+}
+
+.btn-editar,
+.btn-excluir {
+    display: inline-block;
+    padding: 5px 12px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    line-height: 1.4;
+    text-decoration: none;
+    border-radius: 3px;
+    cursor: pointer;
+    vertical-align: middle;
+    transition: all 0.15s ease;
+}
+
+.btn-editar {
+    color: #0369a1;
+    background-color: #e0f2fe;
+    border: 1px solid #7dd3fc;
+}
+
+.btn-editar:hover {
+    color: #ffffff;
+    background-color: #0284c7;
+    border-color: #0369a1;
+}
+
+.btn-excluir {
+    color: #b91c1c;
+    background-color: #fee2e2;
+    border: 1px solid #fca5a5;
+}
+
+.btn-excluir:hover {
+    color: #ffffff;
+    background-color: #dc2626;
+    border-color: #b91c1c;
+}
+
+/* Ajuste para telas pequenas */
+@media (max-width: 600px) {
+    .form-cadastro {
+        grid-template-columns: 1fr;
+    }
+}
