@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>veiculos</h1>
+    <p><a href="/principal"></a></p>
+
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th class="tabela-cabecalho">Placa</th>
+                <th class="tabela-cabecalho">Modelo</th>
+                <th class="tabela-cabecalho">Ano</th>
+                <th class="tabela-cabecalho">Cliente</th>
+                <th class="tabela-cabecalho"></th>
+            </tr>
+            {{/veiculos}}
+        </thead>
+        <tbody>
+            {{#veiculoss}}
+            <tr class="tabela-linha">
+                <td class="tabela-celula">{{placa}}</td>
+                <td class="tabela-celula">{{marca}}</td>
+                <td class="tabela-celula">{{modelo}}</td>
+                <td class="tabela-celula">{{ano}}</td>
+                <td class="tabela-celula">{{cliente_id}}</td>
+                <td class="tabela-celula tabela-acoes">
+                    <a href="/veiculos?editar={{id}}" class="btn-editar">Editar</a>
+                    <form method="POST" action="/veiculos/{{id}}" class="form-excluir">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {{/veiculos}}
+        </tbody>
+    </table>
+
+    <h2 class="titulo-secao">{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}}veiculo</h2>
+    <form method="POST" action="{{acao}}" class="form-cadastro">
+        {{#editando}}<input type="hidden" name="_method" value="PUT">{{/editando}}
+
+        <select name="cliente_id" required>
+            <option value="">Selecione o cliente</option>{{#editando}}
+            <option value="{{id}}" {{selecionado}}>{{nome}}</option>{{/editando}}
+        </select>
+
+        <input type="text" name="placa" placeholder="Placa" value="{{form.placa}}" class="campo-texto" required/>
+        <input type="text" name="marca" placeholder="Marca" value="{{form.marca}}" class="campo-texto" /> 
+        <input type="text" name="modelo" placeholder="Modelo" value="{{form.modelo}}" class="campo-texto" />   
+        <input type="text" name="ano" placeholder="Ano" value="{{form.ano}}" class="campo-texto" required/>
+        <button class="btn-primario">{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
+    </form>
+    <p>{{erro}}</p>
+</body>
+</html>
