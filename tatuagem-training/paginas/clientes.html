@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estúdio de Tatuagem - Clientes</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body class="pagina">
+    <h1 class="titulo-principal">Clientes</h1>
+    <p class="navegacao"><a href="/principal" class="link-navegacao">Voltar</a></p>
+
+    <form method="GET" action="/clientes" class="form-busca">
+        <input type="text" name="busca" placeholder="Buscar por nome" value="{{busca}}" class="campo-texto"/>
+        <button class="btn-primario">Buscar</button>
+    </form>
+
+    <table class="tabela">
+        <thead>
+            <tr>
+                <th class="tabela-cabecalho">Nome</th>
+                <th class="tabela-cabecalho">CPF</th>
+                <th class="tabela-cabecalho">Telefone</th>
+                <th class="tabela-cabecalho">E-mail</th>
+                <th class="tabela-cabecalho"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#clientes}}
+            <tr class="tabela-linha">
+                <td class="tabela-celula">{{nome}}</td>
+                <td class="tabela-celula">{{cpf}}</td>
+                <td class="tabela-celula">{{telefone}}</td>
+                <td class="tabela-celula">{{email}}</td>
+                <td class="tabela-celula tabela-acoes">
+                    <a href="/clientes?editar={{cliente_id}}" class="btn-editar">Editar</a>
+                    <form method="POST" action="/clientes/{{cliente_id}}" class="form-excluir">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este cliente?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {{/clientes}}
+        </tbody>
+    </table>
+
+    <h2 class="titulo-secao">{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}}</h2>
+    <form method="POST" action="{{acao}}" class="form-cadastro">
+        {{#editando}}<input type="hidden" name="_method" value="PUT">{{/editando}}
+        <input type="text" name="nome" placeholder="Nome" value="{{form.nome}}" class="campo-texto" required/>
+        <input type="text" name="cpf" placeholder="CPF" value="{{form.cpf}}" class="campo-texto" required/> 
+        <input type="text" name="telefone" placeholder="Telefone" value="{{form.telefone}}" class="campo-texto" required/>   
+        <input type="email" name="email" placeholder="E-mail" value="{{form.email}}" class="campo-texto" required/>
+        <button class="btn-primario">{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
+    </form>
+
+    {{#editando}}<p class="navegacao"><a href="/clientes" class="link-navegacao">Cancelar edição</a></p>{{/editando}}
+</body>
+</html>

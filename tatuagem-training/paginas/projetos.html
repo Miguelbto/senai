@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estúdio de Tatuagem - Projetos</title>
+</head>
+<body>
+    <h1>Projetos de Tatuagem</h1>
+    <p><a href="/principal">Voltar</a></p>
+
+    <table class="tabela" border="1">
+        <thead>
+            <tr>
+                <th class="tabela-cabecalho">Nome</th>
+                <th class="tabela-cabecalho">Descrição</th>
+                <th class="tabela-cabecalho">Cliente</th>
+                <th class="tabela-cabecalho"></th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#projetos}}
+            <tr class="tabela-linha">
+                <td class="tabela-celula">{{nome}}</td>
+                <td class="tabela-celula">{{descricao}}</td>
+                <td class="tabela-celula">{{cliente_nome}}</td>
+                <td class="tabela-celula tabela-acoes">
+                    <a href="/projetos?editar={{projeto_tatuagem_id}}" class="btn-editar">Editar</a>
+                    <form method="POST" action="/projetos/{{projeto_tatuagem_id}}" class="form-excluir" style="display:inline;">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit" class="btn-excluir" onclick="return confirm('Tem certeza que deseja excluir este projeto?')">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {{/projetos}}
+        </tbody>
+    </table>
+
+    <h2 class="titulo-secao">{{#editando}}Editar{{/editando}}{{^editando}}Cadastrar{{/editando}} projeto</h2>
+    <form method="POST" action="{{acao}}" class="form-cadastro">
+        {{#editando}}<input type="hidden" name="_method" value="PUT">{{/editando}}
+
+        <select name="fk_cliente_id" required>
+            <option value="">Selecione o cliente</option>
+            {{#clientes}}
+            <option value="{{cliente_id}}" {{selecionado}}>{{nome}}</option>
+            {{/clientes}}
+        </select>
+
+        <input type="text" name="nome" placeholder="Nome do projeto" value="{{form.nome}}" class="campo-texto" required />
+        <input type="text" name="descricao" placeholder="Descrição" value="{{form.descricao}}" class="campo-texto" required />
+        <button class="btn-primario">{{#editando}}Salvar{{/editando}}{{^editando}}Cadastrar{{/editando}}</button>
+    </form>
+
+    {{#editando}}<p><a href="/projetos">Cancelar edição</a></p>{{/editando}}
+    <p>{{erro}}</p>
+</body>
+</html>

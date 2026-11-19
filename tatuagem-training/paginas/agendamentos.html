@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estúdio de Tatuagem - Agendamentos</title>
+</head>
+<body>
+
+    <h1>Estúdio de Tatuagem - Agendamentos</h1>
+
+    <p><a href="/principal">Voltar</a></p>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Data</th>
+                <th>Cliente</th>
+                <th>CPF</th>
+                <th>Telefone</th>
+                <th>E-mail</th>
+                <th>Projeto</th>
+                <th>Descrição</th>
+                <th>Alterar data</th>
+                <th>Excluir</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#agendamentos}}
+            <tr>
+                <td>{{data_br}}</td>
+                <td>{{cliente_nome}}</td>
+                <td>{{cliente_cpf}}</td>
+                <td>{{cliente_telefone}}</td>
+                <td>{{cliente_email}}</td>
+                <td>{{projeto_nome}}</td>
+                <td>{{projeto_descricao}}</td>
+                <td>
+                    <form method="POST" action="/agendamentos/{{id_agendamento}}">
+                        <input type="hidden" name="_method" value="PUT">
+                        <input type="datetime-local" name="data_agendamento" value="{{data_input}}" required>
+                        <button type="submit">Salvar</button>
+                    </form>
+                </td>
+                <td>
+                    <form method="POST" action="/agendamentos/{{id_agendamento}}">
+                        <input type="hidden" name="_method" value="DELETE">
+                        <button type="submit">Excluir</button>
+                    </form>
+                </td>
+            </tr>
+            {{/agendamentos}}
+        </tbody>
+    </table>
+
+    <h2>Cadastrar Agendamento</h2>
+
+    <form method="POST" action="/agendamentos">
+        <select name="fk_cliente_id" required>
+            <option value="">Selecione o cliente</option>
+            {{#clientes}}
+            <option value="{{cliente_id}}">{{nome}}</option>
+            {{/clientes}}
+        </select>
+
+        <select name="fk_projeto_tatuagem_id" required>
+            <option value="">Selecione o projeto</option>
+            {{#projetos}}
+            <option value="{{projeto_tatuagem_id}}">{{nome}}</option>
+            {{/projetos}}
+        </select>
+
+        <input type="datetime-local" name="data_agendamento" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+    
+</body>
+</html>
